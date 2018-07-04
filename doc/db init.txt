@@ -1,0 +1,253 @@
+﻿drop table if exists hb_boss;
+drop table if exists hb_invitee;
+drop table if exists hb_issue;
+drop table if exists hb_issue_image;
+drop table if exists hb_issue_like;
+drop table if exists hb_issue_reply;
+drop table if exists hb_sh_issue;
+drop table if exists hb_user;
+
+/*==============================================================*/
+/* Table: hb_boss                                               */
+/*==============================================================*/
+create table hb_boss
+(
+   id                   char(36) not null,
+   mobile               varchar(20),
+   name                 varchar(20),
+   open_id              varchar(128),
+   headimgurl           varchar(255),
+   sort                 int default 0,
+   is_deleted           tinyint not null default 0 comment '是否删除',
+   created_on           datetime not null default CURRENT_TIMESTAMP comment '记录创建日期',
+   modified_on          datetime not null default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP comment '记录最后修改日期',
+   primary key (id)
+);
+
+/*==============================================================*/
+/* Index: ix__mobile                                            */
+/*==============================================================*/
+create unique index ix__mobile on hb_boss
+(
+   mobile
+);
+
+/*==============================================================*/
+/* Index: ix__open_id                                           */
+/*==============================================================*/
+create index ix__open_id on hb_boss
+(
+   open_id
+);
+
+/*==============================================================*/
+/* Table: hb_invitee                                            */
+/*==============================================================*/
+create table hb_invitee
+(
+   id                   char(36) not null,
+   issue_id             char(36),
+   boss_id              char(36),
+   is_deleted           tinyint not null default 0 comment '是否删除',
+   created_on           datetime not null default CURRENT_TIMESTAMP comment '记录创建日期',
+   modified_on          datetime not null default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP comment '记录最后修改日期',
+   primary key (id)
+);
+
+/*==============================================================*/
+/* Index: ix__issue_id                                          */
+/*==============================================================*/
+create index ix__issue_id on hb_invitee
+(
+   issue_id
+);
+
+/*==============================================================*/
+/* Index: ix__boss_id                                           */
+/*==============================================================*/
+create index ix__boss_id on hb_invitee
+(
+   boss_id
+);
+
+/*==============================================================*/
+/* Table: hb_issue                                              */
+/*==============================================================*/
+create table hb_issue
+(
+   id                   char(36) not null,
+   user_id              char(36),
+   fq_time              datetime,
+   title                varchar(50),
+   description          text,
+   reach_base           int,
+   not_reach_base       int,
+   reach_num            int,
+   not_reach_num        int,
+   approve_time         datetime,
+   page_view_num        int,
+   like_num             int,
+   approve_status       enum('待审核','不通过','已审核'),
+   is_deleted           tinyint not null default 0 comment '是否删除',
+   created_on           datetime not null default CURRENT_TIMESTAMP comment '记录创建日期',
+   modified_on          datetime not null default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP comment '记录最后修改日期',
+   primary key (id)
+);
+
+/*==============================================================*/
+/* Index: ix__user_id                                           */
+/*==============================================================*/
+create index ix__user_id on hb_issue
+(
+   user_id
+);
+
+/*==============================================================*/
+/* Index: ix__approve_time                                      */
+/*==============================================================*/
+create index ix__approve_time on hb_issue
+(
+   approve_time
+);
+
+/*==============================================================*/
+/* Index: ix__approve_status                                    */
+/*==============================================================*/
+create index ix__approve_status on hb_issue
+(
+   approve_status
+);
+
+/*==============================================================*/
+/* Table: hb_issue_image                                        */
+/*==============================================================*/
+create table hb_issue_image
+(
+   id                   char(36) not null,
+   issue_id             char(36),
+   image_path           varchar(500),
+   is_deleted           tinyint not null default 0 comment '是否删除',
+   created_on           datetime not null default CURRENT_TIMESTAMP comment '记录创建日期',
+   modified_on          datetime not null default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP comment '记录最后修改日期',
+   primary key (id)
+);
+
+/*==============================================================*/
+/* Index: ix__issue_id                                          */
+/*==============================================================*/
+create index ix__issue_id on hb_issue_image
+(
+   issue_id
+);
+
+/*==============================================================*/
+/* Table: hb_issue_like                                         */
+/*==============================================================*/
+create table hb_issue_like
+(
+   id                   char(36) not null,
+   issue_id             char(36),
+   user_id              char(36),
+   time                 datetime,
+   is_deleted           tinyint not null default 0 comment '是否删除',
+   created_on           datetime not null default CURRENT_TIMESTAMP comment '记录创建日期',
+   modified_on          datetime not null default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP comment '记录最后修改日期',
+   primary key (id)
+);
+
+/*==============================================================*/
+/* Index: ix__issue_id__user_id                                 */
+/*==============================================================*/
+create unique index ix__issue_id__user_id on hb_issue_like
+(
+   issue_id,
+   user_id
+);
+
+/*==============================================================*/
+/* Table: hb_issue_reply                                        */
+/*==============================================================*/
+create table hb_issue_reply
+(
+   id                   char(36) not null,
+   issue_id             char(36),
+   boss_id              char(36),
+   description          text,
+   time                 datetime,
+   is_deleted           tinyint not null default 0 comment '是否删除',
+   created_on           datetime not null default CURRENT_TIMESTAMP comment '记录创建日期',
+   modified_on          datetime not null default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP comment '记录最后修改日期',
+   primary key (id)
+);
+
+/*==============================================================*/
+/* Index: ix__issue_id                                          */
+/*==============================================================*/
+create index ix__issue_id on hb_issue_reply
+(
+   issue_id
+);
+
+/*==============================================================*/
+/* Index: ix__boss_id                                           */
+/*==============================================================*/
+create index ix__boss_id on hb_issue_reply
+(
+   boss_id
+);
+
+/*==============================================================*/
+/* Table: hb_sh_issue                                           */
+/*==============================================================*/
+create table hb_sh_issue
+(
+   id                   char(36) not null,
+   user_id              char(36),
+   issue_id             char(36),
+   sh_status            enum('已审核','不通过'),
+   time                 datetime,
+   reason               varchar(20),
+   is_deleted           tinyint not null default 0 comment '是否删除',
+   created_on           datetime not null default CURRENT_TIMESTAMP comment '记录创建日期',
+   modified_on          datetime not null default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP comment '记录最后修改日期',
+   primary key (id)
+);
+
+/*==============================================================*/
+/* Index: ix__user_id                                           */
+/*==============================================================*/
+create index ix__user_id on hb_sh_issue
+(
+   user_id
+);
+
+/*==============================================================*/
+/* Index: ix__issue_id                                          */
+/*==============================================================*/
+create index ix__issue_id on hb_sh_issue
+(
+   issue_id
+);
+
+/*==============================================================*/
+/* Table: hb_user                                               */
+/*==============================================================*/
+create table hb_user
+(
+   id                   char(36) not null,
+   open_id              varchar(128),
+   last_login_time      datetime,
+   is_deleted           tinyint not null default 0 comment '是否删除',
+   created_on           datetime not null default CURRENT_TIMESTAMP comment '记录创建日期',
+   modified_on          datetime not null default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP comment '记录最后修改日期',
+   primary key (id)
+);
+
+/*==============================================================*/
+/* Index: ix__open_id                                           */
+/*==============================================================*/
+create index ix__open_id on hb_user
+(
+   open_id
+);
+
