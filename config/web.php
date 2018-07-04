@@ -50,8 +50,10 @@ $config = [
             'rules'=>array(
                 //'<__tenantid:\w+>/<module:[\w|-]+>/<controller:[\w|-]+>/<action:[\w|-]+>'=>'<module>/<controller>/<action>',
                 //'<__alias:\w+>/<__tenantid:\w+>/<controller:[\w|-]+>/<action:[\w|-]+>'=>'<controller>/<action>'
-                '<module:[\w|-]+>/<controller:[\w|-]+>/<action:[\w|-]+>'=>'<module>/<controller>/<action>',
-                '<controller:[\w|-]+>/<action:[\w|-]+>'=>'<controller>/<action>'
+                 '<module:[\w|-]+>/<controller:[\w|-]+>/<action:[\w|-]+>'=>'<module>/<controller>/<action>',
+                '<controller:[\w|-]+>/<action:[\w|-]+>'=>'<controller>/<action>',
+                'codesquare/<controller:[\w|-]+>/<action:[\w|-]+>'=>'<controller>/codesquare/<action>',
+                'heyboss/<controller:[\w|-]+>/<action:[\w|-]+>'=>'<controller>/heyboss/<action>'
             ),
         ]
     ],

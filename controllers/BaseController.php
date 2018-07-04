@@ -9,7 +9,9 @@
 namespace app\controllers;
 
 
+use yii\filters\ContentNegotiator;
 use yii\web\Controller;
+use yii\web\Response;
 
 /**
  * 基础类

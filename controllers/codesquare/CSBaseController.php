@@ -6,10 +6,10 @@
  * Time: 20:01
  */
 
-namespace app\controllers;
+namespace app\controllers\codesquare;
 
+use app\controllers\BaseController;
 
-use yii\web\Controller;
 
 /**
  * 代码广场基础类
