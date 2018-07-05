@@ -18,7 +18,10 @@ class SiteController extends CSBaseController
 {
 
     public function actionIndex(){
-        echo "hello code square";
+        //echo "hello code square";
+
+        echo $_GET['code'];
+
     }
 
 }
