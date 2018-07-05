@@ -4,6 +4,7 @@ drop table if exists hb_issue;
 drop table if exists hb_issue_image;
 drop table if exists hb_issue_like;
 drop table if exists hb_issue_reply;
+drop table if exists hb_issue_view_log;
 drop table if exists hb_sh_issue;
 drop table if exists hb_user;
 
@@ -85,9 +86,10 @@ create table hb_issue
    reach_num            int,
    not_reach_num        int,
    approve_time         datetime,
+   approve_status       tinyint comment '0:未审核 1:已通过 2:不通过',
    page_view_num        int,
    like_num             int,
-   approve_status       enum('待审核','不通过','已审核'),
+   last_reply_time      datetime,
    is_deleted           tinyint not null default 0 comment '是否删除',
    created_on           datetime not null default CURRENT_TIMESTAMP comment '记录创建日期',
    modified_on          datetime not null default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP comment '记录最后修改日期',
@@ -171,8 +173,9 @@ create table hb_issue_reply
 (
    id                   char(36) not null,
    issue_id             char(36),
-   boss_id              char(36),
+   reply_user_id        char(36),
    description          text,
+   user_identity        int comment '1:boss 2:提问者',
    time                 datetime,
    is_deleted           tinyint not null default 0 comment '是否删除',
    created_on           datetime not null default CURRENT_TIMESTAMP comment '记录创建日期',
@@ -189,11 +192,58 @@ create index ix__issue_id on hb_issue_reply
 );
 
 /*==============================================================*/
-/* Index: ix__boss_id                                           */
+/* Index: ix__reply_user_id                                     */
 /*==============================================================*/
-create index ix__boss_id on hb_issue_reply
+create index ix__reply_user_id on hb_issue_reply
 (
-   boss_id
+   reply_user_id
+);
+
+/*==============================================================*/
+/* Index: ix__time                                              */
+/*==============================================================*/
+create index ix__time on hb_issue_reply
+(
+   time
+);
+
+/*==============================================================*/
+/* Table: hb_issue_view_log                                     */
+/*==============================================================*/
+create table hb_issue_view_log
+(
+   id                   char(36) not null,
+   issue_id             char(36),
+   view_user_id         char(36),
+   time                 datetime,
+   is_deleted           tinyint not null default 0 comment '是否删除',
+   created_on           datetime not null default CURRENT_TIMESTAMP comment '记录创建日期',
+   modified_on          datetime not null default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP comment '记录最后修改日期',
+   primary key (id)
+);
+
+/*==============================================================*/
+/* Index: ix__issue_id                                          */
+/*==============================================================*/
+create index ix__issue_id on hb_issue_view_log
+(
+   issue_id
+);
+
+/*==============================================================*/
+/* Index: ix__view_user_id                                      */
+/*==============================================================*/
+create index ix__view_user_id on hb_issue_view_log
+(
+   view_user_id
+);
+
+/*==============================================================*/
+/* Index: ix__time                                              */
+/*==============================================================*/
+create index ix__time on hb_issue_view_log
+(
+   time
 );
 
 /*==============================================================*/
@@ -204,7 +254,7 @@ create table hb_sh_issue
    id                   char(36) not null,
    user_id              char(36),
    issue_id             char(36),
-   sh_status            enum('已审核','不通过'),
+   approve_status       tinyint comment '1:已审核 2:不通过',
    time                 datetime,
    reason               varchar(20),
    is_deleted           tinyint not null default 0 comment '是否删除',
@@ -250,4 +300,3 @@ create index ix__open_id on hb_user
 (
    open_id
 );
-
