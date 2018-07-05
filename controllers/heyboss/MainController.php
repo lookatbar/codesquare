@@ -18,7 +18,7 @@ class MainController extends BaseController
 {
 
     public function actionIndex(){
-       return $this->response('hey boss');
+       return $this->response('hey boss!');
     }
 
 }
