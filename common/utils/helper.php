@@ -1,24 +1,27 @@
 <?php
+
 namespace app\common\utils;
 
 
 use yii\db\Exception;
 use yii\web\HttpException;
 
-class helper {
+class helper
+{
     /**
      * GET 请求
      * @param string $url
      */
-    public function http_get($url){
+    public function http_get($url)
+    {
         $oCurl = curl_init();
-        if(stripos($url,"https://")!==FALSE){
+        if (stripos($url, "https://") !== FALSE) {
             curl_setopt($oCurl, CURLOPT_SSL_VERIFYPEER, FALSE);
             curl_setopt($oCurl, CURLOPT_SSL_VERIFYHOST, FALSE);
             curl_setopt($oCurl, CURLOPT_SSLVERSION, 1); //CURL_SSLVERSION_TLSv1
         }
         curl_setopt($oCurl, CURLOPT_URL, $url);
-        curl_setopt($oCurl, CURLOPT_RETURNTRANSFER, 1 );
+        curl_setopt($oCurl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($oCurl, CURLOPT_VERBOSE, 1);
         curl_setopt($oCurl, CURLOPT_HEADER, 1);
 
@@ -29,6 +32,7 @@ class helper {
 
         return $sContent;
     }
+
     /**
      * POST 请求
      * @param string $url
@@ -36,42 +40,43 @@ class helper {
      * @param boolean $post_file 是否文件上传
      * @return string content
      */
-    public function http_post($url,$param,$post_file=false){
+    public function http_post($url, $param, $post_file = false)
+    {
         $oCurl = curl_init();
 
-        if(stripos($url,"https://")!==FALSE){
+        if (stripos($url, "https://") !== FALSE) {
             curl_setopt($oCurl, CURLOPT_SSL_VERIFYPEER, FALSE);
             curl_setopt($oCurl, CURLOPT_SSL_VERIFYHOST, false);
             curl_setopt($oCurl, CURLOPT_SSLVERSION, 1); //CURL_SSLVERSION_TLSv1
         }
-        if(PHP_VERSION_ID >= 50500 && class_exists('\CURLFile')){
+        if (PHP_VERSION_ID >= 50500 && class_exists('\CURLFile')) {
             $is_curlFile = true;
-        }else {
+        } else {
             $is_curlFile = false;
             if (defined('CURLOPT_SAFE_UPLOAD')) {
                 curl_setopt($oCurl, CURLOPT_SAFE_UPLOAD, false);
             }
         }
 
-        if($post_file) {
-            if($is_curlFile) {
-                foreach ($param as $key => $val) {                     
-                    if(isset($val["tmp_name"])){
-                        $param[$key] = new \CURLFile(realpath($val["tmp_name"]),$val["type"],$val["name"]);
-                    }else if(substr($val, 0, 1) == '@'){
-                        $param[$key] = new \CURLFile(realpath(substr($val,1)));                
-                    }                           
+        if ($post_file) {
+            if ($is_curlFile) {
+                foreach ($param as $key => $val) {
+                    if (isset($val["tmp_name"])) {
+                        $param[$key] = new \CURLFile(realpath($val["tmp_name"]), $val["type"], $val["name"]);
+                    } else if (substr($val, 0, 1) == '@') {
+                        $param[$key] = new \CURLFile(realpath(substr($val, 1)));
+                    }
                 }
-            }                
+            }
             $strPOST = $param;
-        }else{
+        } else {
             $strPOST = json_encode($param);
-        } 
+        }
 
         curl_setopt($oCurl, CURLOPT_URL, $url);
-        curl_setopt($oCurl, CURLOPT_RETURNTRANSFER, 1 );
-        curl_setopt($oCurl, CURLOPT_POST,true);
-        curl_setopt($oCurl, CURLOPT_POSTFIELDS,$strPOST);
+        curl_setopt($oCurl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($oCurl, CURLOPT_POST, true);
+        curl_setopt($oCurl, CURLOPT_POSTFIELDS, $strPOST);
         curl_setopt($oCurl, CURLOPT_VERBOSE, 1);
         curl_setopt($oCurl, CURLOPT_HEADER, 1);
 
@@ -87,26 +92,27 @@ class helper {
     /**
      * 执行CURL请求，并封装返回对象
      */
-    public function execCURL($ch){
+    public function execCURL($ch)
+    {
         $response = curl_exec($ch);
 
-        $error    = curl_error($ch);
-        $result   = array( 'header' => '', 
-                         'content' => '', 
-                         'curl_error' => '', 
-                         'http_code' => '',
-                         'last_url' => '');
+        $error = curl_error($ch);
+        $result = array('header' => '',
+            'content' => '',
+            'curl_error' => '',
+            'http_code' => '',
+            'last_url' => '');
 
-        if ($error != ""){
+        if ($error != "") {
             $result['curl_error'] = $error;
             return $result;
         }
 
-        $header_size = curl_getinfo($ch,CURLINFO_HEADER_SIZE);
+        $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
         $result['header'] = str_replace(array("\r\n", "\r", "\n"), "<br/>", substr($response, 0, $header_size));
-        $result['content'] = substr( $response, $header_size );
-        $result['http_code'] = curl_getinfo($ch,CURLINFO_HTTP_CODE);
-        $result['last_url'] = curl_getinfo($ch,CURLINFO_EFFECTIVE_URL);
+        $result['content'] = substr($response, $header_size);
+        $result['http_code'] = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $result['last_url'] = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
         $result["base_resp"] = array();
         $result["base_resp"]["ret"] = $result['http_code'] == 200 ? 0 : $result['http_code'];
         $result["base_resp"]["err_msg"] = $result['http_code'] == 200 ? "ok" : $result["curl_error"];
@@ -116,7 +122,8 @@ class helper {
 
 
     //生成指定长度的随机字符串
-    public static  function createNonceStr($length = 16) {
+    public static function createNonceStr($length = 16)
+    {
         $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         $str = "";
         for ($i = 0; $i < $length; $i++) {
@@ -126,36 +133,42 @@ class helper {
     }
 
     //给URL地址追加参数
-    public function appendParamter($url,$key,$value){
-        return strrpos($url,"?",0) > -1 ? "$url&$key=$value" : "$url?$key=$value";
+    public function appendParamter($url, $key, $value)
+    {
+        return strrpos($url, "?", 0) > -1 ? "$url&$key=$value" : "$url?$key=$value";
     }
 
     //读取本地文件
-    public function get_php_file($filename) {
-        if(file_exists($filename)){
+    public function get_php_file($filename)
+    {
+        if (file_exists($filename)) {
             return trim(substr(file_get_contents($filename), 15));
-        }else{
+        } else {
             return '{"expire_time":0}';
-        }    
+        }
     }
+
     //写入本地文件
-    function set_php_file($filename, $content) {
+    function set_php_file($filename, $content)
+    {
         $fp = fopen($filename, "w");
         fwrite($fp, "<?php exit();?>" . $content);
         fclose($fp);
     }
 
     //加载本地的应用配置文件
-    public function loadConfig(){
+    public function loadConfig()
+    {
         return json_decode(get_php_file("../config.php"));
     }
 
     //根据应用ID获取应用配置
-    public function getConfigByAgentId($id){
+    public function getConfigByAgentId($id)
+    {
         $configs = loadConfig();
 
-        foreach ($configs->AppsConfig as $key => $value) {                
-            if($value->AgentId == $id){
+        foreach ($configs->AppsConfig as $key => $value) {
+            if ($value->AgentId == $id) {
                 $config = $value;
                 break;
             }
@@ -171,8 +184,10 @@ class helper {
      * @param type $params
      * @param type $timeout
      */
-    public static function lock($lockKey, callable $func, $params = null, $timeout = 60) {
+    public static function lock($lockKey, callable $func, $params = null, $timeout = 60)
+    {
         $cache = \yii::$app->cache;
+        $mex = NULL;
         while (true) {
             $isLock = $cache->exists($lockKey);
             if ($isLock) {
@@ -180,16 +195,25 @@ class helper {
             }
             try {
                 // 加锁
-               $cache->set($lockKey, 1, $timeout);
-               call_user_func($func, $params);
-               break;
-           } catch (\Exception $ex){
-               throw $ex;
-           } finally {
-               if($cache->exists($lockKey)){
-                   $cache->delete($lockKey);
-               }
-           }
+                $cache->set($lockKey, 1, $timeout);
+                call_user_func($func, $params);
+                break;
+            } catch (\Exception $ex) {
+                //throw  $ex;
+                $mex = $ex;
+            }
+//            finally {
+//               if($cache->exists($lockKey)){
+//                   $cache->delete($lockKey);
+//               }
+//           }
+            if ($cache->exists($lockKey)) {
+                $cache->delete($lockKey);
+            }
+
+            if ($mex != NULL) {
+                throw  $ex;
+            }
         }
     }
 }
