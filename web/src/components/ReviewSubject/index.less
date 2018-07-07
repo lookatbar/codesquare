@@ -1,0 +1,77 @@
+.reviewSubject{
+	color: #fff;
+
+	&-field{
+		padding: 17px;
+		background-color: #242537;
+		margin-bottom: 10px;
+		position: relative;
+	}
+	&-title{
+		color: #fff;
+		font-size: 17px;
+	}
+	&-body{
+
+	}
+	// 用户信息及点赞
+	&-author{
+		height: 65px;
+		border-bottom: 1px #000 solid;
+	}
+	&-userImage{
+		position: absolute;
+		width: 45px;
+		height: 45px;
+		left: 17px;
+		top: 17px;
+		border-radius: 50%;
+		overflow: hidden;
+		background-color: #999;
+		img{
+			display: block;
+			width: 100%;
+			position: absolute;
+			left: 0;
+			top: 50%;
+			transform: translateY(-50%);
+		}
+	}
+	&-userName{
+		position: absolute;
+		left: 72px;
+		top: 17px;
+		font-size: 15px;
+		color: #fff;
+	}
+	&-createTime{
+		position: absolute;
+		right: 17px;
+		top: 17px;
+		font-size: 13px;
+		color: #999;
+	}
+	&-count{
+		position: absolute;
+		color: #6b6b6b;
+		left: 72px;
+		top: 47px;
+		font-size: 12px;
+		line-height: 16px;
+		.iconfont{
+			font-size: 15px;
+			margin-right: 2px;
+		}
+		span{
+			float: left;
+			margin-right: 9px;
+		}
+	}
+	// 话题内容主体
+	&-content{
+		padding-top: 17px;
+		font-size: 15px;
+		line-height: 20px;
+		color: #fff;
+	}
+}

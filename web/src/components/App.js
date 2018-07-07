@@ -20,7 +20,7 @@ class App extends Component {
       }
     });
     // 获取票据并缓存
-    dispatch( initWX() );
+    // dispatch( initWX() );
   }
 
   componentWillReceiveProps({location}){

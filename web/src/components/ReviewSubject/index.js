@@ -15,23 +15,75 @@ class ReviewSubject extends Component{
 	constructor(props){
 		super(props);
 
-		this.state = {
+		const { token } = props.userInfo;
 
+		this.state = {
+			token,
+			detail: null,
 		}
 	}
 
 	componentWillMount(){
 		const { params } = this.props;
-		fetchReviewTopic({topic_id: params.id})
+		const { token } = this.state;
+
+		fetchReviewTopic({
+			topic_id: params.id,
+			token,
+		})
 			.then(res => {
 				console.log(res);
+				this.setState({
+					detail: res.data,
+				})
 			});
 	}
 
 	render(){
+		const { detail } = this.state;
+
+		if(!detail){
+			return null;
+		}
+
 		return(
 			<div className="reviewSubject">
-				查看话题详情
+				<div className="reviewSubject-title reviewSubject-field">{detail.title}</div>
+				<div className="reviewSubject-body reviewSubject-field">
+					<div className="reviewSubject-author">
+						<div className="reviewSubject-userImage">
+							<img src={detail.user_avatar} alt="" />
+						</div>
+						<div className="reviewSubject-userName">{detail.user_name}</div>
+						<div className="reviewSubject-createTime">{detail.create_time}</div>
+
+						<div className="reviewSubject-count clearfix">
+							<span>
+								<i className="iconfont icon-liulan2" />
+								{detail.view_count}
+							</span>
+							<span>
+								<i className="iconfont icon-weibiaoti-" />
+								{detail.good_count}
+							</span>
+							<span>
+								<i className="iconfont icon-pinglun" />
+								{detail.reply_count}
+							</span>
+						</div>
+
+
+					</div>
+
+					<div className="reviewSubject-content">
+						{detail.content}
+					</div>
+				</div>
+
+				<div className="reviewSubject-reply reviewSubject-field">
+					<div className="reviewSubject-reply-title">评论</div>
+					
+				</div>
 			</div>
 		)
 	}

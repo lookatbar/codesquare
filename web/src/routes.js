@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router';
+import { Route, Redirect, IndexRedirect } from 'react-router';
 import App from './components/App';
 import Home from './components/Home';
 import Square from './components/Square';
@@ -24,6 +24,7 @@ export const routeMap = {
 
 export default (
 	<Route path="/" component={App}>
+		<IndexRedirect to="/home/square" />
 		<Route path="home" component={Home}>
 			<Route path="square" component={Square} />
 			<Route path="ranking" component={Ranking} />
