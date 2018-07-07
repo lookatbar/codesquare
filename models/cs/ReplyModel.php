@@ -66,6 +66,20 @@ class ReplyModel extends CSBaseModel
             ->limit($pageSize)
             ->offset($pageIndex)
             ->all($this->db);
+
+        $fields = static::$Fields;
+        $countSql = 'SELECT COUNT(1) FROM cs_topic WHERE 1=1 AND is_deleted=0';
+        $limitSql = "SELECT $fields  FROM cs_topic LEFT JOIN cs_user ON cs_topic.user_id=cs_user.user_id WHERE 1=1 AND is_deleted=0 ".$this->_getLimitSql([$pageIndex,$pageSize]);
+
+        $where = " offer_award_id>0 AND reward_money>0 ";
+        $countSql = str_replace('1=1',$where,$countSql);
+        $limitSql = str_replace('1=1',$where,$limitSql);
+
+
+        $list = $this->db->createCommand($limitSql)->query()->readAll();
+        $count = $this->db->createCommand($countSql)->queryScalar();
+
+        return $this->retPage($list,$count);
     }
 
 }

@@ -9,6 +9,7 @@ namespace app\controllers\codesquare;
 use app\common\ErrorCode;
 use app\common\utils\CommonHelper;
 use app\models\cs\records\UserRecord;
+use app\services\UserService;
 
 class UserController extends CSBaseController
 {
@@ -28,10 +29,12 @@ class UserController extends CSBaseController
     /**
      * 收到回复
      */
-    public function actionBeRepliedList(){
+    public function actionBerepliedList(){
 
+        $userServ = new UserService($this->userContext);
+        $ret = $userServ->getBeRepliedList($this->userContext->userId,$this->pageIndex,$this->pageSize);
 
-
+        return $this->responsePagingData($ret['data'],$ret['total'],$this->pageSize);
     }
 
     /**
