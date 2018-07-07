@@ -8,8 +8,14 @@ namespace app\controllers\codesquare;
 
 use app\common\ErrorCode;
 use app\common\utils\CommonHelper;
+use app\models\cs\FavoriteModel;
+use app\models\cs\FavoriteRecord;
+use app\models\cs\GoodModel;
 use app\models\cs\records\UserRecord;
+use app\models\cs\ReplyModel;
+use app\models\cs\TopicModel;
 use app\services\UserService;
+use mysoft\task\Com;
 
 class UserController extends CSBaseController
 {
@@ -75,6 +81,17 @@ class UserController extends CSBaseController
         $list = $user->find()->select('user_id,name')->offset($page_size*$page_index)
             ->limit($page_size)->asArray()->all();
         CommonHelper::response("ok",ErrorCode::$OK,$list);
+    }
+
+    public function  actionMe(){
+      $data['user_id'] =  $this->userContext->userId;
+      $data['name'] = $this->userContext->name;
+      $data['avatar'] = $this->userContext->avatar;
+      $data['publish'] = (new TopicModel())->getPublishCount($this->userContext->userId);
+      $data['favorite'] = (new FavoriteModel())->getFavoriteCount($this->userContext->userId);
+      $data['reply'] = (new TopicModel())->getReplyCount($this->userContext->userId);
+      $data['good']  = (new TopicModel())->getGoodCount($this->userContext->userId);
+      CommonHelper::response('ok',ErrorCode::$OK,$data);
     }
 
 

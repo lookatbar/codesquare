@@ -42,6 +42,7 @@ class CSBaseController extends BaseController
         if (!parent::beforeAction($action)) {
            return false;
         }
+
 //        $userContext = new UserContext();
 //        $userContext->userId = 2;
 //        $userContext->userName = "测试";

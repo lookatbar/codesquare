@@ -206,11 +206,25 @@ class TopicService extends CSServiceBase
         }
 
 
+
+
+
         unset($topicData['is_deleted']);
         unset($topicData['update_time']);
 
         return $topicData;
     }
 
-
+    /**
+     * 回复列表
+     * @param type $topicId
+     * @param type $pageIndex
+     * @param type $pageSize
+     * @return type
+     */
+    public function queryReplyList($topicId, $pageIndex, $pageSize)
+    {
+        $replyModel = new \app\models\cs\ReplyModel();
+        return $replyModel->getReplyListByTopicId($topicId, $pageIndex, $pageSize);
+    }
 }
