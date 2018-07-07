@@ -38,7 +38,7 @@ class CSBaseController extends BaseController
         $cache = \Yii::$app->cache;
         $token = $this->getToken();
         if (!$token || !$cache->exists($token)) {
-            \Yii::$app->response->data = $this->error('token无效', '403', $token);
+            \Yii::$app->response->data = $this->error('token无效', \app\common\ErrorCode::$InvalidToken, $token);
             \Yii::$app->end();
         }
         
