@@ -10,22 +10,14 @@ namespace app\models\cs;
 
 /**
  * Description of CSBaseModel
- * @property-read \yii\db\Connection $db Description
  * @author ray-apple
  */
 class CSBaseModel
 {
-    protected $_db = null;
-    
-    /**
-     * @return \yii\db\Connection
-     */
-    public function getdb()
+    protected $db = null;
+
+    public function __construct()
     {
-        if (is_null($this->_db)) {
-            $this->_db = \yii::$app->db;
-        }
-        
-        return $this->_db;
+        $this->db = \yii::$app->db;
     }
 }
