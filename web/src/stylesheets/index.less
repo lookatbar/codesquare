@@ -10,17 +10,13 @@ html, body, #root, .App{
 .routeTransitionWrapper {
   position: relative;
   z-index: 1;
-  .transition-item {
-    /*position: fixed;*/
-    top: 0;
-    right: 0;
-    left: 0;
+  .transition-item{
+    transition: transform 0.5s, opacity 0.5s;
+    transform: translate3d(0, 0, 0);
+    overflow: auto;
   }
 }
 .home {
-  overflow: auto;
-  transition: transform 0.5s, opacity 0.5s;
-
   &.routeTransitionWrapper-enter {
     position: fixed;
     height: 100%;
@@ -48,9 +44,6 @@ html, body, #root, .App{
 }
 
 .subject {
-  overflow: auto;
-  transform: translate3d(0, 0, 0);
-
   &.routeTransitionWrapper-enter {
     position: fixed;
     height: 100%;
