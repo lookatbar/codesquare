@@ -18,37 +18,39 @@ use yii\db\Query;
 class GoodModel extends CSBaseModel
 {
     /**
-     * 保存点赞人数
+     * 点赞
      * @param int $topicId
      * @param array $userList
      */
     public function saveUserList($topicId, $userList)
     {
-        $existRecord = (new Query())->from('cs_good')->where(['topic_id' => $topicId])->exists();
-        if ($existRecord) {
-            \Yii::$app->db->createCommand()->update('cs_good', [
-                'user_list' => json_encode($userList)],
-                ['topic_id' => $topicId])->execute();
-        } else {
-            \Yii::$app->db->createCommand()->insert('cs_good', [
-                'topic_id' => $topicId,
-                'user_list' => json_encode($userList)
-            ])->execute();
-        }
-        
-        \Yii::$app->db->createCommand()->update('cs_topic', [
-            'good_count' => count($userList)],
-                ['topic_id' => $topicId])->execute();
+        $this->db->transaction(function() use($topicId, $userList){
+            $existRecord = (new Query())->from('cs_good')->where(['topic_id' => $topicId])->exists($this->Db);
+            if ($existRecord) {
+                $this->db->createCommand()->update('cs_good', [
+                    'user_list' => json_encode($userList)],
+                    ['topic_id' => $topicId])->execute();
+            } else {
+                $this->db->createCommand()->insert('cs_good', [
+                    'topic_id' => $topicId,
+                    'user_list' => json_encode($userList)
+                ])->execute();
+            }
+
+            $this->db->createCommand()->update('cs_topic', [
+                'good_count' => count($userList)],
+                    ['topic_id' => $topicId])->execute();
+        } );
     }
     
     /**
-     * 获取用户列表
+     * 获取点赞用户列表
      * @param int $topicId
      * @return type
      */
     public function getUserList($topicId)
     {
-        $userList = (new Query())->from('cs_good')->where(['topic_id' => $topicId])->createCommand()->queryScalar();
+        $userList = (new Query())->from('cs_good')->where(['topic_id' => $topicId])->createCommand($this->db)->queryScalar();
         return $userList === false ? [] : json_decode($userList, true);
     }
 }
