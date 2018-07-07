@@ -10,6 +10,7 @@ namespace app\services;
 use app\common\CSConstant;
 use app\models\cs\forms\TopicSaveRequestFrom;
 use app\models\cs\GoodModel;
+use app\models\cs\records\OfferAwardRecord;
 use app\models\cs\records\TopicRecord;
 use app\models\cs\records\UserRecord;
 
@@ -193,6 +194,16 @@ class TopicService extends CSServiceBase
             $topicData['is_good'] = 1;
         }
 
+        $topicData['offer_award'] = NULL;
+        if($topicData['offer_award_id']>0){
+
+            $offerAwardData = OfferAwardRecord::findOne(['offer_award_id'=>$topicData['offer_award_id']]);
+            if(!empty($offerAwardData)){
+                $offerAwardData = $offerAwardData->toArray();
+                unset($offerAwardData['update_time']);
+                $topicData['offer_award'] = $offerAwardData;
+            }
+        }
 
 
         unset($topicData['is_deleted']);
