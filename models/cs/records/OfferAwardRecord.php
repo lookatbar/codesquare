@@ -24,7 +24,7 @@ class OfferAwardRecord  extends  CSBaseRecord
     public function queryOfferAwardList($pageIndex=CSConstant::PAGE_INDEX,$pageSize=CSConstant::PAGE_SIZE){
         $fields = "offer_award_id,title,max_amount,create_time";
         $countSql = 'SELECT COUNT(1) FROM cs_offer_award';
-        $limitSql = "SELECT $fields FROM cs_offer_award  ".$this->_getLimitSql([$pageIndex,$pageSize]);
+        $limitSql = "SELECT $fields FROM cs_offer_award  ORDER BY max_amount DESC ".$this->_getLimitSql([$pageIndex,$pageSize]);
 
         $list = self::getDb()->createCommand($limitSql)->query()->readAll();
         $count = self::getDb()->createCommand($countSql)->queryScalar();
