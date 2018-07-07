@@ -20,7 +20,16 @@ class ListController extends CSBaseController
      */
     public function actionReply()
     {
+        $topicId = \Yii::$app->request->post('topic_id');
+        if (!$topicId) {
+            return $this->error('参数无效', ErrorCode::$ApiParamEmpty);
+        }
         
-    }
+        
+        $topicSrv = new \app\services\TopicService($this->userContext);
+        $ret = $topicSrv->queryReplyList($topicId, $this->pageIndex, $this->pageSize);
+        
+        return $this->responsePagingData($ret['list'], $ret['count'], $this->pageSize);
+     }
     
 }
