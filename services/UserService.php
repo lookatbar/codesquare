@@ -9,7 +9,9 @@
 namespace app\services;
 
 
+use app\common\CSConstant;
 use app\models\cs\records\UserRecord;
+use app\models\cs\ReplyModel;
 
 /**
  * Class UserService    用户信息表
@@ -32,5 +34,21 @@ class UserService
         }
         return $data;
     }
+
+    /**
+     * 收到回复列表
+     * @param $userId
+     * @param int $pageIndex
+     * @param int $pageSize
+     */
+    public function getBeRepliedList($userId,$pageIndex=CSConstant::PAGE_INDEX,$pageSize=CSConstant::PAGE_SIZE){
+
+        $replyModel = new ReplyModel();
+        $ret = $replyModel->getBeRepliedListByUser($userId,$pageIndex,$pageSize);
+        var_export($ret);
+        exit;
+    }
+
+
 
 }

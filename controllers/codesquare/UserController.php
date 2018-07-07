@@ -26,9 +26,11 @@ class UserController extends CSBaseController
     }
 
     /**
-     * 收到恢复
+     * 收到回复
      */
     public function actionBeRepliedList(){
+
+
 
     }
 

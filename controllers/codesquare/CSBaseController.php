@@ -74,4 +74,26 @@ class CSBaseController extends BaseController
         return \Yii::$app->request->post('token');
     }
 
+
+    /**
+     * 获取本地图片地址
+     * @param $imageList
+     */
+    protected function getLocalImageList($wxMediaListJsonStr){
+        $wxMediaList = [];
+        if(!empty($wxMediaListJsonStr)){
+            $wxMediaList = json_decode($wxMediaListJsonStr,TRUE);
+        }
+        $localImageList = [];
+        $wxService = new WxService();
+        foreach ($wxMediaList as $wxMediaId){
+            $localImagePath =$wxService->getFile($wxMediaId);
+            if(!empty($localImagePath)){
+                $localImageList[] = $localImagePath;
+            }
+        }
+        return $localImageList;
+    }
+
+
 }

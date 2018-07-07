@@ -54,4 +54,15 @@ class ReplyModel extends CSBaseModel
                 ->where(['reply_id' => $replyId, 'is_deleted' => 0])
                 ->one($this->db);
     }
+
+
+    public function getBeRepliedListByUser($userId,$pageIndex=CSConstant::PAGE_INDEX,$pageSize=CSConstant::PAGE_SIZE){
+        return (new \yii\db\Query())
+            ->from('cs_reply')
+            ->where(['to_user_id' => $userId, 'is_deleted' => 0])
+            ->limit($pageSize)
+            ->offset($pageIndex)
+            ->all($this->db);
+    }
+
 }

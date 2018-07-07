@@ -91,6 +91,10 @@ class CSConstant
 
     const PAGE_INDEX = 1;
 
+    const RANK_TYPE__OFFER_AWARD = 'offer_award';
+
+    const  RANK_TYPE__REWARD    = 'reward';
+
     static $TopicTypeList = [
         ['topic_type' => self::TOPIC_TYPE_PROD, 'topic_type_name' => '技术'],
         ['topic_type' => self::TOPIC_TYPE_DEV, 'topic_type_name' => '点子']
