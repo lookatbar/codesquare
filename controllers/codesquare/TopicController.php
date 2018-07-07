@@ -41,7 +41,7 @@ class TopicController extends CSBaseController
         $pageData['topic_type_list'] = CSConstant::getTopicTypes();
         $pageData['current_topic_type'] = $topic_type;
 
-        return $this->response($pageData);
+        return $pageData;
 
     }
 

@@ -26,4 +26,20 @@ class UserContext
      * @var string
      */
     public $userName;
+    /**
+     * 用户头像
+     */
+    public $avatar;
+    /**
+     * 用户手机号
+     */
+    public $mobile;
+    /**
+     * 用户邮箱
+     */
+    public $email;
+    /**
+     * 用户部门
+     */
+    public $department;
 }

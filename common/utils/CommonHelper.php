@@ -9,6 +9,7 @@
 namespace app\common\utils;
 
 
+use app\common\context\UserContext;
 use Yii;
 use yii\web\Response;
 
@@ -34,5 +35,17 @@ class CommonHelper
         }
         die(json_encode($response->data, JSON_UNESCAPED_UNICODE));
     }
+
+    /**
+     * 设置用户缓存
+     * @param $key
+     * @param UserContext $context
+     * @return bool
+     */
+    public function setCache($key,UserContext $context){
+        $cache = Yii::$app->cache;
+        return   $cache->set($key,$context);
+    }
+
 
 }
