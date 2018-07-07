@@ -53,7 +53,6 @@ class jssdk
      */
     private function getJsApiTicket() {
         $accessToken = $this->accessToken->getAccessToken();
-        echo $accessToken;die;
         $cache=Yii::$app->cache;
         $ticket = $cache->get('js_api_ticket');
         if(empty($ticket)){

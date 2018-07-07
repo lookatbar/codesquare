@@ -17,7 +17,7 @@ class ReplyModel extends CSBaseModel
 {
     /**
      * 回复
-     * @param type $data
+     * @param array $data
      */
     public function insertReply($data)
     {
@@ -26,5 +26,32 @@ class ReplyModel extends CSBaseModel
             $this->db->createCommand("update cs_topic set reply_count=reply_count+1 where topic_id=:topic_id",
                 [':topic_id' => $data['topic_id']])->execute();
         });
+    }
+    
+    /**
+     * 删除回复
+     * @param int $topicId
+     * @param int $replyId
+     */
+    public function delReply($topicId, $replyId)
+    {
+        $this->db->transaction(function() use($topicId, $replyId) {
+            $this->db->createCommand()->update('cs_reply', ['is_deleted' => 1], ['reply_id' => $replyId]);
+            $this->db->createCommand("update cs_topic set reply_count=reply_count-1 where topic_id=:topic_id",
+                [':topic_id' => $topicId])->execute();
+        });
+    }
+    
+    /**
+     * 获取回复详情
+     * @param int $replyId
+     * @return array|bool
+     */
+    public function getReplyById($replyId)
+    {
+        return (new \yii\db\Query())
+                ->from('cs_reply')
+                ->where(['reply_id' => $replyId, 'is_deleted' => 0])
+                ->one($this->db);
     }
 }

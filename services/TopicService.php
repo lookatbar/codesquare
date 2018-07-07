@@ -30,32 +30,73 @@ class TopicService extends CSServiceBase
     }
 
     /**
-     * 点赞
-     * @param int $topicId
-     * @param array $userInfo
+     * 删除回复
+     * @param type $replyId
+     * @return type
      */
-    public function like($topicId)
+    public function delReply($replyId)
+    {
+        $replyModel = new \app\models\cs\ReplyModel();
+        // 校验
+        $replyInfo = $replyModel->getReplyById($replyId);
+        if (!$replyInfo) {
+            return;
+        }
+        
+        // 不能删除别人的回复
+        if ($replyInfo['user_id'] != $this->userContext->userId) {
+            return;
+        }
+        
+        $replyModel->delReply($replyInfo['topic_id'], $replyId);        
+    }
+    
+    /**
+     * 点赞或取消
+     * @param int $topicId
+     */
+    public function like($topicId, $cancel = false)
     {
  
         $goodModel = new \app\models\cs\GoodModel();
-        
-        \app\common\utils\helper::lock("topic_like_lock_{$topicId}", function() use($topicId, $goodModel){
+        \app\common\utils\helper::lock("topic_like_lock_{$topicId}", function() use($topicId, $goodModel, $cancel){
             $userList = $goodModel->getUserList($topicId);
-               if (!array_key_exists($this->userContext->userId, $userList)) {
-                   $userList[$this->userContext->userId] = ['name' => $this->userContext->userName];
-                   $goodModel->saveUserList($topicId, $userList);
-               }
+            // 取消
+            if ($cancel && array_key_exists($this->userContext->userId, $userList)) {
+                unset($userList[$this->userContext->userId]);
+                $goodModel->saveUserList($topicId, $userList);
+            } elseif (!$cancel && !array_key_exists($this->userContext->userId, $userList)) {
+                $userList[$this->userContext->userId] = ['name' => $this->userContext->userName];
+                $goodModel->saveUserList($topicId, $userList);
+            }
         });
-  }
-
+    }
+    
     /**
      * 采纳回复
-     * @param type $topicId
-     * @param type $replyId
+     * @param int $topicId
+     * @param int $replyId
      */
     public function accept($topicId, $replyId)
     {
-
+        // 校验
+        $topicModel = new \app\models\cs\TopicModel();
+        $topic = $topicModel->getTopicById($topicId);
+        if (!$topic) {
+            return;
+        }
+        
+        if ($topic['user_id'] != $this->userContext->userId) {
+            return;
+        }
+        
+        $replyModel = new \app\models\cs\ReplyModel();
+        $reply = $replyModel->getReplyById($replyId);
+        if (!$reply) {
+            throw new \app\exceptions\BusinessException("回复不存在");
+        }
+        
+        $topicModel->updateTopic($topicId, ['accept_reply_id' => $replyId]);
     }
 
     /**

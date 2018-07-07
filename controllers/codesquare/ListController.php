@@ -15,6 +15,9 @@ namespace app\controllers\codesquare;
  */
 class ListController extends CSBaseController
 {
+    /**
+     * 获取回复列表信息
+     */
     public function actionReply()
     {
         

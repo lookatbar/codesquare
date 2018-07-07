@@ -6,18 +6,14 @@
  * and open the template in the editor.
  */
 
-namespace app\models\cs;
+namespace app\exceptions;
 
 /**
- * Description of CSBaseModel
+ * Description of BusinessException
+ *
  * @author ray-apple
  */
-class CSBaseModel
+class BusinessException extends \Exception
 {
-    protected $db = null;
-
-    public function __construct()
-    {
-        $this->db = \yii::$app->db;
-    }
+    //put your code here
 }

@@ -16,7 +16,9 @@ namespace app\models\cs\forms;
 class GoodForm extends CSBaseForm
 {
     public $topic_id;
-   
+    
+    public $is_cancel = false;
+
     public function rules()
     {
         return array_merge(parent::rules(), [

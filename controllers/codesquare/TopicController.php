@@ -65,8 +65,24 @@ class TopicController extends CSBaseController
         $form = new TopicSaveRequestFrom();
         //$form->attributes = \Yii::$app->request->post();
 
+        //获取微信图片
+        $wxMediaStr = \Yii::$app->request->post('images_list');
+        $wxMediaList = [];
+        if(!empty($wxMediaStr)){
+            $wxMediaList = json_decode($wxMediaStr,TRUE);
+        }
+        $localImageList = [];
+        $wxService = new WxService();
+        foreach ($wxMediaList as $wxMediaId){
+            $localImagePath =$wxService->getFile($wxMediaId);
+            if(!empty($localImagePath)){
+                $localImageList[] = $localImagePath;
+            }
+        }
+
+        //添加话题数据
         $form->user_id = $this->userContext->userId;
-        $form->images_list = \Yii::$app->request->post('images_list');
+        $form->images_list = json_encode($localImageList,TRUE);
         $form->title = \Yii::$app->request->post('title');
         $form->content = \Yii::$app->request->post('content');
         $form->topic_type = \Yii::$app->request->post('topic_type');
@@ -127,7 +143,15 @@ class TopicController extends CSBaseController
      */
     public function actionDelReply()
     {
-
+        // 校验
+        $replyId = \Yii::$app->request->post('reply_id');
+        if (!$replyId) {
+            return $this->error('无效的参数', ErrorCode::$InvalidApiParam);
+        }
+        
+        $replySrv = new TopicService($this->userContext);
+        $replySrv->delReply($replyId);
+        $this->response();
     }
 
     /**
@@ -143,8 +167,26 @@ class TopicController extends CSBaseController
             return $this->error($error['message'], $error['code']);
         }
                
-        $replySrv = new TopicService($this->userContext);
-        $replySrv->like($form->topic_id);
+        $topicSrv = new TopicService($this->userContext);
+        $topicSrv->like($form->topic_id, $form->is_cancel);
+        return $this->response();
+    }
+    
+    /**
+     * 采纳
+     * @return type
+     */
+    public function actionAccept()
+    {
+        $topicId = \Yii::$app->request->post('topic_id');
+        $replyId = \Yii::$app->request->post('reply_id');
+        if (!$topicId || !$replyId) {
+            return $this->error('参数无效', ErrorCode::$ApiParamEmpty);
+        }
+        
+        $topicSrv = new TopicService($this->userContext);
+        $topicSrv->accept($topicId, $replyId);
+        
         return $this->response();
     }
 
