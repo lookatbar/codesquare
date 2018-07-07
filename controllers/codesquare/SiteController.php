@@ -12,6 +12,7 @@ use app\common\ErrorCode;
 use app\common\utils\helper;
 use app\common\utils\HttpHelper;
 use app\common\weixin\AccessToken;
+use app\controllers\BaseController;
 use app\models\cs\records\UserRecord;
 use app\common\utils\CommonHelper;
 use Yii;
@@ -22,9 +23,9 @@ use Yii;
  * Class CSSiteControllerls
  * @package app\controllers
  */
-class SiteController extends CSBaseController
+class SiteController extends BaseController
 {
-
+    const exprie_time  =  7200;
 
 
 
@@ -136,8 +137,14 @@ class SiteController extends CSBaseController
         $context->avatar = $user->avatar;
         $context->email = $user->email;
         $context->department = $user->department;
-        return   $cache->set($token,$user);
+        return   $cache->set($token,$user,self::exprie_time);
 
+    }
+
+    public function actionTestToken(){
+        $token = $_GET['id'];
+        $cache = Yii::$app->cache;
+        $context =  $cache->get($token);
     }
 
 
