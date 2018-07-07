@@ -13,6 +13,7 @@ use app\common\utils\helper;
 use app\common\utils\HttpHelper;
 use app\common\weixin\AccessToken;
 use app\controllers\BaseController;
+use app\models\cs\DepartmentModel;
 use app\models\cs\records\UserRecord;
 use app\common\utils\CommonHelper;
 use Yii;
@@ -142,9 +143,37 @@ class SiteController extends BaseController
     }
 
     public function actionTestToken(){
-        $token = $_GET['id'];
-        $cache = Yii::$app->cache;
-        $context =  $cache->get($token);
+
+        $page_size = isset($_GET['page_size'])?$_GET['page_size']:20;
+        $page_index = isset($_GET['page_index'])?$_GET['page_index']:1;
+        $user =  new UserRecord();
+        $list = $user->find()->select('user_id,name')->offset($page_size*$page_index)
+            ->limit($page_size)->asArray()->all();
+        CommonHelper::response("ok",ErrorCode::$OK,$list);
+//        $user =  new UserRecord();
+//        $list = $user->find()->select('user_id,name')->asArray()->all();
+//        CommonHelper::response("ok",ErrorCode::$OK,$list);
+//        $tk = new AccessToken(Yii::$app->params['app_id']);
+//        $access_token =  $tk->getAccessToken();
+//        $url = "https://qyapi.weixin.qq.com/cgi-bin/user/list?access_token=$access_token&department_id=8381&fetch_child=1&status=1";
+//        $helper = new helper();
+//        $res = json_decode($helper->http_get($url)["content"]);
+//        $userlist = $res->userlist;
+//        foreach ($userlist as $user){
+//            $dept =  new UserRecord();
+//            if(UserRecord::findOne(['user_id'=>$user->userid])){
+//                continue;
+//            }
+//            $dept->user_id = $user->userid;
+//            $dept->name = $user->name;
+//            $dept->save();
+//        }
+//        echo "ok";die;
+//        $token = $_GET['id'];
+//        $cache = Yii::$app->cache;
+//        $context =  $cache->get('token');
+//
+//        echo $context;die;
     }
 
 

@@ -10,7 +10,7 @@ namespace app\services;
 use app\common\CSConstant;
 use app\models\cs\forms\TopicSaveRequestFrom;
 use app\models\cs\records\TopicRecord;
-use app\models\cs\records\ReplyRecord;
+use app\models\cs\records\UserRecord;
 
 /**
  * Class TopicService  话题服务类
@@ -78,6 +78,46 @@ class TopicService extends CSServiceBase
         $record->save();
         return $record['topic_id'];
     }
+
+    /**
+     * 查询话题列表
+     * @param null $topicType
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @return array
+     */
+    public function queryTopList($topicType=NULL,$pageIndex=CSConstant::PAGE_INDEX,$pageSize=CSConstant::PAGE_SIZE){
+
+        $record = new TopicRecord();
+        $ret =  $record->queryTopicList($topicType,$pageIndex,$pageSize);
+        $list = $ret['data'];
+        foreach ($list as $key=>&$val){
+            $val['topic_type'] = CSConstant::getTopicTypeByTopicTypeName($val['topic_type']);
+        }
+        $ret['data'] = $list;
+        return $ret;
+    }
+
+    public function getTopicDetail($topicId){
+      $topicData = TopicRecord::findOne(['topic_id'=>$topicId]);
+      if(empty($topicData)){
+          return [];
+      }
+      $topicData = $topicData->toArray();
+      $topicData['user_name'] = '';
+      $topicData['user_avatar'] = '';
+
+      $userInfo  = UserRecord::findOne(['user_id'=>$topicData['user_id']]);
+      if(!empty($userInfo)){
+          $topicData['user_name'] = $userInfo['name'];
+          $topicData['user_avatar'] = $userInfo['avatar'];
+      }
+
+      return $topicData;
+    }
+
+
+
 
 
 }

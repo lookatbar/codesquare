@@ -1,5 +1,5 @@
 module.exports = {
 	proxy: {
-		'api': 'https://cnodejs.org',
+		'api': 'http://jkds.cracher.top',
 	}
 }

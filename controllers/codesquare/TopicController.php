@@ -22,24 +22,10 @@ class TopicController extends CSBaseController
     {
         $topic_type = \Yii::$app->request->post('topic_type', CSConstant::TOPIC_TYPE_PROD);
 
-
-        $list = [];
-        for ($i = 0; $i < $this->pageSize; $i++) {
-            $topicId = $this->pageIndex * $this->pageSize + $i;
-            $list[] = [
-                'topic_id' => $topicId,
-                'title' => 'title_' . $topicId,
-                'content' => 'content_' . $topicId,
-                'user_id' => 2,
-                'user_name' => '测试2',
-                'good_count' => 1,
-                'view_count' => 2,
-                'reply_count' => 100,
-                'create_time' => '2018-05-06 18:11:12'
-            ];
-        }
-
-        $pageData = $this->responsePagingData($list, 100, count($list));
+        $topServ = new TopicService($this->userContext);
+        $list = $topServ->queryTopList($topic_type,$this->pageIndex,$this->pageSize);
+        
+        $pageData = $this->responsePagingData($list['data'], $list['total'], count($list));
         $pageData['topic_type_list'] = CSConstant::getTopicTypes();
         $pageData['current_topic_type'] = $topic_type;
 
@@ -53,6 +39,18 @@ class TopicController extends CSBaseController
      */
     public function actionTopicDetail()
     {
+        $topicId = \Yii::$app->request->post('topic_id');
+        if($topicId === NULL){
+            return $this->error('参数错误',ErrorCode::$ApiParamEmpty);
+        }
+
+        $serv = new TopicService($this->userContext);
+        $ret = $serv->getTopicDetail($topicId);
+        if(empty($ret)){
+            return $this->error('话题不存在',ErrorCode::$DataNotFound);
+        }
+
+        return $this->response($ret);
 
     }
 
