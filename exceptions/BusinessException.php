@@ -6,21 +6,14 @@
  * and open the template in the editor.
  */
 
-namespace app\controllers\codesquare;
+namespace app\exceptions;
 
 /**
- * Description of ListController
+ * Description of BusinessException
  *
  * @author ray-apple
  */
-class ListController extends CSBaseController
+class BusinessException extends \Exception
 {
-    /**
-     * 获取回复列表信息
-     */
-    public function actionReply()
-    {
-        
-    }
-    
+    //put your code here
 }

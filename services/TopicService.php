@@ -74,12 +74,29 @@ class TopicService extends CSServiceBase
     
     /**
      * 采纳回复
-     * @param type $topicId
-     * @param type $replyId
+     * @param int $topicId
+     * @param int $replyId
      */
     public function accept($topicId, $replyId)
     {
-
+        // 校验
+        $topicModel = new \app\models\cs\TopicModel();
+        $topic = $topicModel->getTopicById($topicId);
+        if (!$topic) {
+            return;
+        }
+        
+        if ($topic['user_id'] != $this->userContext->userId) {
+            return;
+        }
+        
+        $replyModel = new \app\models\cs\ReplyModel();
+        $reply = $replyModel->getReplyById($replyId);
+        if (!$reply) {
+            throw new \app\exceptions\BusinessException("回复不存在");
+        }
+        
+        $topicModel->updateTopic($topicId, ['accept_reply_id' => $replyId]);
     }
 
     /**
