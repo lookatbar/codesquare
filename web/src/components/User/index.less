@@ -1,0 +1,88 @@
+.user{
+	height: 100%;
+
+	&-banner{
+		background: linear-gradient(-90deg,#F7BD4C 0%,#FF5062 100%);
+		position: relative;
+		height: 205px;
+		text-align: center;
+		color: #fff;
+		padding-top: 27px;
+		margin-bottom: 15px;
+	}
+	&-avatar{
+		// position: absolute;
+		margin: 0 auto;
+		width: 60px;
+		height: 60px;
+		border-radius: 50%;
+		overflow: hidden;
+		position: relative;
+		img{
+			position: absolute;
+			left: 0;
+			top: 50%;
+			transform: translateY(-50%);
+			width: 100%;
+		}
+	}
+	&-name{
+		padding-top: 9px;
+		font-size: 16px;
+	}
+	&-detail{
+		padding-top: 18px;
+		display: flex;
+		&-item{
+			flex-grow: 1;
+			font-size: 18px;
+			div + div{
+				font-size: 12px;
+			}
+		}
+		&-divide{
+			height: 20px;
+			margin: 14px 0;
+			border-left: 1px #fff solid;
+			opacity: 0.5;
+		}
+	}
+
+	&-reply{
+		padding-left: 15px;
+		color: #fff;
+		background-color: #242537;
+		font-size: 16px;
+		&-item{
+			display: flex;
+			align-items: center;
+			height: 60px;
+			& + &{
+				border-top: 1px rgba(255,255,255,0.2) solid;
+			}
+		}
+		&-count{
+			background-color: #F12C20;
+			text-align: center;
+			height: 18px;
+			font-size: 13px;
+			line-height: 18px;
+			min-width: 18px;
+			text-align: center;
+			padding: 0 2px;
+			border-radius: 50%;
+			position: absolute;
+			right: 16px;
+		}
+		.icon-pinglun{
+			color: #FAFF3A;
+		}
+		.icon-zan{
+			color: #FE625F;
+		}
+		.iconfont{
+			font-size: 25px;
+			margin-right: 17px;
+		}
+	}
+}

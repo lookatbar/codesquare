@@ -1,0 +1,74 @@
+.square{
+	height: 100%;
+	position: relative;
+
+	&-tabs{
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		background-color: #191B2A;
+		z-index: 10;
+	}
+	&-content{
+		padding-top: 50px;
+		height: 100%;
+		overflow: auto;
+		color: #fff;
+	}
+	&-create{
+		position: absolute;
+		width: 60px;
+		height: 60px;
+		background: linear-gradient(-45deg,#F7BD4C 0%,#FF5062 100%);
+		border-radius: 50%;
+		text-align: center;
+		color: #fff;
+		line-height: 60px;
+		right: 20px;
+		bottom: 15px;
+	}
+	.icon-tianjiajiahaowubiankuang{
+		font-size: 30px;
+	}
+
+	&-node{
+		position: relative;
+		padding: 16px;
+		padding-bottom: 47px;
+		background-color: #242537;
+		margin-bottom: 10px;
+		&-title{
+			font-size: 17px;
+			color: #fff;
+		}
+		&-content{
+			font-size: 13px;
+			color: #999;
+		}
+		&-author{
+			position: absolute;
+			font-size: 13px;
+			line-height: 16px;
+			color: #6b6b6b;
+			left: 16px;
+			bottom: 16px;
+		}
+		&-detail{
+			position: absolute;
+			color: #6b6b6b;
+			right: 16px;
+			bottom: 16px;
+			font-size: 12px;
+			line-height: 16px;
+			.iconfont{
+				font-size: 15px;
+				margin-right: 2px;
+			}
+			span{
+				float: left;
+				margin-left: 9px;
+			}
+		}
+	}
+}

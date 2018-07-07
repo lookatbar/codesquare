@@ -1,0 +1,136 @@
+回复列表接口:POST /codesquare/list/reply
+token
+topic_id 主题id *
+page_size 每页数 
+page_index 页码 从1开始
+
+返回:
+{
+  "success": 1,
+  "data": [
+    {
+      "reply_id": "1",
+      "content": "chenxy-test",
+      "user_id": "1",
+      "image_list": null,
+      "user_name": null,
+      "create_time": "2018-07-07 22:06:53"
+    },
+    {
+      "reply_id": "3",
+      "content": "chenxy-test-2",
+      "user_id": "2",
+      "image_list": null,
+      "user_name": "测试",
+      "create_time": "2018-07-07 22:21:58"
+    }
+  ],
+  "message": "",
+  "record_count": 2,
+  "page_size": 10
+}
+
+reply_id int 回复id
+content string 回复内容
+create_time 回复时间
+user_id 用户id
+user_name 用户姓名
+——————————————————————————————————————————————————————————————————————————————————————
+添加回复接口:POST /codesquare/topic/reply
+参数:
+token
+topic_id 主题id *
+content 回复内容 *
+image_list 回复图片
+
+返回:
+{
+  "success": 1,
+  "data": "",
+  "message": "",
+  "current_ts": ""
+}
+——————————————————————————————————————————————————————————————————————————————————————
+
+删除回复: POST /codesquare/topic/del-reply
+参数:
+token
+reply_id 回复id *
+返回:
+{
+  "success": 1,
+  "data": "",
+  "message": "",
+  "current_ts": ""
+}
+
+——————————————————————————————————————————————————————————————————————————————————————
+收藏: POST /codesquare/topic/collect
+参数:
+token
+topic_id 主题id *
+
+返回:
+{
+  "success": 1,
+  "data": "",
+  "message": "",
+  "current_ts": ""
+}
+
+——————————————————————————————————————————————————————————————————————————————————————
+取消收藏: POST /codesquare/topic/cancel-collect
+参数:
+token
+topic_id 主题id *
+
+返回:
+{
+  "success": 1,
+  "data": "",
+  "message": "",
+  "current_ts": ""
+}
+
+——————————————————————————————————————————————————————————————————————————————————————
+点赞: POST /codesquare/topic/like
+参数:
+token
+topic_id 主题id *
+
+返回:
+{
+  "success": 1,
+  "data": "",
+  "message": "",
+  "current_ts": ""
+}
+
+——————————————————————————————————————————————————————————————————————————————————————
+取消点赞: POST /codesquare/topic/cancel-like
+参数:
+token
+topic_id 主题id *
+
+返回:
+{
+  "success": 1,
+  "data": "",
+  "message": "",
+  "current_ts": ""
+}
+
+——————————————————————————————————————————————————————————————————————————————————————
+采纳: POST /codesquare/topic/accept
+参数:
+token
+topic_id 主题id *
+reply_id 回复id *
+
+返回:
+{
+  "success": 1,
+  "data": "",
+  "message": "",
+  "current_ts": ""
+}

@@ -1,0 +1,147 @@
+.reviewSubject{
+	color: #fff;
+	height: 100%;
+	&-inner{
+		height: 100%;
+		overflow: auto;
+		position: relative;
+		padding-bottom: 50px;
+	}
+
+	&-field{
+		padding: 17px;
+		background-color: #242537;
+		margin-bottom: 10px;
+		position: relative;
+	}
+	&-title{
+		color: #fff;
+		font-size: 17px;
+	}
+	&-body{
+
+	}
+	// 用户信息及点赞
+	&-author{
+		height: 65px;
+		border-bottom: 1px #000 solid;
+	}
+	&-userImage{
+		position: absolute;
+		width: 45px;
+		height: 45px;
+		left: 17px;
+		top: 17px;
+		border-radius: 22.5px;
+		overflow: hidden;
+		background-color: #999;
+		img{
+			display: block;
+			width: 100%;
+			position: absolute;
+			left: 0;
+			top: 50%;
+			transform: translateY(-50%);
+		}
+	}
+	&-userName{
+		position: absolute;
+		left: 72px;
+		top: 17px;
+		font-size: 15px;
+		color: #fff;
+	}
+	&-createTime{
+		position: absolute;
+		right: 17px;
+		top: 17px;
+		font-size: 13px;
+		color: #999;
+	}
+	&-count{
+		position: absolute;
+		color: #6b6b6b;
+		left: 72px;
+		top: 47px;
+		font-size: 12px;
+		line-height: 16px;
+		.iconfont{
+			font-size: 15px;
+			margin-right: 2px;
+		}
+		span{
+			float: left;
+			margin-right: 9px;
+		}
+	}
+	// 话题内容主体
+	&-content{
+		padding-top: 17px;
+		font-size: 15px;
+		line-height: 20px;
+		color: #fff;
+	}
+	// 回复内容
+	&-reply{
+		&-wrapper{
+			position: relative;
+			margin-top: 15px;
+			padding-left: 50px;
+		}
+		&-avatar{
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 36px;
+			height: 36px;
+			border-radius: 50%;
+			overflow: hidden;
+			img{
+				position: absolute;
+				display: block;
+				width: 100%;
+				left: 0;
+				top: 50%;
+				transform: translateY(-50%);
+			}
+		}
+		&-author{
+			font-size: 15px;
+			padding-bottom: 3px;
+		}
+		&-content{
+			font-size: 13px;
+			color: #ddd;
+		}
+	}
+	// 底部交互栏
+	&-tools{
+		position: absolute;
+		background-color: #242537;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		height: 50px;
+		display: flex;
+		color: #fff;
+		text-align: center;
+		span{
+			flex-grow: 1;
+			margin: 10px 0;
+			line-height: 30px;
+			font-size: 14px;
+			& + span{
+				border-left: 1px #505050 solid;
+			}
+		}
+		.iconfont{
+			margin-right: 7px;
+		}
+		.is_good .icon-zan{
+			color: #FF5F66;
+		}
+		.is_fav .icon-shoucang{
+			color: #FF5F66;
+		}
+	}
+}
