@@ -6,6 +6,10 @@
 namespace app\controllers\codesquare;
 
 
+use app\common\ErrorCode;
+use app\common\utils\CommonHelper;
+use app\models\cs\records\UserRecord;
+
 class UserController extends CSBaseController
 {
 
@@ -54,6 +58,18 @@ class UserController extends CSBaseController
      */
     public function actionTopicList(){
 
+    }
+
+    /**
+     * 通讯录功能
+     */
+    public function actionAddressList(){
+        $page_size = isset($_GET['page_size'])?$_GET['page_size']:20;
+        $page_index = isset($_GET['page_index'])?$_GET['page_index']:1;
+        $user =  new UserRecord();
+        $list = $user->find()->select('user_id,name')->offset($page_size*$page_index)
+            ->limit($page_size)->asArray()->all();
+        CommonHelper::response("ok",ErrorCode::$OK,$list);
     }
 
 

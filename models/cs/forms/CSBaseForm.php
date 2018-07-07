@@ -13,5 +13,5 @@ use yii\base\Model;
  */
 class CSBaseForm extends Model
 {
-    public $userId ;
+    public $user_id ;
 }

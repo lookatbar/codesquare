@@ -1,5 +1,7 @@
 <?php
 namespace app\services;
+use app\common\context\UserContext;
+
 /**
  * Created by PhpStorm.
  * User: zhugm
@@ -10,8 +12,8 @@ namespace app\services;
 class CSServiceBase
 {
 
-    protected $userInfo = NULL;
-    public function __construct(array $userInfo){
-        $this->userInfo = $userInfo;
+    protected $userContext = NULL;
+    public function __construct(UserContext $userContext){
+        $this->userContext = $userContext;
     }
 }
