@@ -183,12 +183,12 @@ class helper {
                $cache->set($lockKey, 1, $timeout);
                call_user_func($func, $params);            
                break;
-           } catch (HttpException $e){
-
-            }
-//            finally  {
-//               $cache->exists($lockKey) && $cache->delete($lockKey);
-//           }
+           } catch (\Exception $ex){
+               throw $ex;
+           }
+            finally  {
+               $cache->exists($lockKey) && $cache->delete($lockKey);
+           }
         }
     }
 }
