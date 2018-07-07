@@ -127,7 +127,7 @@ class ReviewSubject extends Component{
 							<div className="reviewSubject-createTime">{detail.create_time}</div>
 
 							<div className="reviewSubject-count clearfix">
-								<span className={{}}>
+								<span>
 									<i className="iconfont icon-liulan2" />
 									{detail.view_count}
 								</span>

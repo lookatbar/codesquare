@@ -12,6 +12,8 @@ import CreateSubject from './components/CreateSubject';
 import ReviewSubject from './components/ReviewSubject';
 import Reply from './components/Reply';
 
+import Favorite from './components/Favorite';
+
 // 路由对应名称
 export const routeMap = {
 	'/home/square': '点术成金',
@@ -22,6 +24,10 @@ export const routeMap = {
 	'/subject/create': '写笔记',
 	'/subject/review': '详情',
 	'/subject/reply': '写回复',
+
+	'/user/public': '我发布的',
+	'/user/favorite': '我收藏的',
+	'/user/replyList': '收到的回复',
 }
 
 export default (
@@ -37,6 +43,10 @@ export default (
 			<Route path="create" component={CreateSubject} />
 			<Route path="review/:id" component={ReviewSubject} />
 			<Route path="reply/:id" component={Reply} />
+		</Route>
+		<Route path="user">
+			<Route path="public" component={Favorite} />
+			<Route path="favorite" component={Favorite} />
 		</Route>
 		<Redirect from="*" to="/home/square" />
 	</Route>

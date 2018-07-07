@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './index.less';
+import { Link } from 'react-router';
 
 import { fetchUserInfo } from '../../assets/fetchApi/action';
 
@@ -44,24 +45,24 @@ class User extends Component{
 					</div>
 					<div className="user-name">{info.name}</div>
 					<div className="user-detail">
-						<div className="user-detail-item">
+						<Link className="user-detail-item" to="/user/public">
 							<div>{info.publish}</div>
 							<div>我发布的</div>
-						</div>
+						</Link>
 						<div className="user-detail-divide"></div>
-						<div className="user-detail-item">
+						<Link className="user-detail-item" to="/user/favorite">
 							<div>{info.favorite}</div>
 							<div>我收藏的</div>
-						</div>
+						</Link>
 					</div>
 				</div>
 
 				<div className="user-reply">
-					<div className="user-reply-item">
+					<Link className="user-reply-item" to="/user/replyList">
 						<i className="iconfont icon-pinglun" />
 						<span>收到的回复</span>
 						<span className="user-reply-count">{info.reply}</span>
-					</div>
+					</Link>
 					<div className="user-reply-item">
 						<i className="iconfont icon-zan" />
 						<span>收到的赞</span>
