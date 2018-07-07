@@ -61,6 +61,7 @@ class TopicService extends CSServiceBase
         $goodModel = new \app\models\cs\GoodModel();
         \app\common\utils\helper::lock("topic_like_lock_{$topicId}", function() use($topicId, $goodModel, $cancel){
             $userList = $goodModel->getUserList($topicId);
+            $userList = is_array($userList) ? $userList : [];
             // 取消
             if ($cancel && array_key_exists($this->userContext->userId, $userList)) {
                 unset($userList[$this->userContext->userId]);

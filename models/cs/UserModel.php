@@ -34,7 +34,7 @@ class UserModel extends CSBaseModel
     {
         return $this->db->createCommand()
                 ->update('cs_favorite', 
-                    ['is_deleted' => 0]
+                    ['is_deleted' => 1]
                     , ['topic_id' => $topicId, 'user_id' => $userId])
                 ->execute();
     }
