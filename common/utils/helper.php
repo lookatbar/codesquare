@@ -70,9 +70,8 @@ class helper
             }
             $strPOST = $param;
         } else {
-            $strPOST = json_encode($param);
+            $strPOST = json_encode($param, JSON_UNESCAPED_UNICODE);
         }
-
         curl_setopt($oCurl, CURLOPT_URL, $url);
         curl_setopt($oCurl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($oCurl, CURLOPT_POST, true);

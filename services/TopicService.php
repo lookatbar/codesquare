@@ -8,6 +8,7 @@
 
 namespace app\services;
 use app\common\CSConstant;
+use app\common\weixin\Message;
 use app\models\cs\FavoriteModel;
 use app\models\cs\forms\TopicSaveRequestFrom;
 use app\models\cs\GoodModel;
@@ -29,6 +30,7 @@ class TopicService extends CSServiceBase
     {
         $data['user_id'] = $this->userContext->userId;
         (new \app\models\cs\ReplyModel())->insertReply($data);
+
     }
 
     /**

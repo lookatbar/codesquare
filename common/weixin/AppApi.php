@@ -27,7 +27,6 @@ class AppApi
      */
     private function appendToken($url){
         $token = $this->access_token->getAccessToken();
-
         if(strrpos($url,"?",0) > -1){
             return $url."&access_token=".$token;
         }else{
@@ -98,7 +97,8 @@ class AppApi
     public function sendMsgToUser($msg){
         $url = "https://qyapi.weixin.qq.com/cgi-bin/message/send";
         $helper = new helper();
-        return $helper->http_post($this->appendToken($url),$msg)["content"];
+        $data =  $helper->http_post($this->appendToken($url),$msg)["content"];
+        return $data;
     }
 
 

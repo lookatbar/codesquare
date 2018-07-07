@@ -78,4 +78,5 @@ class TopicModel extends CSBaseModel
         return $data;
 
     }
+
 }

@@ -9,6 +9,7 @@ namespace app\controllers\codesquare;
 use app\common\CSConstant;
 use app\common\ErrorCode;
 use app\common\utils\CommonHelper;
+use app\common\weixin\Message;
 use app\models\cs\forms\TopicSaveRequestFrom;
 use app\models\cs\TopicModel;
 use app\services\TopicService;
@@ -132,7 +133,12 @@ class TopicController extends CSBaseController
                     , 'content' => $params['content']
                     , 'image_list' => $form->image_list
                 ];
+
         $replySrv->reply($data);
+        $message = new Message();
+        $topic  = (new TopicModel())->getTopicById($params['topic_id']);
+        $content = "您的帖子 '{$topic['title']}' 有一条新的回复,请及时查看";
+        $message->pushTextMsgTest($topic['user_id'],$content);
         return $this->response();
     }
 

@@ -165,8 +165,7 @@ class WeixinController extends BaseController
     }
 
     public function actionTestToken(){
-        $message = new Message();
-        echo   $message->pushTextMsgTest('huangcf','测试消息');
+
 //        $jssdk = new jssdk(134);
 //        $data  = $jssdk->getSignPackage();
 //       var_dump($data);die;

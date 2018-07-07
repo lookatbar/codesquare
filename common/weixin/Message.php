@@ -18,7 +18,7 @@ class Message
      * 场景1、企业主动向用户推送消息
      * 支持文本消息、图片消息、语音消息、视频消息、文件消息、文本卡片消息、图文消息等消息类型
      */
-    function pushNewsMsgTest(){
+    function pushNewsMsgTest($userIds){
         $msg = array(
             'touser'=>'UserID',
             'toparty'=>'1',
@@ -36,7 +36,7 @@ class Message
 
         $api = new AppApi(134);
 
-        var_dump($api->sendMsgToUser($msg));
+        return $api->sendMsgToUser($msg);
     }
 
     /**
@@ -103,28 +103,28 @@ class Message
      * 支持文本消息、图片消息、语音消息、视频消息、文件消息、文本卡片消息、图文消息等消息类型
      */
     function replyMsgToUser(){
-        // 需要发送的明文消息
-        // TODO：根据用户提交过来的操作封装此数据包
-        $sRespData = "<xml>
-						<ToUserName><![CDATA[mycreate]]></ToUserName>
-						<FromUserName><![CDATA[wx5823bf96d3bd56c7]]></FromUserName>
-						<CreateTime>1348831860</CreateTime>
-						<MsgType><![CDATA[text]]></MsgType>
-						<Content><![CDATA[this is a test]]></Content>						
-					  </xml>";
-
-        $sEncryptMsg = ""; //xml格式的密文
-        $wxcpt = new MsgCrypt($token,$encodingAesKey,$corpId);
-        $errCode = $wxcpt->EncryptMsg($sRespData, $sReqTimeStamp, $sReqNonce, $sEncryptMsg);
-
-        if ($errCode == 0) {
-            // 加密成功，企业需要将加密之后的sEncryptMsg返回
-
-            // TODO:向企业微信的后台回复消息
-        } else {
-            print("ERR: " . $errCode . "\n\n");
-            // exit(-1);
-        }
+//        // 需要发送的明文消息
+//        // TODO：根据用户提交过来的操作封装此数据包
+//        $sRespData = "<xml>
+//						<ToUserName><![CDATA[mycreate]]></ToUserName>
+//						<FromUserName><![CDATA[wx5823bf96d3bd56c7]]></FromUserName>
+//						<CreateTime>1348831860</CreateTime>
+//						<MsgType><![CDATA[text]]></MsgType>
+//						<Content><![CDATA[this is a test]]></Content>
+//					  </xml>";
+//
+//        $sEncryptMsg = ""; //xml格式的密文
+//        $wxcpt = new MsgCrypt($token,$encodingAesKey,$corpId);
+//        $errCode = $wxcpt->EncryptMsg($sRespData, $sReqTimeStamp, $sReqNonce, $sEncryptMsg);
+//
+//        if ($errCode == 0) {
+//            // 加密成功，企业需要将加密之后的sEncryptMsg返回
+//
+//            // TODO:向企业微信的后台回复消息
+//        } else {
+//            print("ERR: " . $errCode . "\n\n");
+//            // exit(-1);
+//        }
     }
 
     //e.g
