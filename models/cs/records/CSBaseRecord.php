@@ -60,6 +60,16 @@ class CSBaseRecord extends RecordBase
         return $sql;
     }
 
+    /**
+     * 返回分页信息
+     * @param $list
+     * @param $total
+     * @return array
+     */
+    public function retPage($list,$total){
+        return ['total'=>$total,'data'=>$list];
+    }
+
 
 
 }
