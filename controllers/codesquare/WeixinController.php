@@ -64,7 +64,7 @@ class WeixinController extends BaseController
 
     public function actionGetUserInfo(){
         if(empty($_GET['code'])){
-            $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfe3aa6c1dd22f053&redirect_uri=http://jkds.cracher.top/codesquare/weixin/get-user-info&response_type=code&scope=snsapi_userinfo&agentid=134&state=abcdefg#wechat_redirect";
+            $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfe3aa6c1dd22f053&redirect_uri=http://jkds.cracher.top/codesquare/weixin/get-user-info&response_type=code&scope=snsapi_userinfo&agentid=134&state=state#wechat_redirect";
             header("location:".$url);
         }else{
             $cache = Yii::$app->cache;
@@ -78,10 +78,18 @@ class WeixinController extends BaseController
                 return [];
             }
             $user = UserRecord::find()->where(['user_id'=>$res->UserId])->One();
+
             if( empty($user) ){
                 $data =  $this->userInfo($access_token,$res->UserId);
                 $token = md5($data->user_id.time());
                 $this->setUserCache( $data->token,$data);
+                $url = "http://jkds.cracher.top/codesquare/site/index?token={$token}";
+                header('Location:'.$url);
+
+            } elseif($user->status == 0){
+                $data =  $this->userInfo($access_token,$res->UserId,false);
+                $token = md5($data->user_id.time());
+                $this->setUserCache( $data->token,$data,false);
                 $url = "http://jkds.cracher.top/codesquare/site/index?token={$token}";
                 header('Location:'.$url);
 
@@ -100,24 +108,39 @@ class WeixinController extends BaseController
      * 获取jssdk票据
      */
     public  function actionGetSignPackage(){
+        $post =Yii::$app->request->post();
+        if(empty($post['url'])){
+            CommonHelper::response("fail",ErrorCode::$FAIL,[]);
+        }
         $jssdk = new jssdk(134);
-        $data  = $jssdk->getSignPackage();
+        $data  = $jssdk->getSignPackage($post['url']);
         CommonHelper::response('ok',ErrorCode::$OK,$data);
     }
 
-
-    public function userInfo($token,$userId){
+    public function userInfo($token,$userId,$isNew = true){
         $url = "https://qyapi.weixin.qq.com/cgi-bin/user/get?access_token=$token&userid=$userId";
         $helper = new helper();
         $res = json_decode($helper->http_get($url)["content"]);
-        $user = new UserRecord();
-        $user->name = $res->name;
-        $user->department = json_encode($res->department);
-        $user->mobile = $res->mobile;
-        $user->email = $res->email;
-        $user->avatar = $res->avatar;
-        $user->user_id =  $res->userid;
-        $user->save();
+        if($isNew){
+            $user = new UserRecord();
+            $user->name = $res->name;
+            $user->department = json_encode($res->department);
+            $user->mobile = $res->mobile;
+            $user->email = $res->email;
+            $user->avatar = $res->avatar;
+            $user->user_id =  $res->userid;
+            $user->save();
+        }else{
+            $user = UserRecord::findOne(['user_id'=>$userId]);
+            $user->status = 1;
+            $user->department = json_encode($res->department);
+            $user->mobile = $res->mobile;
+            $user->email = $res->email;
+            $user->avatar = $res->avatar;
+            $user->update();
+
+        }
+
         return $user;
     }
 
@@ -136,7 +159,7 @@ class WeixinController extends BaseController
         $context->avatar = $user->avatar;
         $context->email = $user->email;
         $context->department = $user->department;
-        return   $cache->set($token,$user,self::exprie_time);
+        return   $cache->set($token,$context,self::exprie_time);
 
     }
 

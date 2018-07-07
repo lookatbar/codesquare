@@ -11,8 +11,8 @@ namespace app\common;
 
 class ErrorCode
 {
-    public static $OK = 0;
-    public static $FAIL = 1;
+    public static $OK = 1;
+    public static $FAIL = 0;
     public static $ValidateSignatureError = -40001;
     public static $ParseXmlError = -40002;
     public static $ComputeSignatureError = -40003;
