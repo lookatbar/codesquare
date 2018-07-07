@@ -34,5 +34,16 @@ class TopicRecord extends  CSBaseRecord
     }
 
 
+    /**
+     * 添加阅读量
+     * @param $topicId
+     * @return int
+     */
+    public function increaseViewCount($topicId){
+        $sql = "UPDATE cs_topic SET view_count=view_count+1 WHERE topic_id=$topicId";
+        return self::getDb()->createCommand($sql)->execute();
+    }
+
+
 
 }
