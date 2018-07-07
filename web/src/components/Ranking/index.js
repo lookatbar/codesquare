@@ -13,7 +13,7 @@ class Ranking extends Component{
 
 	render(){
 		return(
-			<div className="ranking">
+			<div className="ranking transition-item">
 				排行榜
 			</div>
 		)

@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, cloneElement } from 'react';
 import { routeMap } from '../routes';
+import ReactCSSTransitionGroup from 'react/lib/ReactCSSTransitionGroup';
 
 // @todo 
 // 根据路由 修改标题
@@ -18,10 +19,21 @@ class App extends Component {
   }
 
   render() {
+    const { routes } = this.props
+
+    const key = routes[1].path;
+
     return (
-      <div className="App">
-        { this.props.children }
-      </div>
+      <ReactCSSTransitionGroup
+        transitionName="routeTransitionWrapper"
+        transitionEnter={true}
+        transitionEnterTimeout={500}
+        transitionLeave={true}
+        transitionLeaveTimeout={500}
+        component="div"
+        className="App">
+        { cloneElement(this.props.children, {key: key}) }
+      </ReactCSSTransitionGroup>
     );
   }
 }

@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
-// import { Link } from 'react-router';
 import Navbar from '../common/Navbar';
-
 
 import { getUserInfo } from './homeRedux';
 
@@ -31,10 +28,9 @@ class Home extends Component{
 		}
 	}
 
-
 	render(){
 		return (
-			<div className="home">
+			<div className="home transition-item">
 				<div className="home-content">
 					{ this.props.children }
 				</div>

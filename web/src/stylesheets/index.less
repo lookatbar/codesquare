@@ -1,0 +1,78 @@
+html, body, #root, .App{
+  height: 100%;
+}
+
+*{
+	box-sizing: border-box;
+}
+
+
+.routeTransitionWrapper {
+  position: relative;
+  z-index: 1;
+  .transition-item {
+    /*position: fixed;*/
+    top: 0;
+    right: 0;
+    left: 0;
+  }
+}
+.home {
+  overflow: auto;
+  transition: transform 0.5s, opacity 0.5s;
+
+  &.routeTransitionWrapper-enter {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transform: translate3d(-100%, 0, 0);
+  }
+
+  &.routeTransitionWrapper-enter.routeTransitionWrapper-enter-active {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  &.routeTransitionWrapper-leave {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  &.routeTransitionWrapper-leave.routeTransitionWrapper-leave-active {
+    opacity: 0;
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
+.subject {
+  overflow: auto;
+  transform: translate3d(0, 0, 0);
+
+  &.routeTransitionWrapper-enter {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
+  }
+
+  &.routeTransitionWrapper-enter.routeTransitionWrapper-enter-active {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  &.routeTransitionWrapper-leave {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  &.routeTransitionWrapper-leave.routeTransitionWrapper-leave-active {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
+  }
+}
