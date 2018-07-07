@@ -34,4 +34,14 @@ class TopicService extends CSServiceBase
     {
         
     }
+    
+    /**
+     * 采纳回复
+     * @param type $topicId
+     * @param type $replyId
+     */
+    public function accept($topicId, $replyId)
+    {
+        
+    }
 }
