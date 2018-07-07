@@ -111,7 +111,7 @@ class ReplyModel extends CSBaseModel
         $countSql = 'select COUNT(1) from cs_reply LEFT JOIN cs_topic ON cs_reply.topic_id=cs_topic.topic_id WHERE 1=1';
         $limitSql = "select $fields from cs_reply LEFT JOIN cs_topic ON cs_reply.topic_id=cs_topic.topic_id  LEFT JOIN cs_user ON cs_reply.user_id=cs_user.user_id WHERE 1=1 ".$this->_getLimitSql([$pageIndex,$pageSize]);
 
-        $where = " cs_topic.user_id=$userId AND cs_reply.is_deleted=0 AND cs_topic.is_deleted=0 ";
+        $where = " cs_topic.user_id='$userId' AND cs_reply.is_deleted=0 AND cs_topic.is_deleted=0 ";
         $countSql = str_replace('1=1',$where,$countSql);
         $limitSql = str_replace('1=1',$where,$limitSql);
 
