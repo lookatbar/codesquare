@@ -3,7 +3,7 @@
 return [
     'adminEmail' => 'admin@example.com',
     'cop_id' =>'wxfe3aa6c1dd22f053',
-    'cop_secret' =>'tCrNUQAq7tbDb6sRdXqT9es-kb3WVnwBS78rRvJY5uv0Nt139YcFQtLG4LcO1wfM',
+    'cop_secret' =>'XbzL_ozrMrEcFQOq6GP48Ps8lBI_3FGs3jvuLkX9nBYqFO97JbY0rmxK5ETlDkir',
     'app_index' => 'http://jkds.cracher.top/codesquare/site/info',
     'app_id'=>134,
     "AppsConfig" => [

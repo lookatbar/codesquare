@@ -2,6 +2,9 @@
 namespace app\common\utils;
 
 
+use yii\db\Exception;
+use yii\web\HttpException;
+
 class helper {
     /**
      * GET 请求
@@ -180,9 +183,12 @@ class helper {
                $cache->set($lockKey, 1, $timeout);
                call_user_func($func, $params);            
                break;
-           } finally {
-               $cache->exists($lockKey) && $cache->delete($lockKey);
-           }
+           } catch (HttpException $e){
+
+            }
+//            finally  {
+//               $cache->exists($lockKey) && $cache->delete($lockKey);
+//           }
         }
     }
 }
