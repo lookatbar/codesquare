@@ -7,6 +7,9 @@
  */
 
 namespace app\services;
+use app\common\CSConstant;
+use app\models\cs\forms\TopicSaveRequestFrom;
+use app\models\cs\records\TopicRecord;
 
 /**
  * Class TopicService  话题服务类
@@ -44,4 +47,24 @@ class TopicService extends CSServiceBase
     {
         
     }
+
+    /**
+     * 提交话题
+     * @param TopicSaveRequestFrom $form
+     * @return int
+     */
+    public function sumbitTopic(TopicSaveRequestFrom $form){
+        //$form->setScenario(TopicSaveRequestFrom::SCENARIO_SUBMIT);
+        $record = new TopicRecord();
+
+        $record['title'] = $form->title;
+        $record['content'] = $form->content;
+        $record['user_id'] = $form->user_id;
+        $record['images_list'] = empty($form->images_list)?json_encode([],true):$form->images_list;
+        $record['topic_type'] = $form->topic_type;
+        $record->save();
+        return $record['topic_id'];
+    }
+
+
 }

@@ -25,4 +25,5 @@ class ErrorCode
     public static $DecodeBase64Error = -40010;
     public static $GenReturnXmlError = -40011;
     public static $InvalidToken = -40012;
+    public static $InvalidApiParam     = -40013;
 }

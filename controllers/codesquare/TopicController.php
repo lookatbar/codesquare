@@ -7,6 +7,8 @@ namespace app\controllers\codesquare;
 
 
 use app\common\CSConstant;
+use app\common\ErrorCode;
+use app\models\cs\forms\TopicSaveRequestFrom;
 use app\services\TopicService;
 
 class TopicController extends CSBaseController
@@ -18,26 +20,26 @@ class TopicController extends CSBaseController
      */
     public function actionIndex()
     {
-        $topic_type = \Yii::$app->request->post('topic_type',CSConstant::getTopicTypes()[0]);
+        $topic_type = \Yii::$app->request->post('topic_type', CSConstant::TOPIC_TYPE_PROD);
 
 
         $list = [];
-        for ($i=0;$i<$this->pageSize;$i++){
-            $topicId = $this->pageIndex*$this->pageSize+$i;
+        for ($i = 0; $i < $this->pageSize; $i++) {
+            $topicId = $this->pageIndex * $this->pageSize + $i;
             $list[] = [
-                'topic_id'=>$topicId,
-                'title'=>'title_'.$topicId,
-                'content'=>'content_'.$topicId,
-                'user_id'=>2,
-                'user_name'=>'测试2',
-                'good_count'=>1,
-                'view_count'=>2,
-                'reply_count'=>100,
-                'create_time'=>'2018-05-06 18:11:12'
+                'topic_id' => $topicId,
+                'title' => 'title_' . $topicId,
+                'content' => 'content_' . $topicId,
+                'user_id' => 2,
+                'user_name' => '测试2',
+                'good_count' => 1,
+                'view_count' => 2,
+                'reply_count' => 100,
+                'create_time' => '2018-05-06 18:11:12'
             ];
         }
 
-        $pageData = $this->responsePagingData($list,100,count($list));
+        $pageData = $this->responsePagingData($list, 100, count($list));
         $pageData['topic_type_list'] = CSConstant::getTopicTypes();
         $pageData['current_topic_type'] = $topic_type;
 
@@ -60,11 +62,30 @@ class TopicController extends CSBaseController
      */
     public function actionTopicSubmit()
     {
+        $form = new TopicSaveRequestFrom();
+        //$form->attributes = \Yii::$app->request->post();
 
+        $form->user_id = $this->userContext->userId;
+        $form->images_list = \Yii::$app->request->post('images_list');
+        $form->title = \Yii::$app->request->post('title');
+        $form->content = \Yii::$app->request->post('content');
+        $form->topic_type = \Yii::$app->request->post('topic_type');
+        //$form->setScenario(TopicSaveRequestFrom::SCENARIO_SUBMIT);
 
+        if(!$form->validate()){
+            return $this->error('参数错误',ErrorCode::$InvalidApiParam);
+        }
 
+        $topicServ  = new TopicService($this->userContext);
+        $topicId = $topicServ->sumbitTopic($form);
+        return $this->response(['topic_id'=>$topicId]);
 
-
+//        try{
+//            $topicId = $topicServ->sumbitTopic($form);
+//            return $this->response(['topic_id'=>$topicId]);
+//        }catch (\Exception $ex){
+//            return $this->error($ex->getMessage(),$ex->getCode());
+//        }
 
     }
 
