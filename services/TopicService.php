@@ -98,7 +98,28 @@ class TopicService extends CSServiceBase
         
         $topicModel->updateTopic($topicId, ['accept_reply_id' => $replyId]);
     }
-
+    
+    /**
+     * 收藏或取消收藏
+     * @param type $topicId
+     * @param type $cancel
+     * @return type
+     */
+    public function collect($topicId, $cancel = false)
+    {
+        $userModel = new \app\models\cs\UserModel();
+        // 取消收藏
+        if ($cancel) {
+            $userModel->delFavorite($topicId, $this->userContext->userId);
+            return;
+        }
+        
+        // 收藏
+        $userModel->addFavorite([
+            'topic_id' => $topicId
+           ,'user_id' => $this->userContext->userId]);
+    }
+   
     /**
      * 提交话题
      * @param TopicSaveRequestFrom $form
