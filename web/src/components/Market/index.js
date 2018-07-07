@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-import './index.less';
+// import './index.less';
 
-class Ranking extends Component{
+class Market extends Component{
 	constructor(props){
 		super(props);
 
@@ -13,11 +13,11 @@ class Ranking extends Component{
 
 	render(){
 		return(
-			<div className="ranking transition-item">
+			<div className="market">
 				排行榜
 			</div>
 		)
 	}
 }
 
-export default Ranking;
+export default Market;

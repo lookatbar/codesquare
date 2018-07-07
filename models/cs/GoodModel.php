@@ -18,11 +18,11 @@ use yii\db\Query;
 class GoodModel extends CSBaseModel
 {
     /**
-     * 保存点赞
+     * 保存点赞人数
      * @param int $topicId
      * @param array $userList
      */
-    public function save($topicId, $userList)
+    public function saveUserList($topicId, $userList)
     {
         $existRecord = (new Query())->from('cs_good')->where(['topic_id' => $topicId])->exists();
         if ($existRecord) {
@@ -39,5 +39,16 @@ class GoodModel extends CSBaseModel
         \Yii::$app->db->createCommand()->update('cs_topic', [
             'good_count' => count($userList)],
                 ['topic_id' => $topicId])->execute();
+    }
+    
+    /**
+     * 获取用户列表
+     * @param int $topicId
+     * @return type
+     */
+    public function getUserList($topicId)
+    {
+        $userList = (new Query())->from('cs_good')->where(['topic_id' => $topicId])->createCommand()->queryScalar();
+        return $userList === false ? [] : json_decode($userList, true);
     }
 }
