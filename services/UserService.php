@@ -42,11 +42,9 @@ class UserService
      * @param int $pageSize
      */
     public function getBeRepliedList($userId,$pageIndex=CSConstant::PAGE_INDEX,$pageSize=CSConstant::PAGE_SIZE){
-
         $replyModel = new ReplyModel();
         $ret = $replyModel->getBeRepliedListByUser($userId,$pageIndex,$pageSize);
-        var_export($ret);
-        exit;
+        return $ret;
     }
 
 

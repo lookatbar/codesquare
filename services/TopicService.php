@@ -206,6 +206,9 @@ class TopicService extends CSServiceBase
         }
 
 
+
+
+
         unset($topicData['is_deleted']);
         unset($topicData['update_time']);
 
