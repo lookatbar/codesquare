@@ -10,6 +10,7 @@ namespace app\services;
 
 
 use app\common\CSConstant;
+use app\models\cs\FavoriteModel;
 use app\models\cs\records\UserRecord;
 use app\models\cs\ReplyModel;
 
@@ -52,6 +53,17 @@ class UserService
         $ret['data'] = $list;
         return $ret;
     }
+
+    /**
+     * 我的喜爱列表
+     * @param $useId
+     * @return array
+     */
+    public function  getFavList($useId){
+        $favModel = new FavoriteModel();
+        return $favModel->getFavList($useId);
+    }
+
 
 
 
