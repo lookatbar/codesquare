@@ -187,8 +187,8 @@ class helper
     public static function lock($lockKey, callable $func, $params = null, $timeout = 60)
     {
         $cache = \yii::$app->cache;
-        $mex = NULL;
-        while (true) {
+        $startTime = time();
+        while (time()-$startTime<$timeout) {
             $isLock = $cache->exists($lockKey);
             if ($isLock) {
                 continue;
@@ -197,23 +197,21 @@ class helper
                 // 加锁
                 $cache->set($lockKey, 1, $timeout);
                 call_user_func($func, $params);
+                if ($cache->exists($lockKey)) {
+                    $cache->delete($lockKey);
+                }
                 break;
             } catch (\Exception $ex) {
-                //throw  $ex;
-                $mex = $ex;
-            }
-//            finally {
-//               if($cache->exists($lockKey)){
-//                   $cache->delete($lockKey);
-//               }
-//           }
-            if ($cache->exists($lockKey)) {
-                $cache->delete($lockKey);
-            }
-
-            if ($mex != NULL) {
+                if ($cache->exists($lockKey)) {
+                    $cache->delete($lockKey);
+                }
                 throw  $ex;
             }
         }
+
+        if ($cache->exists($lockKey)) {
+            $cache->delete($lockKey);
+        }
+
     }
 }

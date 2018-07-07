@@ -38,16 +38,18 @@ class TopicModel extends CSBaseModel
 
     public function getPublishCount($userId){
         $sql ="SELECT count(*) as count from cs_topic where user_id =:user_id";
-        return $this->db->createCommand($sql,[':user_id'=>$userId])->queryColumn();
+        return $this->db->createCommand($sql,[':user_id'=>$userId])->queryColumn()[0];
     }
     public function getReplyCount($userId){
-        $sql ="select sum(reply_count) as count from cs_topic where user_id =:user_id";
-        return $this->db->createCommand($sql,[':user_id'=>$userId])->queryColumn();
+        $sql ="select ifnull(sum(good_count),0)  as count from cs_topic where user_id =:user_id";
+        return $this->db->createCommand($sql,[':user_id'=>$userId])->queryColumn()[0];
     }
 
     public function getGoodCount($userId)
     {
-        $sql ="select sum(good_count) as count from cs_topic where user_id =:user_id";
-        return $this->db->createCommand($sql,[':user_id'=>$userId])->queryColumn();
+        $sql ="select ifnull(sum(good_count),0) as count from cs_topic where user_id =:user_id";
+        $data =    $this->db->createCommand($sql,[':user_id'=>$userId])->queryColumn()[0];
+        return $data;
+
     }
 }

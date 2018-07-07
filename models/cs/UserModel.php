@@ -52,4 +52,12 @@ class UserModel extends CSBaseModel
                     , ['favorite_id' => $favoriteId])
                 ->execute();
     }
+
+    public function findFavoriteByUserId($userId,$topicId){
+//echo $userId."|".$topicId;die;
+        $sql ="select * from cs_favorite where user_id = :user_id and topic_id = :topic_id and is_deleted = 0";
+        return $this->db->createCommand($sql,[':user_id'=>$userId,':topic_id'=>$topicId])->queryAll();
+//        var_dump($data);die;
+
+    }
 }
