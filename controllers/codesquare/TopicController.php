@@ -103,7 +103,22 @@ class TopicController extends CSBaseController
      */
     public function actionReply()
     {
-
+        $params = \Yii::$app->request->post();
+        $form = new \app\models\cs\forms\ReplyForm();
+        $form->load($params);
+        if (!$form->validate()) {
+            $error = $form->parseFirstError();
+            return $this->error($error['message'], $error['code']);
+        }
+        
+        $replySrv = new TopicService($this->userContext);
+        $data = [
+                    'topic_id' => $params['topic_id']
+                    , 'content' => $params['content']
+                    , 'image_list' => $params['image_list']
+                ];
+        $replySrv->reply($data);
+        return $this->response();
     }
 
 
@@ -120,7 +135,17 @@ class TopicController extends CSBaseController
      */
     public function actionLike()
     {
-
+        $params = \Yii::$app->request->post();
+        $form = new \app\models\cs\forms\GoodForm();
+        $form->load($params);
+        if (!$form->validate()) {
+            $error = $form->parseFirstError();
+            return $this->error($error['message'], $error['code']);
+        }
+               
+        $replySrv = new TopicService($this->userContext);
+        $replySrv->like($form->topic_id);
+        return $this->response();
     }
 
     /**

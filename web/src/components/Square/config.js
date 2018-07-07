@@ -1,10 +1,10 @@
 export const tabs = [
 	{
-		name: '话题讨论',
-		key: 'subject',
+		topic_type_name: '技术',
+		topic_type: '1',
 	},
 	{
-		name: '技术求助',
-		key: 'subject2',
+		topic_type_name: '点子',
+		topic_type: '2',
 	}
 ];

@@ -7,7 +7,6 @@
  */
 
 namespace app\services;
-
 use app\common\CSConstant;
 use app\models\cs\forms\TopicSaveRequestFrom;
 use app\models\cs\GoodModel;
@@ -22,45 +21,32 @@ class TopicService extends CSServiceBase
 {
     /**
      * 回复
-     * @param int $topicId
-     * @param string $content
-     * @param array $images
+     * @param array $data
      */
-    public function reply($topicId, $content, $images = [])
+    public function reply($data)
     {
-
+        $data['user_id'] = $this->userContext->userId;
+        (new \app\models\cs\ReplyModel())->insertReply($data);
     }
 
     /**
      * 点赞
      * @param int $topicId
-     * @param string $userId
+     * @param array $userInfo
      */
-    public function like($topicId, $userId, $userName)
+    public function like($topicId)
     {
-        $lockKey = 'topic_like_lock';
+ 
         $goodModel = new \app\models\cs\GoodModel();
-        // 检查锁
-        $cache = \yii::$app->cache;
-        while (true) {
-            $isLock = $cache->exists($lockKey);
-            if ($isLock) {
-                continue;
-            }
-            try {
-                // 加锁
-                $cache->set($lockKey, $userId, 60);
-                $users = $goodModel->getUserList($topicId);
-                if (!array_key_exists($userId, $users)) {
-                    $users[$userId] = ['name' => $userName];
-                    $goodModel->saveUserList($topicId, $users);
-                }
-                break;
-            } finally {
-                $cache->exists($lockKey) && $cache->delete($lockKey);
-            }
-        }
-    }
+        
+        \app\common\utils\helper::lock("topic_like_lock_{$topicId}", function() use($topicId, $goodModel){
+            $userList = $goodModel->getUserList($topicId);
+               if (!array_key_exists($this->userContext->userId, $userList)) {
+                   $userList[$this->userContext->userId] = ['name' => $this->userContext->userName];
+                   $goodModel->saveUserList($topicId, $userList);
+               }
+        });
+  }
 
     /**
      * 采纳回复
