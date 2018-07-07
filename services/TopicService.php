@@ -196,7 +196,7 @@ class TopicService extends CSServiceBase
             $topicData['is_good'] = 1;
         }
 
-        $favInfo =  FavoriteModel::findOne(['user_id'=>$topicData['user_id'],'topic_id'=>$topicId,'is_deleted'=>0]);
+        $favInfo =  FavoriteModel::findOne(['user_id'=>$this->userContext->userId,'topic_id'=>$topicId,'is_deleted'=>0]);
         if (!empty($favInfo)) {
             $topicData['is_fav'] = 1;
         }
