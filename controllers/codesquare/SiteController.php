@@ -7,10 +7,12 @@
  */
 
 namespace app\controllers\codesquare;
+use app\common\ErrorCode;
 use app\common\utils\helper;
 use app\common\utils\HttpHelper;
 use app\common\weixin\AccessToken;
 use app\models\cs\records\UserRecord;
+use app\common\utils\CommonHelper;
 use Yii;
 
 
@@ -42,11 +44,12 @@ class SiteController extends CSBaseController
             if(empty($res->UserId)){
                 return [];
             }
-             $user = UserRecord::findOne(['user_id'=>$res->UserId])->toArray();
+             $user = UserRecord::find()->where(['user_id'=>$res->UserId])->asArray()->One();
              if( empty($user) ){
-                 return  $this->userInfo($token,$res->UserId);
+                 $data =  $this->userInfo($token,$res->UserId);
+                 CommonHelper::response('ok',ErrorCode::$OK,$data->attributes);
              } else {
-                 return json_encode($user);
+                  CommonHelper::response('ok',ErrorCode::$OK,$user);
              }
 
          }
@@ -55,15 +58,8 @@ class SiteController extends CSBaseController
      public function actionGetUserInfo(){
          $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfe3aa6c1dd22f053&redirect_uri=http://jkds.cracher.top/codesquare/site/info&response_type=code&scope=snsapi_userinfo&agentid=134&state=abcdefg#wechat_redirect";
          header("Location:".$url);
-//         $helper = new helper();
-//         $helper->http_get($url);
      }
 
-//    public function actionGetUserInfo(){
-//        $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfe3aa6c1dd22f053&redirect_uri=http://jkds.cracher.top/codesquare/site/info&response_type=code&scope=snsapi_userinfo&agentid=134&state=abcdefg#wechat_redirect";
-//        header("Location:".$url);
-//
-//    }
 
      public function userInfo($token,$userId){
          $url = "https://qyapi.weixin.qq.com/cgi-bin/user/get?access_token=$token&userid=$userId";
@@ -77,6 +73,6 @@ class SiteController extends CSBaseController
          $user->avatar = $res->avatar;
          $user->user_id =  $res->userid;
          $user->save();
-         return $res;
+         return $user;
      }
 }

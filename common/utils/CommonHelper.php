@@ -9,6 +9,7 @@
 namespace app\common\utils;
 
 
+use Yii;
 use yii\web\Response;
 
 class CommonHelper
@@ -21,7 +22,7 @@ class CommonHelper
     public static function response($msg ="",$success = 0,$data=[],$code ="")
     {
         //设置JSON返回
-        $response = \Yii::$app->response;
+        $response = Yii::$app->response;
         $response->format = Response::FORMAT_JSON;
         $response->data = [
             "success" => $success,
