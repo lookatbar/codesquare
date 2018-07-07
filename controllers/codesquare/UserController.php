@@ -94,5 +94,11 @@ class UserController extends CSBaseController
       CommonHelper::response('ok',ErrorCode::$OK,$data);
     }
 
+    public function actionFavList(){
+       $userServ = new UserService($this->userContext);
+       $list = $userServ->getFavList($this->userContext->userId);
+       return $this->response($list);
+    }
+
 
 }
