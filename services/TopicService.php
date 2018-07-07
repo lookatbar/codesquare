@@ -20,17 +20,11 @@ class TopicService extends CSServiceBase
 {
     /**
      * 回复
-     * @param int $topicId
-     * @param string $content
-     * @param array $images
+     * @param array $data
      */
-    public function reply($topicId, $content, $images = [])
+    public function reply($data)
     {
-        $data = ['topic_id' => $topicId
-                , 'content' => $content
-                , 'user_id' => $this->userContext->userId
-                , 'image_list' => json_encode($images)];
-        
+        $data['user_id'] = $this->userContext->userId;
         (new \app\models\cs\ReplyModel())->insertReply($data);
     }
     

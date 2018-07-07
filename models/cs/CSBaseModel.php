@@ -13,7 +13,7 @@ namespace app\models\cs;
  * @property-read \yii\db\Connection $db Description
  * @author ray-apple
  */
-class CSBaseModel extends \yii\base\Model
+class CSBaseModel
 {
     protected $_db = null;
     
