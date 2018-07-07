@@ -65,8 +65,24 @@ class TopicController extends CSBaseController
         $form = new TopicSaveRequestFrom();
         //$form->attributes = \Yii::$app->request->post();
 
+        //获取微信图片
+        $wxMediaStr = \Yii::$app->request->post('images_list');
+        $wxMediaList = [];
+        if(!empty($wxMediaStr)){
+            $wxMediaList = json_decode($wxMediaStr,TRUE);
+        }
+        $localImageList = [];
+        $wxService = new WxService();
+        foreach ($wxMediaList as $wxMediaId){
+            $localImagePath =$wxService->getFile($wxMediaId);
+            if(!empty($localImagePath)){
+                $localImageList[] = $localImagePath;
+            }
+        }
+
+        //添加话题数据
         $form->user_id = $this->userContext->userId;
-        $form->images_list = \Yii::$app->request->post('images_list');
+        $form->images_list = json_encode($localImageList,TRUE);
         $form->title = \Yii::$app->request->post('title');
         $form->content = \Yii::$app->request->post('content');
         $form->topic_type = \Yii::$app->request->post('topic_type');
