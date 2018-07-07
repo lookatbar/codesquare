@@ -37,9 +37,11 @@ class TopicController extends CSBaseController
             ];
         }
 
+        $pageData = $this->responsePagingData($list,100,count($list));
+        $pageData['topic_type_list'] = CSConstant::getTopicTypes();
+        $pageData['current_topic_type'] = $topic_type;
 
-
-
+        return $this->response($pageData);
 
     }
 
