@@ -13,15 +13,20 @@ class TopicController extends CSBaseController
     /**
      * 广场首页
      */
-    public function actionIndex(){
-            echo  "ooooooo ? userId = ";
+    public function actionIndex()
+    {
+
+
+
+        return $this->response();
     }
 
 
     /**
      * 查看详情页面
      */
-    public function actionTopicDetail(){
+    public function actionTopicDetail()
+    {
 
     }
 
@@ -29,14 +34,22 @@ class TopicController extends CSBaseController
     /**
      * 保存
      */
-    public function actionTopicSave(){
+    public function actionTopicSave()
+    {
+
+        $topicTitle = \Yii::$app->request->post('topic_title');
+        $topicContent = \Yii::$app->request->post('topic_content');
+        $topicImageList = \Yii::$app->request->post('topic_image_list');
+        $topicTagId = \Yii::$app->request->post('topic_tag_id');
+
 
     }
 
     /**
      * 标签列表
      */
-    public function actionTagList(){
+    public function actionTagList()
+    {
 
     }
 
@@ -44,7 +57,8 @@ class TopicController extends CSBaseController
     /**
      * 回复
      */
-    public function actionReply(){
+    public function actionReply()
+    {
 
     }
 
@@ -52,27 +66,26 @@ class TopicController extends CSBaseController
     /**
      * 删除回复
      */
-    public function actionDelReply(){
+    public function actionDelReply()
+    {
 
     }
 
     /**
      * 点赞/取消点赞
      */
-    public function  actionLike(){
+    public function actionLike()
+    {
 
     }
 
     /**
      * 打赏
      */
-    public function actionReward(){
+    public function actionReward()
+    {
 
     }
-
-
-
-
 
 
 }

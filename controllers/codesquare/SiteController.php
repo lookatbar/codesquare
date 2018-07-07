@@ -28,6 +28,13 @@ class SiteController extends CSBaseController
 
        //获取用户信息
     //    $userInfoUrl = ""
+
+        $this->redirect('/build/index.html?user_id=xxxx');
     }
+
+
+
+
+
 
 }
