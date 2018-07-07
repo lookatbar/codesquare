@@ -35,7 +35,7 @@ class TopicRecord extends  CSBaseRecord
     public function queryTopicList($topicType=NULL,$pageIndex=CSConstant::PAGE_INDEX,$pageSize=CSConstant::PAGE_SIZE){
         $fields = static::$Fields;
         $countSql = 'SELECT COUNT(1) FROM cs_topic WHERE 1=1 AND is_deleted=0';
-        $limitSql = "SELECT $fields  FROM cs_topic LEFT JOIN cs_user ON cs_topic.user_id=cs_user.user_id WHERE 1=1 AND  is_deleted=0 ".$this->_getLimitSql([$pageIndex,$pageSize]);
+        $limitSql = "SELECT $fields  FROM cs_topic LEFT JOIN cs_user ON cs_topic.user_id=cs_user.user_id WHERE 1=1 AND  is_deleted=0 ORDER BY cs_topic.create_time DESC ".$this->_getLimitSql([$pageIndex,$pageSize]);
         if($topicType !== NULL){
             $where = "topic_type = $topicType";
             $countSql = str_replace('1=1',$where,$countSql);
