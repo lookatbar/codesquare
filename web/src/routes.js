@@ -13,6 +13,7 @@ import ReviewSubject from './components/ReviewSubject';
 import Reply from './components/Reply';
 
 import Favorite from './components/Favorite';
+import ReplyList from './components/ReplyList';
 
 // 路由对应名称
 export const routeMap = {
@@ -47,6 +48,7 @@ export default (
 		<Route path="user">
 			<Route path="public" component={Favorite} />
 			<Route path="favorite" component={Favorite} />
+			<Route path="replyList" component={ReplyList} />
 		</Route>
 		<Redirect from="*" to="/home/square" />
 	</Route>
