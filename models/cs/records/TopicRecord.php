@@ -12,7 +12,19 @@ namespace app\models\cs\records;
 class TopicRecord extends  CSBaseRecord
 {
 
-    static $Fields = 'cs_topic.topic_id,cs_topic.title,cs_topic.topic_type,substring(cs_topic.content,1,100) as content,cs_topic.user_id,cs_user.name as user_name,cs_topic.images_list,cs_topic.view_count,cs_topic.good_count,cs_topic.reply_count,cs_topic.create_time';
+    static $Fields = 'cs_topic.topic_id
+    ,cs_topic.title
+    ,cs_topic.topic_type
+    ,substring(cs_topic.content,1,100) as content
+    ,cs_topic.user_id
+    ,cs_user.name as user_name
+    ,cs_topic.images_list
+    ,cs_topic.view_count
+    ,cs_topic.good_count
+    ,cs_topic.reply_count
+    ,cs_topic.offer_award_id
+    ,cs_topic.reward_money
+    ,cs_topic.create_time';
     /**
      * 查询分页
      * @param null $topicType
@@ -52,7 +64,7 @@ class TopicRecord extends  CSBaseRecord
         $countSql = 'SELECT COUNT(1) FROM cs_topic WHERE 1=1 AND is_deleted=0';
         $limitSql = "SELECT $fields  FROM cs_topic LEFT JOIN cs_user ON cs_topic.user_id=cs_user.user_id WHERE 1=1 AND is_deleted=0 ".$this->_getLimitSql([$pageIndex,$pageSize]);
 
-        $where = " offer_award_id>0 AND offer_award_money>0 ";
+        $where = " offer_award_id>0 AND reward_money>0 ";
         $countSql = str_replace('1=1',$where,$countSql);
         $limitSql = str_replace('1=1',$where,$limitSql);
 

@@ -135,6 +135,9 @@ class TopicService extends CSServiceBase
         $record['user_id'] = $form->user_id;
         $record['images_list'] = empty($form->images_list) ? json_encode([], true) : $form->images_list;
         $record['topic_type'] = $form->topic_type;
+        if(!empty($form->offer_award_id)){
+            $record['offer_award_id'] = $form->offer_award_id;
+        }
         $record->save();
         return $record['topic_id'];
     }

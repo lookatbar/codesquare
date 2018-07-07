@@ -78,7 +78,8 @@ class TopicController extends CSBaseController
         $form->title = \Yii::$app->request->post('title');
         $form->content = \Yii::$app->request->post('content');
         $form->topic_type = \Yii::$app->request->post('topic_type');
-        //$form->setScenario(TopicSaveRequestFrom::SCENARIO_SUBMIT);
+        $form->offer_award_id = \Yii::$app->request->post('offer_award_id');
+
 
         if(!$form->validate()){
             return $this->error('参数错误',ErrorCode::$InvalidApiParam);
