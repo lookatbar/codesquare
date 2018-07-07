@@ -8,10 +8,11 @@
 
 namespace app\models\cs\records;
 
-
+/**
+ * Class UserRecord 用户记录
+ * @package app\models\cs\records
+ */
 class UserRecord extends CSBaseRecord
 {
-
-
-
+    
 }

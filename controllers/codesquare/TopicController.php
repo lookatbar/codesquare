@@ -6,6 +6,8 @@
 namespace app\controllers\codesquare;
 
 
+use app\services\TopicService;
+
 class TopicController extends CSBaseController
 {
 
@@ -32,15 +34,22 @@ class TopicController extends CSBaseController
 
 
     /**
-     * 保存
+     * 提交
      */
-    public function actionTopicSave()
+    public function actionTopicSubmit()
     {
+
 
         $topicTitle = \Yii::$app->request->post('topic_title');
         $topicContent = \Yii::$app->request->post('topic_content');
         $topicImageList = \Yii::$app->request->post('topic_image_list');
         $topicTagId = \Yii::$app->request->post('topic_tag_id');
+
+
+
+        //$topicSer = new TopicService($this->userInfo);
+
+
 
 
     }
