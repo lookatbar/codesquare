@@ -22,6 +22,11 @@ use Yii;
 class SiteController extends CSBaseController
 {
 
+<<<<<<< HEAD
+=======
+    public  function actionIndex(){
+
+>>>>>>> 66d8e9e3fb5fa51184d2671073d9fe7d7d7c71ee
 
 
 
