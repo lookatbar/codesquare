@@ -41,12 +41,12 @@ class CSBaseController extends BaseController
         if (!parent::beforeAction($action)) {
            return false;
         }
-        $userContext = new UserContext();
-        $userContext->userId = 2;
-        $userContext->userName = "测试";
-
-        $this->userContext = $userContext;
-        return true;
+//        $userContext = new UserContext();
+//        $userContext->userId = 2;
+//        $userContext->userName = "测试";
+//
+//        $this->userContext = $userContext;
+//        return true;
         // 检查token
         $cache = \Yii::$app->cache;
         $token = $this->getToken();
