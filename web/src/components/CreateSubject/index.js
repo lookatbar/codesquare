@@ -56,7 +56,7 @@ class CreateSubject extends Component{
 			console.log(res);
 			const { topic_id } = res.data;
 
-			router.replace(`/subject/review/${topic_id}`);
+			router.push(`/subject/review/${topic_id}`);
 		});
 	}
 
