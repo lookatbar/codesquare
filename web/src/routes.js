@@ -21,6 +21,7 @@ export const routeMap = {
 
 	'/subject/create': '写笔记',
 	'/subject/review': '详情',
+	'/subject/reply': '写回复',
 }
 
 export default (
