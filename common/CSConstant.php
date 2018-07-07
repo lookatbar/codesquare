@@ -1,4 +1,5 @@
 <?php
+
 namespace app\common;
 /**
  * 定义各种场景类型
@@ -66,11 +67,10 @@ class CSConstant
     const SCENE_TYPE__PAYMENT_REAWARD = 401;
 
 
-
     /**
      * 财富类型（奖品类型）
      */
-    const WEALTH_TYPE__MB= 1;
+    const WEALTH_TYPE__MB = 1;
 
     /**
      * 任务类型-回复
@@ -82,6 +82,20 @@ class CSConstant
      */
     const TASK_TYPE__LIKE = 2;
 
+
+    const TOPIC_TYPE_PROD = '产品';
+
+    const TOPIC_TYPE_DEV = '开发';
+
+    const PAGE_SIZE = 10;
+
+    const PAGE_INDEX = 1;
+
+    public static function getTopicTypes()
+    {
+        return [static::TOPIC_TYPE_PROD, static::TOPIC_TYPE_DEV];
+
+    }
 
 
 }

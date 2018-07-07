@@ -14,5 +14,34 @@ namespace app\services;
  */
 class TopicService extends CSServiceBase
 {
-
+    /**
+     * 回复
+     * @param int $topicId
+     * @param string $content
+     * @param array $images
+     */
+    public function reply($topicId, $content, $images = [])
+    {
+        
+    }
+    
+    /**
+     * 点赞
+     * @param int $topicId
+     * @param string $userId
+     */
+    public function like($topicId, $userId)
+    {
+        
+    }
+    
+    /**
+     * 采纳回复
+     * @param type $topicId
+     * @param type $replyId
+     */
+    public function accept($topicId, $replyId)
+    {
+        
+    }
 }

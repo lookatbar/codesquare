@@ -34,3 +34,6 @@ tests/_support/_generated
 
 # front-end dependencies
 /web/node_modules
+
+runtime
+web/assets
