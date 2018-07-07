@@ -34,7 +34,7 @@ class SiteController extends BaseController
 
     public  function actionIndex(){
         $token = isset($_GET['token'])?$_GET['token']:"";
-        echo $token;die;
+        header('Location:http://jkds.cracher.top/build/index.html?token='.$token);
     }
 
 

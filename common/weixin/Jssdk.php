@@ -22,12 +22,13 @@ class jssdk
         $this->accessToken = new AccessToken($agentId);
     }
 
-    public function getSignPackage() {
+    public function getSignPackage($url) {
         $jsapiTicket = $this->getJsApiTicket();
         // 注意 URL 一定要动态获取，不能 hardcode.
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-        $url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-
+//        $url = "http://jkds.cracher.top/build/index.html";
+//        $url = "";
+//        $url = explode('#',$url)[0];
         $timestamp = time();
         $nonceStr  = helper::createNonceStr();
 
@@ -56,9 +57,7 @@ class jssdk
         $cache=Yii::$app->cache;
         $ticket = $cache->get('js_api_ticket');
         if(empty($ticket)){
-
             $accessToken = $this->accessToken->getAccessToken();
-            echo $accessToken;die;
             $helper = new \app\common\utils\helper();
             $url = "https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket?access_token=$accessToken";
             $res = json_decode($helper->http_get($url)["content"]);
