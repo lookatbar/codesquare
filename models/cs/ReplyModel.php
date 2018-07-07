@@ -70,7 +70,7 @@ class ReplyModel extends CSBaseModel
         $conditions = ['r.topic_id' => $topicId, 'r.is_deleted' => 0];
         $list = (new \yii\db\Query())->from('cs_reply as r')
                 ->leftJoin('cs_user as u', 'r.user_id=u.user_id')
-                ->select('r.reply_id,r.content,r.user_id,r.image_list,u.name as user_name,r.create_time')
+                ->select('r.reply_id,r.content,r.user_id,r.image_list,u.name as user_name,r.create_time,u.avatar ')
                 ->where($conditions)
                 ->orderBy('r.create_time')
                 ->offset(($pageIndex-1)*$pageSize)

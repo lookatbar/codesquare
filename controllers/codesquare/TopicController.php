@@ -121,10 +121,10 @@ class TopicController extends CSBaseController
             return $this->error(json_encode($error, JSON_UNESCAPED_UNICODE));
         }
 
-        $wxMediaStr = $form->image_list;
-        $localImageList = $this->getLocalImageList($wxMediaStr);
-        $form->image_list = json_encode($localImageList,TRUE);
-        
+//        $wxMediaStr = $form->image_list;
+//        $localImageList = $this->getLocalImageList($wxMediaStr);
+//        $form->image_list = json_encode($localImageList,TRUE);
+        $form->image_list ="";
         $replySrv = new TopicService($this->userContext);
         $data = [
                     'topic_id' => $params['topic_id']

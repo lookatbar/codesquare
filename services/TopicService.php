@@ -122,9 +122,10 @@ class TopicService extends CSServiceBase
             return true;
         }else{
             // 收藏
-          return   $userModel->addFavorite([
+             $userModel->addFavorite([
                 'topic_id' => $topicId
                 ,'user_id' => $this->userContext->userId]);
+             return true;
         }
         
 
