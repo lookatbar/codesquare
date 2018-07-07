@@ -13,7 +13,6 @@ import routes from './routes';
 import './stylesheets/index.less';
 import './stylesheets/reset.less';
 import './assets/iconfont/iconfont.css';
-import './assets/shim';
 // 其他配置
 // import './assets/shim';
 

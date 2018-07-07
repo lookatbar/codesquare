@@ -116,52 +116,54 @@ class ReviewSubject extends Component{
 
 		return(
 			<div className="reviewSubject">
-				<div className="reviewSubject-title reviewSubject-field">{detail.title}</div>
-				<div className="reviewSubject-body reviewSubject-field">
-					<div className="reviewSubject-author">
-						<div className="reviewSubject-userImage">
-							<img src={detail.user_avatar} alt="" />
-						</div>
-						<div className="reviewSubject-userName">{detail.user_name}</div>
-						<div className="reviewSubject-createTime">{detail.create_time}</div>
-
-						<div className="reviewSubject-count clearfix">
-							<span className={{}}>
-								<i className="iconfont icon-liulan2" />
-								{detail.view_count}
-							</span>
-							<span>
-								<i className="iconfont icon-weibiaoti-" />
-								{detail.good_count}
-							</span>
-							<span>
-								<i className="iconfont icon-pinglun" />
-								{detail.reply_count}
-							</span>
-						</div>
-
-
-					</div>
-
-					<div className="reviewSubject-content">
-						{detail.content}
-					</div>
-				</div>
-
-				<div className="reviewSubject-reply reviewSubject-field">
-					<div className="reviewSubject-reply-title">评论</div>
-					{
-						reply.map(item => 
-							<div key={item.reply_id} className="reviewSubject-reply-wrapper">
-								<div className="reviewSubject-reply-avatar">
-									<img src={item.avatar} alt="" />
-								</div>
-								<div className="reviewSubject-reply-author">{item.user_name}</div>
-								<div className="reviewSubject-reply-content">{item.content}</div>
-
+				<div className="reviewSubject-inner">
+					<div className="reviewSubject-title reviewSubject-field">{detail.title}</div>
+					<div className="reviewSubject-body reviewSubject-field">
+						<div className="reviewSubject-author">
+							<div className="reviewSubject-userImage">
+								<img src={detail.user_avatar} alt="" />
 							</div>
-						)
-					}
+							<div className="reviewSubject-userName">{detail.user_name}</div>
+							<div className="reviewSubject-createTime">{detail.create_time}</div>
+
+							<div className="reviewSubject-count clearfix">
+								<span className={{}}>
+									<i className="iconfont icon-liulan2" />
+									{detail.view_count}
+								</span>
+								<span>
+									<i className="iconfont icon-weibiaoti-" />
+									{detail.good_count}
+								</span>
+								<span>
+									<i className="iconfont icon-pinglun" />
+									{detail.reply_count}
+								</span>
+							</div>
+
+
+						</div>
+
+						<div className="reviewSubject-content">
+							{detail.content}
+						</div>
+					</div>
+
+					<div className="reviewSubject-reply reviewSubject-field">
+						<div className="reviewSubject-reply-title">评论</div>
+						{
+							reply.map(item => 
+								<div key={item.reply_id} className="reviewSubject-reply-wrapper">
+									<div className="reviewSubject-reply-avatar">
+										<img src={item.avatar} alt="" />
+									</div>
+									<div className="reviewSubject-reply-author">{item.user_name}</div>
+									<div className="reviewSubject-reply-content">{item.content}</div>
+
+								</div>
+							)
+						}
+					</div>
 				</div>
 
 				<div className="reviewSubject-tools">
