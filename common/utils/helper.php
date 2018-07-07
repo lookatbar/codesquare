@@ -186,7 +186,9 @@ class helper {
            } catch (\Exception $ex){
                throw $ex;
            } finally {
-                $cache->exists($lockKey) && $cache->delete($lockKey);
+               if($cache->exists($lockKey)){
+                   $cache->delete($lockKey);
+               }
            }
         }
     }
