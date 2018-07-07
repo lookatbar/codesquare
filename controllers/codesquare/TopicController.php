@@ -10,6 +10,7 @@ use app\common\CSConstant;
 use app\common\ErrorCode;
 use app\common\utils\CommonHelper;
 use app\models\cs\forms\TopicSaveRequestFrom;
+use app\models\cs\TopicModel;
 use app\services\TopicService;
 
 class TopicController extends CSBaseController
@@ -243,6 +244,14 @@ class TopicController extends CSBaseController
      */
     public function actionReward()
     {
+
+    }
+
+
+    public function actionPublish(){
+        $topic = new TopicModel();
+        $data = $topic->getTopicListByUserId($this->userContext->userId);
+        CommonHelper::response('ok',ErrorCode::$OK,$data);
 
     }
 
