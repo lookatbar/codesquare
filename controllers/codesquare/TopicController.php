@@ -14,7 +14,6 @@ use app\services\TopicService;
 class TopicController extends CSBaseController
 {
 
-
     /**
      * 广场首页
      */
@@ -50,10 +49,7 @@ class TopicController extends CSBaseController
             return $this->error('话题不存在',ErrorCode::$DataNotFound);
         }
 
-
-
         return $this->response($ret);
-
     }
 
 
@@ -67,18 +63,14 @@ class TopicController extends CSBaseController
 
         //获取微信图片
         $wxMediaStr = \Yii::$app->request->post('images_list');
-        $wxMediaList = [];
-        if(!empty($wxMediaStr)){
-            $wxMediaList = json_decode($wxMediaStr,TRUE);
+        $localImageList = $this->getLocalImageList($wxMediaStr);
+        // 通知人
+        $noticeUserListStr = \Yii::$app->request->post('notice_user_list');
+        $noticeUserList = [];
+        if(!empty($noticeUserListStr)){
+            $noticeUserList = json_decode($noticeUserListStr,TRUE);
         }
-        $localImageList = [];
-        $wxService = new WxService();
-        foreach ($wxMediaList as $wxMediaId){
-            $localImagePath =$wxService->getFile($wxMediaId);
-            if(!empty($localImagePath)){
-                $localImageList[] = $localImagePath;
-            }
-        }
+
 
         //添加话题数据
         $form->user_id = $this->userContext->userId;
@@ -126,12 +118,16 @@ class TopicController extends CSBaseController
             $error = $form->parseFirstError();
             return $this->error($error['message'], $error['code']);
         }
+
+        $wxMediaStr = $form->image_list;
+        $localImageList = $this->getLocalImageList($wxMediaStr);
+        $form->image_list = json_encode($localImageList,TRUE);
         
         $replySrv = new TopicService($this->userContext);
         $data = [
                     'topic_id' => $params['topic_id']
                     , 'content' => $params['content']
-                    , 'image_list' => $params['image_list']
+                    , 'image_list' => $form->image_list
                 ];
         $replySrv->reply($data);
         return $this->response();
@@ -197,6 +193,9 @@ class TopicController extends CSBaseController
     {
 
     }
+
+
+
 
 
 }
