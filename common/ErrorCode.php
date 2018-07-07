@@ -26,4 +26,6 @@ class ErrorCode
     public static $GenReturnXmlError = -40011;
     public static $InvalidToken = -40012;
     public static $InvalidApiParam     = -40013;
+    public static $ApiParamEmpty     = -40014;
+    public static $DataNotFound     = -40015;
 }

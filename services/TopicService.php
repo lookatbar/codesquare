@@ -10,6 +10,7 @@ namespace app\services;
 use app\common\CSConstant;
 use app\models\cs\forms\TopicSaveRequestFrom;
 use app\models\cs\records\TopicRecord;
+use app\models\cs\records\UserRecord;
 
 /**
  * Class TopicService  话题服务类
@@ -25,38 +26,29 @@ class TopicService extends CSServiceBase
      */
     public function reply($topicId, $content, $images = [])
     {
+        $data = ['topic_id' => $topicId
+                , 'content' => $content
+                , 'user_id' => $this->userContext->userId
+                , 'image_list' => json_encode($images)];
         
+        (new \app\models\cs\ReplyModel())->insertReply($data);
     }
     
     /**
      * 点赞
      * @param int $topicId
-     * @param string $userId
+     * @param array $userInfo
      */
-    public function like($topicId, $userId, $userName)
+    public function like($topicId)
     {
-        $lockKey = 'topic_like_lock';
         $goodModel = new \app\models\cs\GoodModel();
-        // 检查锁
-        $cache = \yii::$app->cache;
-        while (true) {
-            $isLock = $cache->exists($lockKey);
-            if ($isLock) {
-                continue;
-            }
-            try {
-                // 加锁
-               $cache->set($lockKey, $userId, 60);
-               $users = $goodModel->getUserList($topicId);
-               if (!array_key_exists($userId, $users)) {
-                   $users[$userId] = ['name' => $userName];
-                   $goodModel->saveUserList($topicId, $users);
-               }               
-               break;
-           } finally {
-               $cache->exists($lockKey) && $cache->delete($lockKey);
-           }
-        }
+        \app\common\utils\helper::lock('topic_like_lock', function() use($topicId, $goodModel){
+            $userList = $goodModel->getUserList($topicId);
+               if (!array_key_exists($this->userContext->userId, $userList)) {
+                   $userList[$this->userContext->userId] = ['name' => $this->userContext->userName];
+                   $goodModel->saveUserList($topicId, $userList);
+               }
+        });
     }
     
     /**
@@ -87,13 +79,43 @@ class TopicService extends CSServiceBase
         return $record['topic_id'];
     }
 
-
+    /**
+     * 查询话题列表
+     * @param null $topicType
+     * @param int $pageIndex
+     * @param int $pageSize
+     * @return array
+     */
     public function queryTopList($topicType=NULL,$pageIndex=CSConstant::PAGE_INDEX,$pageSize=CSConstant::PAGE_SIZE){
 
         $record = new TopicRecord();
-        return   $record->queryTopicList($topicType,$pageIndex,$pageSize);
-
+        $ret =  $record->queryTopicList($topicType,$pageIndex,$pageSize);
+        $list = $ret['data'];
+        foreach ($list as $key=>&$val){
+            $val['topic_type'] = CSConstant::getTopicTypeByTopicTypeName($val['topic_type']);
+        }
+        $ret['data'] = $list;
+        return $ret;
     }
+
+    public function getTopicDetail($topicId){
+      $topicData = TopicRecord::findOne(['topic_id'=>$topicId]);
+      if(empty($topicData)){
+          return [];
+      }
+      $topicData = $topicData->toArray();
+      $topicData['user_name'] = '';
+      $topicData['user_avatar'] = '';
+
+      $userInfo  = UserRecord::findOne(['user_id'=>$topicData['user_id']]);
+      if(!empty($userInfo)){
+          $topicData['user_name'] = $userInfo['name'];
+          $topicData['user_avatar'] = $userInfo['avatar'];
+      }
+
+      return $topicData;
+    }
+
 
 
 

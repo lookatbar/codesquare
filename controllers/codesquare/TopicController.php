@@ -39,6 +39,18 @@ class TopicController extends CSBaseController
      */
     public function actionTopicDetail()
     {
+        $topicId = \Yii::$app->request->post('topic_id');
+        if($topicId === NULL){
+            return $this->error('参数错误',ErrorCode::$ApiParamEmpty);
+        }
+
+        $serv = new TopicService($this->userContext);
+        $ret = $serv->getTopicDetail($topicId);
+        if(empty($ret)){
+            return $this->error('话题不存在',ErrorCode::$DataNotFound);
+        }
+
+        return $this->response($ret);
 
     }
 

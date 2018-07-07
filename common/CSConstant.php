@@ -91,14 +91,27 @@ class CSConstant
 
     const PAGE_INDEX = 1;
 
+    static $TopicTypeList = [
+        ['topic_type' => self::TOPIC_TYPE_PROD, 'topic_type_name' => '技术'],
+        ['topic_type' => self::TOPIC_TYPE_DEV, 'topic_type_name' => '点子']
+    ];
+
     public static function getTopicTypes()
     {
-        return [
-            ['topic_type' => self::TOPIC_TYPE_PROD, 'topic_type_name' => '技术'],
-            ['topic_type' => self::TOPIC_TYPE_DEV, 'topic_type_name' => '点子']
-        ];
+        return static::$TopicTypeList;
 
     }
+
+    public static function getTopicTypeByTopicTypeName($topTypeName){
+        foreach (static::$TopicTypeList as $val){
+            if ($val['topic_type_name'] == $topTypeName){
+                return $val['topic_type'];
+            }
+        }
+        return NULL;
+    }
+
+
 
 
 }
