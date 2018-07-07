@@ -1,13 +1,33 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-import { Link } from 'react-router';
+// import { Link } from 'react-router';
+import Navbar from '../common/Navbar';
 
+
+import { getUserInfo } from './homeRedux';
+
+import './index.less';
+
+const mapStateToProps = ({userInfo}) => ({
+	userInfo,
+});
+
+@connect(mapStateToProps)
 class Home extends Component{
 	constructor(props){
 		super(props);
 
 		this.state = {
 
+		}
+	}
+
+	componentWillMount(){
+		const { userInfo, dispatch } = this.props;
+
+		if(!userInfo.result){
+			dispatch(getUserInfo());
 		}
 	}
 
@@ -19,11 +39,12 @@ class Home extends Component{
 					{ this.props.children }
 				</div>
 				<div className="home-nav">
-					
-
+					<Navbar />
 				</div>
 			</div>
 
 		)
 	}
 }
+
+export default Home;

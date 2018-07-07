@@ -10,11 +10,11 @@ import reducer from './reducers';
 import rootSaga from './sagas';
 import routes from './routes';
 // 全局样式
+import './stylesheets/index.css';
 import './stylesheets/reset.less';
-// import './stylesheets/index.less';
 import './assets/iconfont/iconfont.css';
 // 其他配置
-import './assets/shim';
+// import './assets/shim';
 
 let store;
 let renderFlag = true;
