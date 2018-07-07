@@ -12,4 +12,6 @@ namespace app\models\cs\records;
 class UserRecord extends CSBaseRecord
 {
 
+
+
 }

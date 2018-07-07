@@ -21,21 +21,6 @@ use Yii;
 class SiteController extends CSBaseController
 {
 
-//    public function actionIndex1(){
-//
-//        $tk = new AccessToken(134);
-//        //echo "hello code square";
-//        echo $tk->getCode();echo $_GET['code'];die;
-//        if(isset($_GET['state'])){
-//
-//            $code =   $_GET['code'];
-//            $access_token = 'zdd-Q8IkhpdiCVh8g3txxfVt-rOn-zQhBP0yJqI3ps8diBkZBPXbfppTqjoxoyu5w7xM-coph1OT36FC8BG4rw';
-//            $url = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token={$access_token}&code={$code}";
-//            urlencode($code);
-//        }
-//    }
-
-
     public  function actionIndex(){
 
 
