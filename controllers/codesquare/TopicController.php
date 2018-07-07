@@ -10,6 +10,7 @@ use app\common\CSConstant;
 use app\common\ErrorCode;
 use app\common\utils\CommonHelper;
 use app\models\cs\forms\TopicSaveRequestFrom;
+use app\models\cs\TopicModel;
 use app\services\TopicService;
 
 class TopicController extends CSBaseController
@@ -121,10 +122,10 @@ class TopicController extends CSBaseController
             return $this->error(json_encode($error, JSON_UNESCAPED_UNICODE));
         }
 
-        $wxMediaStr = $form->image_list;
-        $localImageList = $this->getLocalImageList($wxMediaStr);
-        $form->image_list = json_encode($localImageList,TRUE);
-        
+//        $wxMediaStr = $form->image_list;
+//        $localImageList = $this->getLocalImageList($wxMediaStr);
+//        $form->image_list = json_encode($localImageList,TRUE);
+        $form->image_list ="";
         $replySrv = new TopicService($this->userContext);
         $data = [
                     'topic_id' => $params['topic_id']
@@ -243,6 +244,16 @@ class TopicController extends CSBaseController
      */
     public function actionReward()
     {
+
+    }
+
+    /**
+     * 我的发布
+     */
+    public function actionPublish(){
+        $topic = new TopicModel();
+        $data = $topic->getTopicListByUserId($this->userContext->userId);
+        CommonHelper::response('ok',ErrorCode::$OK,$data);
 
     }
 

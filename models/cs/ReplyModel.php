@@ -70,7 +70,7 @@ class ReplyModel extends CSBaseModel
         $conditions = ['r.topic_id' => $topicId, 'r.is_deleted' => 0];
         $list = (new \yii\db\Query())->from('cs_reply as r')
                 ->leftJoin('cs_user as u', 'r.user_id=u.user_id')
-                ->select('r.reply_id,r.content,r.user_id,r.image_list,u.name as user_name,r.create_time')
+                ->select('r.reply_id,r.content,r.user_id,r.image_list,u.name as user_name,r.create_time,u.avatar ')
                 ->where($conditions)
                 ->orderBy('r.create_time')
                 ->offset(($pageIndex-1)*$pageSize)
@@ -109,7 +109,7 @@ class ReplyModel extends CSBaseModel
         ,cs_user.name as user_name
         ,cs_user.avatar as user_avatar ';
         $countSql = 'select COUNT(1) from cs_reply LEFT JOIN cs_topic ON cs_reply.topic_id=cs_topic.topic_id WHERE 1=1';
-        $limitSql = "select $fields from cs_reply LEFT JOIN cs_topic ON cs_reply.topic_id=cs_topic.topic_id  LEFT JOIN cs_user ON cs_reply.user_id=cs_user.user_id WHERE 1=1 ".$this->_getLimitSql([$pageIndex,$pageSize]);
+        $limitSql = "select $fields from cs_reply LEFT JOIN cs_topic ON cs_reply.topic_id=cs_topic.topic_id  LEFT JOIN cs_user ON cs_reply.user_id=cs_user.user_id WHERE 1=1 ORDER BY cs_reply.create_time DESC ".$this->_getLimitSql([$pageIndex,$pageSize]);
 
         $where = " cs_topic.user_id='$userId' AND cs_reply.is_deleted=0 AND cs_topic.is_deleted=0 ";
         $countSql = str_replace('1=1',$where,$countSql);

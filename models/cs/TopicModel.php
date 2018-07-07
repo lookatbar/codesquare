@@ -36,15 +36,41 @@ class TopicModel extends CSBaseModel
         return $this->db->createCommand()->update('cs_topic', $data, ['topic_id' => $topicId])->execute();
     }
 
+    /**
+     * 获取个人发布列表
+     * @param $userId
+     * @return array
+     */
+    public function getTopicListByUserId($userId){
+        $sql ="SELECT *  from cs_topic where user_id =:user_id order by create_time desc;";
+        return $this->db->createCommand($sql,[':user_id'=>$userId])->queryAll();
+    }
+
+    /**
+     * 获取个人发布数量
+     * @param $userId
+     * @return mixed
+     */
     public function getPublishCount($userId){
         $sql ="SELECT count(*) as count from cs_topic where user_id =:user_id";
         return $this->db->createCommand($sql,[':user_id'=>$userId])->queryColumn()[0];
     }
+
+    /**
+     * 获取个人回复数量
+     * @param $userId
+     * @return mixed
+     */
     public function getReplyCount($userId){
         $sql ="select ifnull(sum(good_count),0)  as count from cs_topic where user_id =:user_id";
         return $this->db->createCommand($sql,[':user_id'=>$userId])->queryColumn()[0];
     }
 
+    /**
+     * 获取个人点赞数量
+     * @param $userId
+     * @return mixed
+     */
     public function getGoodCount($userId)
     {
         $sql ="select ifnull(sum(good_count),0) as count from cs_topic where user_id =:user_id";
