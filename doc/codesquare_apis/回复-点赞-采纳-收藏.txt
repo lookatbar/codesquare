@@ -1,3 +1,41 @@
+回复列表接口:POST /codesquare/list/reply
+token
+topic_id 主题id *
+page_size 每页数 
+page_index 页码 从1开始
+
+返回:
+{
+  "success": 1,
+  "data": [
+    {
+      "reply_id": "1",
+      "content": "chenxy-test",
+      "user_id": "1",
+      "image_list": null,
+      "user_name": null,
+      "create_time": "2018-07-07 22:06:53"
+    },
+    {
+      "reply_id": "3",
+      "content": "chenxy-test-2",
+      "user_id": "2",
+      "image_list": null,
+      "user_name": "测试",
+      "create_time": "2018-07-07 22:21:58"
+    }
+  ],
+  "message": "",
+  "record_count": 2,
+  "page_size": 10
+}
+
+reply_id int 回复id
+content string 回复内容
+create_time 回复时间
+user_id 用户id
+user_name 用户姓名
+——————————————————————————————————————————————————————————————————————————————————————
 添加回复接口:POST /codesquare/topic/reply
 参数:
 token
