@@ -1,0 +1,83 @@
+添加回复接口:POST /codesquare/topic/reply
+参数:
+token
+topic_id 主题id *
+content 回复内容 *
+image_list 回复图片
+
+返回:
+{
+  "success": 1,
+  "data": "",
+  "message": "",
+  "current_ts": ""
+}
+——————————————————————————————————————————————————————————————————————————————————————
+
+删除回复: POST /codesquare/topic/del-reply
+参数:
+token
+reply_id 回复id *
+返回:
+{
+  "success": 1,
+  "data": "",
+  "message": "",
+  "current_ts": ""
+}
+
+——————————————————————————————————————————————————————————————————————————————————————
+收藏: POST /codesquare/topic/collect
+参数:
+token
+topic_id 主题id *
+
+返回:
+{
+  "success": 1,
+  "data": "",
+  "message": "",
+  "current_ts": ""
+}
+
+——————————————————————————————————————————————————————————————————————————————————————
+取消收藏: POST /codesquare/topic/cancel-collect
+参数:
+token
+topic_id 主题id *
+
+返回:
+{
+  "success": 1,
+  "data": "",
+  "message": "",
+  "current_ts": ""
+}
+
+——————————————————————————————————————————————————————————————————————————————————————
+点赞: POST /codesquare/topic/like
+参数:
+token
+topic_id 主题id *
+
+返回:
+{
+  "success": 1,
+  "data": "",
+  "message": "",
+  "current_ts": ""
+}
+
+——————————————————————————————————————————————————————————————————————————————————————
+取消点赞: POST /codesquare/topic/cancel-like
+参数:
+token
+topic_id 主题id *
+
+返回:
+{
+  "success": 1,
+  "data": "",
+  "message": "",
+  "current_ts": ""
+}

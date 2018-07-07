@@ -121,10 +121,10 @@ class TopicController extends CSBaseController
     {
         $params = \Yii::$app->request->post();
         $form = new \app\models\cs\forms\ReplyForm();
-        $form->load($params);
+        $form->setAttributes($params);
         if (!$form->validate()) {
-            $error = $form->parseFirstError();
-            return $this->error($error['message'], $error['code']);
+            $error = $form->getFirstErrors();
+            return $this->error(json_encode($error, JSON_UNESCAPED_UNICODE));
         }
         
         $replySrv = new TopicService($this->userContext);
@@ -167,28 +167,54 @@ class TopicController extends CSBaseController
             return $this->error('参数无效', ErrorCode::$ApiParamEmpty);
         }
         
-        $cancel = \Yii::$app->request->post('is_cancel');
         $topicSrv = new TopicService($this->userContext);
-        $topicSrv->collect($topicId, $cancel ? true : false);
+        $topicSrv->collect($topicId);
+        
+        return $this->response();
+    }
+    
+    /**
+     * 取消收藏
+     * @return type
+     */
+    public function actionCancelCollect()
+    {
+        $topicId = \Yii::$app->request->post('topic_id');
+        if (!$topicId) {
+            return $this->error('参数无效', ErrorCode::$ApiParamEmpty);
+        }
+        $topicSrv = new TopicService($this->userContext);
+        $topicSrv->collect($topicId, true);
         
         return $this->response();
     }
 
     /**
-     * 点赞/取消点赞
+     * 点赞
      */
     public function actionLike()
     {
-        $params = \Yii::$app->request->post();
-        $form = new \app\models\cs\forms\GoodForm();
-        $form->load($params);
-        if (!$form->validate()) {
-            $error = $form->parseFirstError();
-            return $this->error($error['message'], $error['code']);
-        }
-               
+        $topicId = \Yii::$app->request->post('topic_id');
+        if (!$topicId) {
+            return $this->error('参数无效', ErrorCode::$ApiParamEmpty);
+        }    
         $topicSrv = new TopicService($this->userContext);
-        $topicSrv->like($form->topic_id, $form->is_cancel);
+        $topicSrv->like($topicId);
+        return $this->response();
+    }
+    
+    /**
+     * 取消点赞
+     * @return type
+     */
+    public function actionCancelLike()
+    {
+        $topicId = \Yii::$app->request->post('topic_id');
+        if (!$topicId) {
+            return $this->error('参数无效', ErrorCode::$ApiParamEmpty);
+        }    
+        $topicSrv = new TopicService($this->userContext);
+        $topicSrv->like($topicId, true);
         return $this->response();
     }
     

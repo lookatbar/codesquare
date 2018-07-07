@@ -28,12 +28,12 @@ class GoodModel extends CSBaseModel
             $existRecord = (new Query())->from('cs_good')->where(['topic_id' => $topicId])->exists($this->Db);
             if ($existRecord) {
                 $this->db->createCommand()->update('cs_good', [
-                    'user_list' => json_encode($userList)],
+                    'user_list' => json_encode($userList, JSON_UNESCAPED_UNICODE)],
                     ['topic_id' => $topicId])->execute();
             } else {
                 $this->db->createCommand()->insert('cs_good', [
                     'topic_id' => $topicId,
-                    'user_list' => json_encode($userList)
+                    'user_list' => json_encode($userList, JSON_UNESCAPED_UNICODE)
                 ])->execute();
             }
 
@@ -50,7 +50,7 @@ class GoodModel extends CSBaseModel
      */
     public function getUserList($topicId)
     {
-        $userList = (new Query())->from('cs_good')->where(['topic_id' => $topicId])->createCommand($this->db)->queryScalar();
+        $userList = (new Query())->from('cs_good')->select("user_list")->where(['topic_id' => $topicId])->createCommand($this->db)->queryScalar();
         return $userList === false ? [] : json_decode($userList, true);
     }
 }
