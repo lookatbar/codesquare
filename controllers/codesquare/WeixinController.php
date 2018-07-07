@@ -15,6 +15,7 @@ use app\common\utils\CommonHelper;
 use app\common\utils\helper;
 use app\common\weixin\AccessToken;
 use app\common\weixin\jssdk;
+use app\common\weixin\Message;
 use app\controllers\BaseController;
 use app\models\cs\records\UserRecord;
 use Yii;
@@ -164,8 +165,8 @@ class WeixinController extends BaseController
     }
 
     public function actionTestToken(){
-        $wxService = new WxService();
-        echo   $wxService->getFile('111');
+        $message = new Message();
+        echo   $message->pushTextMsgTest('huangcf','测试消息');
 //        $jssdk = new jssdk(134);
 //        $data  = $jssdk->getSignPackage();
 //       var_dump($data);die;
