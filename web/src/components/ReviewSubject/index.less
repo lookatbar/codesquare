@@ -1,5 +1,9 @@
 .reviewSubject{
 	color: #fff;
+	padding-bottom: 50px;
+	height: 100%;
+	overflow: auto;
+	position: relative;
 
 	&-field{
 		padding: 17px;
@@ -73,5 +77,32 @@
 		font-size: 15px;
 		line-height: 20px;
 		color: #fff;
+	}
+	// 底部交互栏
+	&-tools{
+		position: absolute;
+		background-color: #242537;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		height: 50px;
+		display: flex;
+		color: #fff;
+		text-align: center;
+		span{
+			flex-grow: 1;
+			margin: 10px 0;
+			line-height: 30px;
+			font-size: 14px;
+			& + span{
+				border-left: 1px #505050 solid;
+			}
+		}
+		.iconfont{
+			margin-right: 7px;
+		}
+		.is_good .icon-zan{
+			color: #FF5F66;
+		}
 	}
 }
