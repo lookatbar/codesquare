@@ -2,6 +2,7 @@
 // 这里再统一输出到render所在的文件中
 import { all, fork } from 'redux-saga/effects';
 
+import { initWXSaga } from './components/appRedux';
 import { getUserInfoSaga } from './components/Home/homeRedux';
 
 let errorCount = 0;
@@ -9,6 +10,7 @@ let errorCount = 0;
 export default function* rootSaga(){
 	try {
 		yield all([
+			initWXSaga(),
 			getUserInfoSaga()
 		]);
 	}catch(error){
