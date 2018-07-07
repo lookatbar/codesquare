@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import {Button, Toast} from 'react-weui';
+import { Toast } from 'react-weui';
 
 import 'weui';
 import 'react-weui/build/packages/react-weui.css';

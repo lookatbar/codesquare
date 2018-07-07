@@ -49,25 +49,40 @@ class ReviewSubject extends Component{
 	}
 	// 点赞
 	like(){
-		console.log('点赞了...');
+		console.log('切换点赞...');
 		const { params } = this.props;
-		const { is_good } = this.state.detail;
-		const { token } = this.state;
+		const { token, detail } = this.state;
+		const { is_good, good_count } = detail;
 
 		fetchToggleLike(is_good, params.id, token)
 			.then(res => {
-				console.log(res);
+				let new_is_good = is_good === 0 ? 1 : 0;
+				let new_good_count = is_good === 0 ? (good_count + 1) : (good_count - 1);
+				this.setState({
+					detail: {
+						...detail,
+						is_good: new_is_good,
+						good_count: new_good_count,
+					}
+				});
 			});
 	}
 	// 收藏
 	collect(){
-		console.log('收藏了...');
+		console.log('切换收藏...');
 		const { params } = this.props;
-		const { token } = this.state;
+		const { token, detail } = this.state;
+		const { is_fav } = detail;
 
-		fetchToggleCollect(0, params.id, token)
+		fetchToggleCollect(is_fav, params.id, token)
 			.then(res => {
-				console.log(res);
+				let new_is_fav = is_fav === 0 ? 1 : 0;
+				this.setState({
+					detail: {
+						...detail,
+						is_fav: new_is_fav,
+					}
+				});
 			})
 	}
 	// 回复跳转
@@ -84,7 +99,7 @@ class ReviewSubject extends Component{
 			return null;
 		}
 
-		const { is_good } = detail;
+		const { is_good, is_fav } = detail;
 
 		return(
 			<div className="reviewSubject">
@@ -129,7 +144,7 @@ class ReviewSubject extends Component{
 						<i className="iconfont icon-zan" />
 						赞·{detail.good_count}
 					</span>
-					<span onClick={this.collect}>
+					<span onClick={this.collect} className={classnames({is_fav: is_fav !== 0})}>
 						<i className="iconfont icon-shoucang" />
 						收藏
 					</span>

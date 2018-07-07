@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { tabs } from '../Square/config';
+import fieldsetInit from '../decorators/fieldsetInit';
+import { fetchCreateTopic } from '../../assets/fetchApi/action';
 
+import classnames from 'classnames';
 import './index.less';
 
-import fieldsetInit from '../decorators/fieldsetInit';
+const mapStateToProps = ({userInfo}) => ({
+	userInfo,
+});
 
 @fieldsetInit({
 	title: '',
@@ -11,17 +18,46 @@ import fieldsetInit from '../decorators/fieldsetInit';
 	// 图片需要单独处理
 	// images_list: [],
 })
+@connect(mapStateToProps)
 class CreateSubject extends Component{
 	constructor(props){
 		super(props);
 
-		this.state = {
+		const { userInfo } = props;
 
+		this.state = {
+			token: userInfo.token,
 		}
+		this.onSubmit = this.onSubmit.bind(this);
 	}
 
-	onSubmit(){
+	onSubmit(e){
+		e.preventDefault();
 
+		const {
+			title,
+			content,
+			topic_type,
+
+			router,
+		} = this.props;
+		const { token } = this.state;
+
+		if(!title || !content || !topic_type){
+			return;
+		}
+
+		fetchCreateTopic({
+			token,
+			title,
+			content,
+			topic_type,
+		}).then(res => {
+			console.log(res);
+			const { topic_id } = res.data;
+
+			router.replace(`/subject/review/${topic_id}`);
+		});
 	}
 
 	render(){
@@ -54,14 +90,21 @@ class CreateSubject extends Component{
 					</div>
 
 					<div className="createSubject-field">
-						<label>
-							<input type="radio" value="111" checked={topic_type === '111'} onChange={set_topic_type} />
-							111
-						</label>
-						<label>
-							<input type="radio" value="222" checked={topic_type === '222'} onChange={set_topic_type} />
-							222
-						</label>
+						<span>栏目</span>
+						{
+							tabs.map(item => 
+								<label 
+									className={classnames('createSubject-radio', {checked: topic_type === item.topic_type})} 
+									key={item.topic_type}>
+									<input 
+										type="radio" 
+										value={item.topic_type} 
+										checked={topic_type === item.topic_type} 
+										onChange={set_topic_type} />
+									{item.topic_type_name}
+								</label>
+							)
+						}
 					</div>
 
 					<div className="createSubject-tools">

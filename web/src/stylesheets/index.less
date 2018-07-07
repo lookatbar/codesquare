@@ -7,67 +7,9 @@ html, body, #root, .App{
 }
 
 
-.routeTransitionWrapper {
+.App {
   position: relative;
   z-index: 1;
   background-color: #191B2A;
   height: 100%;
-  .transition-item{
-    transition: transform 0.5s, opacity 0.5s;
-    transform: translate3d(0, 0, 0);
-    overflow: auto;
-  }
-}
-.home {
-  &.routeTransitionWrapper-enter {
-    position: fixed;
-    height: 100%;
-    width: 100%;
-    opacity: 0;
-    transform: translate3d(-100%, 0, 0);
-  }
-
-  &.routeTransitionWrapper-enter.routeTransitionWrapper-enter-active {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-  &.routeTransitionWrapper-leave {
-    position: fixed;
-    height: 100%;
-    width: 100%;
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-
-  &.routeTransitionWrapper-leave.routeTransitionWrapper-leave-active {
-    opacity: 0;
-    transform: translate3d(-100%, 0, 0);
-  }
-}
-
-.subject {
-  &.routeTransitionWrapper-enter {
-    position: fixed;
-    height: 100%;
-    width: 100%;
-    opacity: 0;
-    transform: translate3d(100%, 0, 0);
-  }
-
-  &.routeTransitionWrapper-enter.routeTransitionWrapper-enter-active {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-  &.routeTransitionWrapper-leave {
-    position: fixed;
-    height: 100%;
-    width: 100%;
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-
-  &.routeTransitionWrapper-leave.routeTransitionWrapper-leave-active {
-    opacity: 0;
-    transform: translate3d(100%, 0, 0);
-  }
 }

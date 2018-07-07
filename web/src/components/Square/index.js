@@ -131,7 +131,7 @@ class Square extends Component{
 	}
 
 	render(){
-		const { topic_type, list, hasMore, record_count } = this.state;
+		const { topic_type, list, hasMore } = this.state;
 
 		return (
 			<div className="square transition-item">

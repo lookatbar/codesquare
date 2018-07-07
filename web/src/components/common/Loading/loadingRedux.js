@@ -1,5 +1,5 @@
-const SHOW_LOADING = SHOW_LOADING;
-const HIDE_LOADING = HIDE_LOADING;
+const SHOW_LOADING = 'SHOW_LOADING';
+const HIDE_LOADING = 'HIDE_LOADING';
 
 export const showLoading = (str) => ({
 	type: SHOW_LOADING,
