@@ -8,6 +8,7 @@
 
 namespace app\services;
 use app\common\CSConstant;
+use app\models\cs\FavoriteModel;
 use app\models\cs\forms\TopicSaveRequestFrom;
 use app\models\cs\GoodModel;
 use app\models\cs\records\OfferAwardRecord;
@@ -181,6 +182,7 @@ class TopicService extends CSServiceBase
         $topicData['topic_type'] = CSConstant::getTopicTypeByTopicTypeName($topicData['topic_type']);
         $topicData['is_author'] = $this->userContext->userId == $topicData['user_id'] ? 1:0;
         $topicData['is_good'] = 0;
+        $topicData['is_fav'] = 0;
 
         $userInfo = UserRecord::findOne(['user_id' => $topicData['user_id']]);
         if (!empty($userInfo)) {
@@ -192,6 +194,11 @@ class TopicService extends CSServiceBase
         $userList = $goodModel->getUserList($topicId);
         if(array_key_exists($this->userContext->userId,$userList)){
             $topicData['is_good'] = 1;
+        }
+
+        $favInfo =  FavoriteModel::findOne(['user_id'=>$topicData['user_id'],'topic_id'=>$topicId,'is_deleted'=>0]);
+        if (!empty($favInfo)) {
+            $topicData['is_fav'] = 1;
         }
 
         $topicData['offer_award'] = NULL;
