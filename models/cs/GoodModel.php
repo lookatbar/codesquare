@@ -25,7 +25,7 @@ class GoodModel extends CSBaseModel
     public function saveUserList($topicId, $userList)
     {
         $this->db->transaction(function() use($topicId, $userList){
-            $existRecord = (new Query())->from('cs_good')->where(['topic_id' => $topicId])->exists($this->Db);
+            $existRecord = (new Query())->from('cs_good')->where(['topic_id' => $topicId])->exists($this->db);
             if ($existRecord) {
                 $this->db->createCommand()->update('cs_good', [
                     'user_list' => json_encode($userList, JSON_UNESCAPED_UNICODE)],
