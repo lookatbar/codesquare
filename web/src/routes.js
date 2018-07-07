@@ -14,7 +14,7 @@ import Reply from './components/Reply';
 
 // 路由对应名称
 export const routeMap = {
-	'/home/square': '代码广场',
+	'/home/square': '点术成金',
 	'/home/ranking': '榜单',
 	'/home/market': 'M商城',
 	'/home/user': '我',

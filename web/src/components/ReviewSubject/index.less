@@ -78,6 +78,39 @@
 		line-height: 20px;
 		color: #fff;
 	}
+	// 回复内容
+	&-reply{
+		&-wrapper{
+			position: relative;
+			margin-top: 15px;
+			padding-left: 50px;
+		}
+		&-avatar{
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 36px;
+			height: 36px;
+			border-radius: 50%;
+			overflow: hidden;
+			img{
+				position: absolute;
+				display: block;
+				width: 100%;
+				left: 0;
+				top: 50%;
+				transform: translateY(-50%);
+			}
+		}
+		&-author{
+			font-size: 15px;
+			padding-bottom: 3px;
+		}
+		&-content{
+			font-size: 13px;
+			color: #ddd;
+		}
+	}
 	// 底部交互栏
 	&-tools{
 		position: absolute;

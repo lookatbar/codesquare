@@ -6,8 +6,9 @@ import './index.less';
 
 import { 
 	fetchReviewTopic, 
+	fetchGetReply, 
 	fetchToggleLike, 
-	fetchToggleCollect 
+	fetchToggleCollect, 
 } from '../../assets/fetchApi/action';
 
 
@@ -25,6 +26,7 @@ class ReviewSubject extends Component{
 		this.state = {
 			token,
 			detail: null,
+			reply: [],
 		}
 
 		this.like = this.like.bind(this);
@@ -41,11 +43,22 @@ class ReviewSubject extends Component{
 			token,
 		})
 			.then(res => {
-				console.log(res);
 				this.setState({
 					detail: res.data,
 				})
 			});
+
+		fetchGetReply({
+			token,
+			topic_id: params.id,
+			page_size: 100,
+			page_index: 1,
+		}).then(res => {
+			console.log(res);
+			this.setState({
+				reply: res.data,
+			});
+		})
 	}
 	// 点赞
 	like(){
@@ -93,7 +106,7 @@ class ReviewSubject extends Component{
 	}	
 
 	render(){
-		const { detail } = this.state;
+		const { detail, reply } = this.state;
 
 		if(!detail){
 			return null;
@@ -137,6 +150,18 @@ class ReviewSubject extends Component{
 
 				<div className="reviewSubject-reply reviewSubject-field">
 					<div className="reviewSubject-reply-title">评论</div>
+					{
+						reply.map(item => 
+							<div key={item.reply_id} className="reviewSubject-reply-wrapper">
+								<div className="reviewSubject-reply-avatar">
+									<img src={item.avatar} alt="" />
+								</div>
+								<div className="reviewSubject-reply-author">{item.user_name}</div>
+								<div className="reviewSubject-reply-content">{item.content}</div>
+
+							</div>
+						)
+					}
 				</div>
 
 				<div className="reviewSubject-tools">
