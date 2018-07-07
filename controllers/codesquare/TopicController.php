@@ -8,6 +8,7 @@ namespace app\controllers\codesquare;
 
 use app\common\CSConstant;
 use app\common\ErrorCode;
+use app\common\utils\CommonHelper;
 use app\models\cs\forms\TopicSaveRequestFrom;
 use app\services\TopicService;
 
@@ -163,11 +164,15 @@ class TopicController extends CSBaseController
         if (!$topicId) {
             return $this->error('参数无效', ErrorCode::$ApiParamEmpty);
         }
-        
         $topicSrv = new TopicService($this->userContext);
-        $topicSrv->collect($topicId);
+        $res = $topicSrv->collect($topicId);
+        if($res){
+            return CommonHelper::response('ok',ErrorCode::$OK);
+        }else{
+            return CommonHelper::response('fail',ErrorCode::$FAIL);
+        }
         
-        return $this->response();
+
     }
     
     /**

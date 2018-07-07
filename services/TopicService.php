@@ -114,13 +114,20 @@ class TopicService extends CSServiceBase
         // 取消收藏
         if ($cancel) {
             $userModel->delFavorite($topicId, $this->userContext->userId);
-            return;
+            return true;
+        }
+
+        $favorite = (new FavoriteModel())->findOne(['user_id'=>$this->userContext->userId,'topic_id'=>$topicId,'is_deleted' =>0]) ;
+        if($favorite){
+            return true;
+        }else{
+            // 收藏
+          return   $userModel->addFavorite([
+                'topic_id' => $topicId
+                ,'user_id' => $this->userContext->userId]);
         }
         
-        // 收藏
-        $userModel->addFavorite([
-            'topic_id' => $topicId
-           ,'user_id' => $this->userContext->userId]);
+
     }
    
     /**
