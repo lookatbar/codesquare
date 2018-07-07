@@ -82,4 +82,10 @@ class ReplyModel extends CSBaseModel
         return $this->retPage($list,$count);
     }
 
+    public function getReplyCountByUserId($userId)
+    {
+        $sql = "";
+        $list = $this->db->createCommand($sql ,[':userId'=>$userId])->queryColumn();
+    }
+
 }

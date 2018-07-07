@@ -35,4 +35,13 @@ class TopicModel extends CSBaseModel
     {
         return $this->db->createCommand()->update('cs_topic', $data, ['topic_id' => $topicId])->execute();
     }
+
+    public function getPublishCount($userId){
+        $sql ="SELECT count(*) as count from cs_topic where user_id =:user_id";
+        return $this->db->createCommand($sql,[':user_id'=>$userId])->queryColumn();
+    }
+    public function getReplyCount($userId){
+        $sql ="SELECT count(*) as count from cs_topic where user_id =:user_id";
+        return $this->db->createCommand($sql,[':user_id'=>$userId])->queryColumn();
+    }
 }
