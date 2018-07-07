@@ -154,7 +154,7 @@ class WeixinController extends BaseController
         $cache = Yii::$app->cache;
         $context = new UserContext();
         $context->userId = $user->user_id;
-        $context->userName = $user->name;
+        $context->name = $user->name;
         $context->mobile = $user->mobile;
         $context->avatar = $user->avatar;
         $context->email = $user->email;
