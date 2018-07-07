@@ -44,6 +44,12 @@ class UserService
     public function getBeRepliedList($userId,$pageIndex=CSConstant::PAGE_INDEX,$pageSize=CSConstant::PAGE_SIZE){
         $replyModel = new ReplyModel();
         $ret = $replyModel->getBeRepliedListByUser($userId,$pageIndex,$pageSize);
+        $list = $ret['data'];
+        foreach ($list as &$val){
+            $val['topic_type_name'] = $val['topic_type'];
+            $val['topic_type'] = CSConstant::getTopicTypeByTopicTypeName($val['topic_type']);
+        }
+        $ret['data'] = $list;
         return $ret;
     }
 
