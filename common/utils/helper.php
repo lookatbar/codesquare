@@ -111,19 +111,20 @@ class helper {
         return $result;
     }
 
+
+    //生成指定长度的随机字符串
+    public static  function createNonceStr($length = 16) {
+        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        $str = "";
+        for ($i = 0; $i < $length; $i++) {
+            $str .= substr($chars, mt_rand(0, strlen($chars) - 1), 1);
+        }
+        return $str;
+    }
+
     //给URL地址追加参数
     public function appendParamter($url,$key,$value){
         return strrpos($url,"?",0) > -1 ? "$url&$key=$value" : "$url?$key=$value";
-    }
-
-    //生成指定长度的随机字符串
-    public function createNonceStr($length = 16) {
-      $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-      $str = "";
-      for ($i = 0; $i < $length; $i++) {
-        $str .= substr($chars, mt_rand(0, strlen($chars) - 1), 1);
-      }
-      return $str;
     }
 
     //读取本地文件
