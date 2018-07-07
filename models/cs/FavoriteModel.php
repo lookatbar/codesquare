@@ -57,9 +57,7 @@ class FavoriteModel extends  RecordBase
             LEFT JOIN cs_user ON cs_favorite.user_id = cs_user.user_id
             LEFT JOIN cs_offer_award ON cs_offer_award.offer_award_id = cs_topic.offer_award_id
             WHERE
-                cs_favorite.is_deleted = 0
-            AND cs_topic.is_deleted = 0
-            AND cs_favorite.user_id = 'zhugm'
+                1=1
             ORDER BY
                 cs_favorite.update_time DESC ";
 
