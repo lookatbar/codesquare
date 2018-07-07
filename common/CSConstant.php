@@ -83,9 +83,9 @@ class CSConstant
     const TASK_TYPE__LIKE = 2;
 
 
-    const TOPIC_TYPE_PROD = '产品';
+    const TOPIC_TYPE_PROD = 1;
 
-    const TOPIC_TYPE_DEV = '开发';
+    const TOPIC_TYPE_DEV = 2;
 
     const PAGE_SIZE = 10;
 
@@ -93,7 +93,10 @@ class CSConstant
 
     public static function getTopicTypes()
     {
-        return [static::TOPIC_TYPE_PROD, static::TOPIC_TYPE_DEV];
+        return [
+            ['topic_type' => self::TOPIC_TYPE_PROD, 'topic_type_name' => '技术'],
+            ['topic_type' => self::TOPIC_TYPE_DEV, 'topic_type_name' => '点子']
+        ];
 
     }
 

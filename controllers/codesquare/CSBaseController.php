@@ -8,6 +8,7 @@
 
 namespace app\controllers\codesquare;
 
+use app\common\context\UserContext;
 use app\common\CSConstant;
 use app\controllers\BaseController;
 
@@ -40,7 +41,12 @@ class CSBaseController extends BaseController
         if (!parent::beforeAction($action)) {
            return false;
         }
-
+//        $userContext = new UserContext();
+//        $userContext->userId = 2;
+//        $userContext->userName = "测试";
+//
+//        $this->userContext = $userContext;
+//        return true;
         // 检查token
         $cache = \Yii::$app->cache;
         $token = $this->getToken();
@@ -67,4 +73,5 @@ class CSBaseController extends BaseController
     {
         return \Yii::$app->request->post('token');
     }
+
 }
