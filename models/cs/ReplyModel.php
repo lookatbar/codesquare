@@ -38,6 +38,7 @@ class ReplyModel extends CSBaseModel
         $this->db->transaction(function() use($topicId, $replyId) {
             $isDel = $this->db->createCommand()->update('cs_reply', ['is_deleted' => 1], ['reply_id' => $replyId])->execute();
             if ($isDel) {
+               // $count = (new \yii\db\Query())->from('cs_reply')->where(['topic_id' => $topicId, 'is_deleted' => 0])->sum('*', $this->db);
                 $this->db->createCommand("update cs_topic set reply_count=if(reply_count>0,reply_count-1,0) where topic_id=:topic_id",
                 [':topic_id' => $topicId])->execute();
             }

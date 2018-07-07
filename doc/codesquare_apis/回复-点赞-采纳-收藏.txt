@@ -81,3 +81,18 @@ topic_id 主题id *
   "message": "",
   "current_ts": ""
 }
+
+——————————————————————————————————————————————————————————————————————————————————————
+采纳: POST /codesquare/topic/accept
+参数:
+token
+topic_id 主题id *
+reply_id 回复id *
+
+返回:
+{
+  "success": 1,
+  "data": "",
+  "message": "",
+  "current_ts": ""
+}
