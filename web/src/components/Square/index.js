@@ -20,7 +20,7 @@ class Square extends Component{
 			token: '0216495c0531df79cb9b4bc19acd4729',
 			page_index: initPage,
 			tabs: [],
-			tab: tabs[0].topic_type,
+			topic_type: tabs[0].topic_type,
 
 			list: [],
 			record_count: 10,
@@ -41,13 +41,20 @@ class Square extends Component{
 	}
 	// 修改分类
 	onChangeTab(target){
-		const tab = target.topic_type;
-		if(tab !== this.state.tab){
+		const topic_type = target.topic_type;
+		if(topic_type !== this.state.topic_type){
 			this.setState({
+				list: [],
 				page_index: initPage,
-				tab,
+				topic_type,
 			});
 		}
+
+		this.loadData({
+			...this.state,
+			page_index: initPage,
+			topic_type, 
+		});
 	}
 
 	onRefresh(){
@@ -80,11 +87,10 @@ class Square extends Component{
 	onReview(target){
 		const { router } = this.props;
 		router.push(`/subject/review/${target.topic_id}`);
-		console.log(target);
 	}
 
 	loadData(param = this.state){
-		const { token, page_index } = param;
+		const { token, page_index, topic_type } = param;
 
 		if(!token){
 			setTimeout(() => {
@@ -96,6 +102,7 @@ class Square extends Component{
 		fetchGetTopic({
 			token,
 			page_index,
+			topic_type,
 		}).then(res => {
 			const { list } = this.state;
 			const {
@@ -114,7 +121,7 @@ class Square extends Component{
 	}
 
 	render(){
-		const { tab, list } = this.state;
+		const { topic_type, list } = this.state;
 
 		return (
 			<div className="square transition-item">
@@ -123,7 +130,7 @@ class Square extends Component{
 						name="topic_type_name" 
 						keyword="topic_type" 
 						tabs={tabs} 
-						current={tab} 
+						current={topic_type} 
 						onSelect={this.onChangeTab} />
 				</div>
 				<div className="square-content">

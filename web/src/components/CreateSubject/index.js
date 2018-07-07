@@ -4,7 +4,6 @@ import './index.less';
 
 import fieldsetInit from '../decorators/fieldsetInit';
 
-
 @fieldsetInit({
 	title: '',
 	content: '',
@@ -41,12 +40,14 @@ class CreateSubject extends Component{
 				<form onSubmit={this.onSubmit}>
 					<div className="createSubject-field">
 						<textarea 
+							maxLength="60"
 							placeholder="填写主题"
 							onChange={set_title}
 							value={title} />
 					</div>
 					<div className="createSubject-field">
 						<textarea 
+							rows="5"
 							placeholder="说说你的心得或问题吧~"
 							onChange={set_content}
 							value={content} />

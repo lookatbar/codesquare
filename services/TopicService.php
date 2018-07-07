@@ -161,6 +161,10 @@ class TopicService extends CSServiceBase
 
     public function getTopicDetail($topicId)
     {
+        //增加阅读量
+        $model = new TopicRecord();
+        $model->increaseViewCount($topicId);
+
         $topicData = TopicRecord::findOne(['topic_id' => $topicId,'is_deleted'=>0]);
         if (empty($topicData)) {
             return [];
@@ -184,6 +188,7 @@ class TopicService extends CSServiceBase
         if(array_key_exists($this->userContext->userId,$userList)){
             $topicData['is_good'] = 1;
         }
+
 
 
         unset($topicData['is_deleted']);

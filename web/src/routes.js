@@ -19,7 +19,7 @@ export const routeMap = {
 	'/home/user': '我',
 
 	'/subject/create': '写笔记',
-	'/subject/detail': '详情',
+	'/subject/review': '详情',
 }
 
 export default (
