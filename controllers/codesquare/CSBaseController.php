@@ -8,6 +8,7 @@
 
 namespace app\controllers\codesquare;
 
+use app\common\CSConstant;
 use app\controllers\BaseController;
 
 /**
@@ -27,13 +28,19 @@ class CSBaseController extends BaseController
      * @var \app\common\context\UserContext
      */
     protected $userContext = null;
+
+    protected $pageSize = CSConstant::PAGE_SIZE;
+    protected $pageIndex  = CSConstant::PAGE_INDEX;
     
     public function beforeAction($action)
     {
+
+        $this->pageIndex    = \Yii::$app->request->post('page_index',CSConstant::PAGE_INDEX);
+        $this->pageSize     = \Yii::$app->request->post('page_size',CSConstant::PAGE_SIZE);
         if (!parent::beforeAction($action)) {
            return false;
         }
-        
+
         // 检查token
         $cache = \Yii::$app->cache;
         $token = $this->getToken();

@@ -6,6 +6,7 @@
 namespace app\controllers\codesquare;
 
 
+use app\common\CSConstant;
 use app\services\TopicService;
 
 class TopicController extends CSBaseController
@@ -17,10 +18,29 @@ class TopicController extends CSBaseController
      */
     public function actionIndex()
     {
+        $topic_type = \Yii::$app->request->post('topic_type',CSConstant::getTopicTypes()[0]);
+
+
+        $list = [];
+        for ($i=0;$i<$this->pageSize;$i++){
+            $topicId = $this->pageIndex*$this->pageSize+$i;
+            $list[] = [
+                'topic_id'=>$topicId,
+                'title'=>'title_'.$topicId,
+                'content'=>'content_'.$topicId,
+                'user_id'=>2,
+                'user_name'=>'测试2',
+                'good_count'=>1,
+                'view_count'=>2,
+                'reply_count'=>100,
+                'create_time'=>'2018-05-06 18:11:12'
+            ];
+        }
 
 
 
-        return $this->response();
+
+
     }
 
 
@@ -40,14 +60,6 @@ class TopicController extends CSBaseController
     {
 
 
-        $topicTitle = \Yii::$app->request->post('topic_title');
-        $topicContent = \Yii::$app->request->post('topic_content');
-        $topicImageList = \Yii::$app->request->post('topic_image_list');
-        $topicTagId = \Yii::$app->request->post('topic_tag_id');
-
-
-
-        //$topicSer = new TopicService($this->userInfo);
 
 
 
