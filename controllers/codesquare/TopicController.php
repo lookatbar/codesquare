@@ -121,10 +121,10 @@ class TopicController extends CSBaseController
     {
         $params = \Yii::$app->request->post();
         $form = new \app\models\cs\forms\ReplyForm();
-        $form->load($params);
+        $form->setAttributes($params);
         if (!$form->validate()) {
-            $error = $form->parseFirstError();
-            return $this->error($error['message'], $error['code']);
+            $error = $form->getFirstErrors();
+            return $this->error(json_encode($error, JSON_UNESCAPED_UNICODE));
         }
         
         $replySrv = new TopicService($this->userContext);
@@ -181,10 +181,10 @@ class TopicController extends CSBaseController
     {
         $params = \Yii::$app->request->post();
         $form = new \app\models\cs\forms\GoodForm();
-        $form->load($params);
+        $form->setAttributes($params);
         if (!$form->validate()) {
-            $error = $form->parseFirstError();
-            return $this->error($error['message'], $error['code']);
+            $error = $form->getFirstErrors();
+            return $this->error(json_encode($error, JSON_UNESCAPED_UNICODE));
         }
                
         $topicSrv = new TopicService($this->userContext);
