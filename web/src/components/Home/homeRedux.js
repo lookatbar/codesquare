@@ -26,7 +26,23 @@ export function* homeSaga(){
 	]);
 }
 
+let token = '6d08b1d6d797a63ef226a2d597b90c00';
+try{
+	let queryString = window.location.search.substr(1);
+	let queryParam = {};
+	queryString = queryString.split('&');
+	queryString.forEach(item => {
+		let temp = item.split('=');
+		queryParam[temp[0]] = temp[1];
+	});
+
+	token = queryParam['token'] || token;
+}catch(error){
+	console.log(error);
+}
+
 export const homeReducer = (state = {
+	token,
 	pending: false,
 	// result: null,
 	result: {"errcode":0,"errmsg":"ok","userid":"yangyz","name":"杨泳樟","department":[8393],"mobile":"18576078137","gender":"1","email":"yangyz@mingyuanyun.com","avatar":"http://shp.qpic.cn/bizmp/fkhJ5g19HCeBhlk7N1I3cOib1tScN0bUJ8JtrGSzia7zOFmKzh6JGo2A/","status":1,"extattr":{"attrs":[{"name":"分机号","value":""}]}},

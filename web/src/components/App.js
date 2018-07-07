@@ -2,8 +2,9 @@ import React, { Component, cloneElement } from 'react';
 import { connect } from 'react-redux';
 import { routeMap } from '../routes';
 import ReactCSSTransitionGroup from 'react/lib/ReactCSSTransitionGroup';
+import Loading from './common/Loading';
 
-import { initWX } from './appRedux';
+// import { initWX } from './appRedux';
 
 // @todo 
 // 根据路由 修改标题
@@ -20,7 +21,7 @@ class App extends Component {
       }
     });
     // 获取票据并缓存
-    dispatch( initWX() );
+    // dispatch( initWX() );
   }
 
   componentWillReceiveProps({location}){
@@ -46,16 +47,19 @@ class App extends Component {
     }
 
     return (
-      <ReactCSSTransitionGroup
-        transitionName="routeTransitionWrapper"
-        transitionEnter={true}
-        transitionEnterTimeout={500}
-        transitionLeave={true}
-        transitionLeaveTimeout={500}
-        component="div"
-        className="App routeTransitionWrapper">
-        { cloneElement(this.props.children, {key: key}) }
-      </ReactCSSTransitionGroup>
+      <div className="App">
+        <ReactCSSTransitionGroup
+          transitionName="routeTransitionWrapper"
+          transitionEnter={true}
+          transitionEnterTimeout={500}
+          transitionLeave={true}
+          transitionLeaveTimeout={500}
+          component="div"
+          className="routeTransitionWrapper">
+          { cloneElement(this.props.children, {key: key}) }
+        </ReactCSSTransitionGroup>
+        <Loading />
+      </div>
     );
   }
 }

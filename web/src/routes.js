@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router';
+import { Route, Redirect, IndexRedirect } from 'react-router';
 import App from './components/App';
 import Home from './components/Home';
 import Square from './components/Square';
@@ -10,6 +10,7 @@ import Market from './components/Market';
 import Subject from './components/Subject';
 import CreateSubject from './components/CreateSubject';
 import ReviewSubject from './components/ReviewSubject';
+import Reply from './components/Reply';
 
 // 路由对应名称
 export const routeMap = {
@@ -24,6 +25,7 @@ export const routeMap = {
 
 export default (
 	<Route path="/" component={App}>
+		<IndexRedirect to="/home/square" />
 		<Route path="home" component={Home}>
 			<Route path="square" component={Square} />
 			<Route path="ranking" component={Ranking} />
@@ -33,6 +35,7 @@ export default (
 		<Route path="subject" component={Subject}>
 			<Route path="create" component={CreateSubject} />
 			<Route path="review/:id" component={ReviewSubject} />
+			<Route path="reply/:id" component={Reply} />
 		</Route>
 		<Redirect from="*" to="/home/square" />
 	</Route>

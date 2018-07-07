@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './index.less';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import { fetchGetTopic } from '../../assets/fetchApi/action';
 
 import Tabbar from '../common/Tabbar';
@@ -11,13 +11,19 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 
 const initPage = 1;
 
+const mapStateToProps = ({userInfo}) => ({
+	userInfo,
+});
+
+@connect(mapStateToProps)
 class Square extends Component{
 	constructor(props){
 		super(props);
 
+		const { token } = props.userInfo;
 
 		this.state = {
-			token: '0216495c0531df79cb9b4bc19acd4729',
+			token,
 			page_index: initPage,
 			tabs: [],
 			topic_type: tabs[0].topic_type,
@@ -47,6 +53,7 @@ class Square extends Component{
 				list: [],
 				page_index: initPage,
 				topic_type,
+				hasMore: true,
 			});
 		}
 
@@ -59,13 +66,15 @@ class Square extends Component{
 
 	onRefresh(){
 		this.setState({
-			page_index: initPage,
 			list: [],
+			page_index: initPage,
+			hasMore: true,
 		});
 
 		this.loadData({
 			...this.state,
 			page_index: initPage,
+			hasMore: true,
 		});
 	}
 
@@ -110,18 +119,19 @@ class Square extends Component{
 				record_count, 
 			} = res;
 
-
 			const newList = list.concat(data);
+			let hasMore = newList.length < record_count;
 
 			this.setState({
 				list: newList,
 				record_count, 
+				hasMore,
 			});
 		});
 	}
 
 	render(){
-		const { topic_type, list } = this.state;
+		const { topic_type, list, hasMore, record_count } = this.state;
 
 		return (
 			<div className="square transition-item">
@@ -137,13 +147,9 @@ class Square extends Component{
 					<InfiniteScroll
 						dataLength={list.length} //This is important field to render the next data
 						next={this.onTurnPage}
-						hasMore={true}
+						hasMore={hasMore}
 						loader={<h4>Loading...</h4>}
-						endMessage={
-						  <p style={{textAlign: 'center'}}>
-						    <b>Yay! You have seen it all</b>
-						  </p>
-						}
+				
 						// below props only if you need pull down functionality
 						refreshFunction={this.onRefresh}
 						pullDownToRefresh
