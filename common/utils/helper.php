@@ -181,13 +181,12 @@ class helper {
             try {
                 // 加锁
                $cache->set($lockKey, 1, $timeout);
-               call_user_func($func, $params);            
+               call_user_func($func, $params);
                break;
            } catch (\Exception $ex){
                throw $ex;
-           }
-            finally  {
-               $cache->exists($lockKey) && $cache->delete($lockKey);
+           } finally {
+                $cache->exists($lockKey) && $cache->delete($lockKey);
            }
         }
     }
