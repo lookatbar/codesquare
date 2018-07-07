@@ -36,7 +36,7 @@ class TopicService extends CSServiceBase
     public function like($topicId)
     {
         $goodModel = new \app\models\cs\GoodModel();
-        \app\common\utils\helper::lock('topic_like_lock', function() use($topicId, $goodModel){
+        \app\common\utils\helper::lock("topic_like_lock_{$topicId}", function() use($topicId, $goodModel){
             $userList = $goodModel->getUserList($topicId);
                if (!array_key_exists($this->userContext->userId, $userList)) {
                    $userList[$this->userContext->userId] = ['name' => $this->userContext->userName];
