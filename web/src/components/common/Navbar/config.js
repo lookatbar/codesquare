@@ -9,11 +9,11 @@ export const links = [
 		name: '榜单',
 		icon: 'icon-bangdan',
 	},
-	{
-		href: '/home/market',
-		name: 'M商城',
-		icon: 'icon-shangcheng',
-	},
+	// {
+	// 	href: '/home/market',
+	// 	name: 'M商城',
+	// 	icon: 'icon-shangcheng',
+	// },
 	{
 		href: '/home/user',
 		name: '我',

@@ -26,7 +26,7 @@ export function* homeSaga(){
 	]);
 }
 
-let token = '6d08b1d6d797a63ef226a2d597b90c00';
+let token = '775b9bc653a814e32688e2ee8c8261e2';
 try{
 	let queryString = window.location.search.substr(1);
 	let queryParam = {};
