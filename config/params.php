@@ -12,5 +12,6 @@ return [
             "Secret" => "应用1的密钥，在管理后台查看",
             "Token"  => "应用1回调模式的Token，在应用的回调模式里面设置",
             "EncodingAESKey"=>"应用1回调模式的加密串，在应用的回调模式里面设置"
-    ]
+    ],
+    'host'=>'http://jkds.cracher.top/'
 ];

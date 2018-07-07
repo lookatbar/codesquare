@@ -117,7 +117,7 @@ public function appendParamter($url,$key,$value){
 }
 
 //生成指定长度的随机字符串
-public function createNonceStr($length = 16) {
+public static  function createNonceStr($length = 16) {
   $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
   $str = "";
   for ($i = 0; $i < $length; $i++) {

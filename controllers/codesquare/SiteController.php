@@ -12,6 +12,8 @@ use app\common\ErrorCode;
 use app\common\utils\helper;
 use app\common\utils\HttpHelper;
 use app\common\weixin\AccessToken;
+use app\common\weixin\jssdk;
+use app\common\weixin\WxService;
 use app\controllers\BaseController;
 use app\models\cs\DepartmentModel;
 use app\models\cs\records\UserRecord;
@@ -107,6 +109,15 @@ class SiteController extends BaseController
 
      }
 
+    /**
+     * 获取jssdk票据
+     */
+     public  function actionGetSignPackage(){
+         $jssdk = new jssdk(134);
+         $data  = $jssdk->getSignPackage();
+         CommonHelper::response('ok',ErrorCode::$OK,$data);
+     }
+
 
      public function userInfo($token,$userId){
          $url = "https://qyapi.weixin.qq.com/cgi-bin/user/get?access_token=$token&userid=$userId";
@@ -143,13 +154,18 @@ class SiteController extends BaseController
     }
 
     public function actionTestToken(){
+        $wxService = new WxService();
+      echo   $wxService->getFile('111');
+//        $jssdk = new jssdk(134);
+//        $data  = $jssdk->getSignPackage();
+//       var_dump($data);die;
 
-        $page_size = isset($_GET['page_size'])?$_GET['page_size']:20;
-        $page_index = isset($_GET['page_index'])?$_GET['page_index']:1;
-        $user =  new UserRecord();
-        $list = $user->find()->select('user_id,name')->offset($page_size*$page_index)
-            ->limit($page_size)->asArray()->all();
-        CommonHelper::response("ok",ErrorCode::$OK,$list);
+//        $page_size = isset($_GET['page_size'])?$_GET['page_size']:20;
+//        $page_index = isset($_GET['page_index'])?$_GET['page_index']:1;
+//        $user =  new UserRecord();
+//        $list = $user->find()->select('user_id,name')->offset($page_size*$page_index)
+//            ->limit($page_size)->asArray()->all();
+//        CommonHelper::response("ok",ErrorCode::$OK,$list);
 //        $user =  new UserRecord();
 //        $list = $user->find()->select('user_id,name')->asArray()->all();
 //        CommonHelper::response("ok",ErrorCode::$OK,$list);
