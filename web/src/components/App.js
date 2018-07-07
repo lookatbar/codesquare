@@ -9,12 +9,20 @@ import ReactCSSTransitionGroup from 'react/lib/ReactCSSTransitionGroup';
 class App extends Component {
   componentDidMount(){
     const { location } = this.props;
-    document.title = routeMap[location.pathname];
+    Object.keys(routeMap).forEach(route => {
+      if(location.pathname.match(route)){
+        document.title = routeMap[route];
+      }
+    });
   }
 
   componentWillReceiveProps({location}){
     if(location.pathname !== this.props.location.pathname){
-      document.title = routeMap[location.pathname];
+      Object.keys(routeMap).forEach(route => {
+        if(location.pathname.match(route)){
+          document.title = routeMap[route];
+        }
+      });
     }
   }
 

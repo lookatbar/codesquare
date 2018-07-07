@@ -5,7 +5,6 @@ import './index.less';
 class Subject extends Component{
 	render(){
 		const { children } = this.props;
-		// const classes = classnames(className, 'subject transition-item');
 
 		return (
 			<div className="subject transition-item">
