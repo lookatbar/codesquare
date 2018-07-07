@@ -42,28 +42,28 @@ class CSBaseController extends BaseController
         if (!parent::beforeAction($action)) {
            return false;
         }
-        $userContext = new UserContext();
-        $userContext->userId = 2;
-        $userContext->userName = "测试";
-
-        $this->userContext = $userContext;
-        return true;
-//        // 检查token
-//        $cache = \Yii::$app->cache;
-//        $token = $this->getToken();
-//        if (!$token || !$cache->exists($token)) {
-//            \Yii::$app->response->data = $this->error('token无效', \app\common\ErrorCode::$InvalidToken, $token);
-//            \Yii::$app->end();
-//        }
-//        
-//        // 初始化用户上下文对象并刷新token有效期
-//        $userContext = $cache->get($token);
-//        if ($userContext !== false) {
-//           $this->userContext = $userContext;
-//           $cache->set($token, $userContext, static::SESSION_TIME_OUT);
-//        }
-//        
+//        $userContext = new UserContext();
+//        $userContext->userId = 2;
+//        $userContext->userName = "测试";
+//
+//        $this->userContext = $userContext;
 //        return true;
+        // 检查token
+        $cache = \Yii::$app->cache;
+        $token = $this->getToken();
+        if (!$token || !$cache->exists($token)) {
+            \Yii::$app->response->data = $this->error('token无效', \app\common\ErrorCode::$InvalidToken, $token);
+            \Yii::$app->end();
+        }
+
+        // 初始化用户上下文对象并刷新token有效期
+        $userContext = $cache->get($token);
+        if ($userContext !== false) {
+           $this->userContext = $userContext;
+           $cache->set($token, $userContext, static::SESSION_TIME_OUT);
+        }
+
+        return true;
     }
     
     /**
