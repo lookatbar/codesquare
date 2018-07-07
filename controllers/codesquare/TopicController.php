@@ -151,7 +151,27 @@ class TopicController extends CSBaseController
         
         $replySrv = new TopicService($this->userContext);
         $replySrv->delReply($replyId);
-        $this->response();
+        
+        return $this->response();
+    }
+    
+    
+    /**
+     * 收藏
+     * @return type
+     */
+    public function actionCollect()
+    {
+        $topicId = \Yii::$app->request->post('topic_id');
+        if (!$topicId) {
+            return $this->error('参数无效', ErrorCode::$ApiParamEmpty);
+        }
+        
+        $cancel = \Yii::$app->request->post('is_cancel');
+        $topicSrv = new TopicService($this->userContext);
+        $topicSrv->collect($topicId, $cancel ? true : false);
+        
+        return $this->response();
     }
 
     /**
