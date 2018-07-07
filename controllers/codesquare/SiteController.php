@@ -10,53 +10,24 @@ namespace app\controllers\codesquare;
 use app\common\utils\helper;
 use app\common\utils\HttpHelper;
 use app\common\weixin\AccessToken;
+use app\models\cs\records\UserRecord;
 use Yii;
 
 
 /**
- * 代码广场首页:q
+ * 代码广场首页
  * Class CSSiteControllerls
  * @package app\controllers
  */
 class SiteController extends CSBaseController
 {
 
-//    public function actionIndex1(){
-//
-//        $tk = new AccessToken(134);
-//        //echo "hello code square";
-//        echo $tk->getCode();echo $_GET['code'];die;
-//        if(isset($_GET['state'])){
-//
-//            $code =   $_GET['code'];
-//            $access_token = 'zdd-Q8IkhpdiCVh8g3txxfVt-rOn-zQhBP0yJqI3ps8diBkZBPXbfppTqjoxoyu5w7xM-coph1OT36FC8BG4rw';
-//            $url = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token={$access_token}&code={$code}";
-//            urlencode($code);
-//        }
-//    }
+
 
 
     public  function actionIndex(){
 
 
-
-        $tk = new AccessToken(134);
-        $token = $tk->getAccessToken();
-        echo $token;die;
-//        $tk->getCode();
-        if(isset($_GET['state'])){
-
-            $code = $_GET['code'];
-            $token = $tk->getAccessToken();
-
-
-//            $tk->getUserInfo($token,$code);die;
-
-            $url = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token={$token}&code=$code&agentid=134";
-            header("Location:".$url);
-
-//            urlencode($code);
-        }
     }
 
 
@@ -70,22 +41,44 @@ class SiteController extends CSBaseController
              $url = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token={$token}&code=$code&agentid=134";
              $helper = new helper();
              $res = json_decode($helper->http_get($url)["content"]);
-             if(empty($res->UserId)){
+            if(empty($res->UserId)){
                 return [];
+            }
+             $user = UserRecord::findOne(['user_id'=>$res->UserId])->toArray();
+             if( empty($user) ){
+                 return  $this->userInfo($token,$res->UserId);
+             } else {
+                 return json_encode($user);
              }
-            return  $this->userInfo($token,$res->UserId);
+
          }
      }
 
      public function actionGetUserInfo(){
          $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfe3aa6c1dd22f053&redirect_uri=http://jkds.cracher.top/codesquare/site/info&response_type=code&scope=snsapi_userinfo&agentid=134&state=abcdefg#wechat_redirect";
          header("Location:".$url);
+//         $helper = new helper();
+//         $helper->http_get($url);
      }
+
+//    public function actionGetUserInfo(){
+//        $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfe3aa6c1dd22f053&redirect_uri=http://jkds.cracher.top/codesquare/site/info&response_type=code&scope=snsapi_userinfo&agentid=134&state=abcdefg#wechat_redirect";
+//        header("Location:".$url);
+//
+//    }
 
      public function userInfo($token,$userId){
          $url = "https://qyapi.weixin.qq.com/cgi-bin/user/get?access_token=$token&userid=$userId";
          $helper = new helper();
          $res = json_decode($helper->http_get($url)["content"]);
+         $user = new UserRecord();
+         $user->name = $res->name;
+         $user->department = json_encode($res->department);
+         $user->mobile = $res->mobile;
+         $user->email = $res->email;
+         $user->avatar = $res->avatar;
+         $user->user_id =  $res->userid;
+         $user->save();
          return $res;
      }
 }
