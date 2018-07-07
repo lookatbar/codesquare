@@ -28,7 +28,7 @@ class FavoriteModel extends  RecordBase
      */
     public function getFavoriteCount($userId)
     {
-        return FavoriteModel::find()->where(['user_id'=>$userId])->count();
+        return FavoriteModel::find()->where(['user_id'=>$userId,'is_deleted'=>0])->count();
     }
 
 
@@ -37,7 +37,7 @@ class FavoriteModel extends  RecordBase
            return [];
         }
 
-        $fields = ' 	cs_favorite.favorite_id,
+        $fields = ' cs_favorite.favorite_id,
                     cs_favorite.topic_id,
                     cs_topic.title,
                     cs_user. name AS user_name,
