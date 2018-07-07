@@ -1,10 +1,11 @@
 <?php 
+namespace  app\common\utils;
 /**
  * Http工具类
  */
 class HttpHelper 
 {
-    public function requestGet($url,$params){
+    public static function requestGet($url,$params){
         //初始化
             $curl = curl_init();
             if(!empty($params)){
@@ -24,7 +25,7 @@ class HttpHelper
             return $data;
     }
 
-    public function requestPost($url,$post_data,$raw = false){
+    public  static function requestPost($url,$post_data,$raw = false){
            //初始化
             $curl = curl_init();
             //设置抓取的url

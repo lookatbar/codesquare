@@ -1,0 +1,63 @@
+a,address,b,big,blockquote,body,button,center,cite,code,dd,del,div,dl,dt,em,fieldset,font,form,h1,h2,h3,h4,h5,h6,html,i,iframe,img,ins,input,label,legend,li,ol,p,pre,small,span,strong,u,ul,var{
+	margin:0;
+	padding:0;
+}
+article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{
+	display:block;
+}
+a{
+	text-decoration: none;
+	color: inherit;
+}
+hr{
+	box-sizing:content-box;
+	height:0;
+}
+button,html input[type=button],input[type=submit],input[type=date]{
+	appearance: button;
+	cursor: pointer;
+	outline: none;
+	border: none;
+	background-color: transparent;
+}
+select{
+	appearance: none;
+	outline: none;
+	border: none;
+}
+button[disabled],html input[disabled]{
+	cursor: default;
+}
+input,button{
+	outline: none;
+	border: none;
+	background-color: transparent;
+}
+ol,ul{
+	list-style:none
+}
+img{
+	border:0;
+	vertical-align:middle
+}
+em,i,u{
+	font-style: normal
+}
+.clearfix{
+	*zoom:1;
+	&:after{
+		clear: both;
+		content: "";
+		height: 0;
+		line-height: 0;
+		display: block;
+		visibility: hidden;
+	}
+}
+html{
+	font-size: 16px;
+	font-family:Tahoma,Arial,"Helvetica Neue","Hiragino Sans GB","Simsun","sans-self";
+}
+body{
+	-webkit-font-smoothing: antialiased;
+}

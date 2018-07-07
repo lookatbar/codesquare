@@ -9,7 +9,6 @@
 namespace app\controllers\codesquare;
 
 use app\controllers\BaseController;
-use app\common\context\UserContext;
 
 /**
  * 代码广场基础类

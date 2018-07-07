@@ -1,0 +1,26 @@
+.icon{
+	transform: scale(0.5);
+	transform-origin: 0 0;
+	position: absolute;
+}
+.html-auto-fix(@w;@fs;@scale){
+	@media screen and (min-width:@w){
+		html{
+			font-size: @fs;
+		}
+		.icon{
+			transform: scale(@scale / 100);
+		}
+	}
+}
+.html-auto-fix(320px;16px;50);
+.html-auto-fix(360px;18px;56.25);
+.html-auto-fix(400px;20px;62.5);
+.html-auto-fix(440px;22px;68.75);
+.html-auto-fix(480px;24px;75);
+.html-auto-fix(520px;26px;81.25);
+.html-auto-fix(560px;28px;87.5);
+.html-auto-fix(600px;30px;93.75);
+.html-auto-fix(640px;32px;100);
+.html-auto-fix(680px;34px;106.25);
+.html-auto-fix(720px;36px;112.5);

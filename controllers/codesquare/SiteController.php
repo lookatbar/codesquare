@@ -7,27 +7,72 @@
  */
 
 namespace app\controllers\codesquare;
+use app\common\ErrorCode;
+use app\common\utils\helper;
+use app\common\utils\HttpHelper;
+use app\common\weixin\AccessToken;
+use app\models\cs\records\UserRecord;
+use app\common\utils\CommonHelper;
+use Yii;
 
 
 /**
  * 代码广场首页
- * Class CSSiteController
+ * Class CSSiteControllerls
  * @package app\controllers
  */
 class SiteController extends CSBaseController
 {
 
-    public function actionIndex(){
-        //echo "hello code square";
 
-        $code =   $_GET['code'];
-        $access_token = 'Ik3kDatzL4KOLSQz0BiyjbB6t9LhnMd9QSCPLfDwUfvzTj4Fn00saB5qTSYjv8Al5KbrKEmgwQX7pooO47bZ3w';
-        $url = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token={$access_token}&code={$code}";
-        $user = file_get_contents($url);
-        var_dump($user);die;
 
-       //获取用户信息
-    //    $userInfoUrl = ""
+
+    public  function actionIndex(){
+
+
     }
+     public function actionInfo(){
 
+         if(isset($_GET['state'])){
+
+             $tk = new AccessToken(134);
+             $code = $_GET['code'];
+             $token =  $tk->getAccessToken();
+             $url = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token={$token}&code=$code&agentid=134";
+             $helper = new helper();
+             $res = json_decode($helper->http_get($url)["content"]);
+            if(empty($res->UserId)){
+                return [];
+            }
+             $user = UserRecord::find()->where(['user_id'=>$res->UserId])->asArray()->One();
+             if( empty($user) ){
+                 $data =  $this->userInfo($token,$res->UserId);
+                 CommonHelper::response('ok',ErrorCode::$OK,$data->attributes);
+             } else {
+                  CommonHelper::response('ok',ErrorCode::$OK,$user);
+             }
+
+         }
+     }
+
+     public function actionGetUserInfo(){
+         $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfe3aa6c1dd22f053&redirect_uri=http://jkds.cracher.top/codesquare/site/info&response_type=code&scope=snsapi_userinfo&agentid=134&state=abcdefg#wechat_redirect";
+         header("Location:".$url);
+     }
+
+
+     public function userInfo($token,$userId){
+         $url = "https://qyapi.weixin.qq.com/cgi-bin/user/get?access_token=$token&userid=$userId";
+         $helper = new helper();
+         $res = json_decode($helper->http_get($url)["content"]);
+         $user = new UserRecord();
+         $user->name = $res->name;
+         $user->department = json_encode($res->department);
+         $user->mobile = $res->mobile;
+         $user->email = $res->email;
+         $user->avatar = $res->avatar;
+         $user->user_id =  $res->userid;
+         $user->save();
+         return $user;
+     }
 }
