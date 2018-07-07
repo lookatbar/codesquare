@@ -6,22 +6,21 @@
  * and open the template in the editor.
  */
 
-namespace app\models\cs;
+namespace app\controllers\codesquare;
 
 /**
- * Description of CSBaseModel
+ * Description of TopController
+ *
  * @author ray-apple
  */
-class CSBaseModel
+class TopController extends CSBaseController
 {
     /**
-     * 数据库连接
-     * @var \yii\db\Connection
+     * 采纳排行
      */
-    protected $db = null;
-
-    public function __construct()
+    public function actionAccept()
     {
-        $this->db = \yii::$app->db;
+        
     }
+    
 }

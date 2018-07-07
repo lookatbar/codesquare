@@ -36,9 +36,11 @@ class ReplyModel extends CSBaseModel
     public function delReply($topicId, $replyId)
     {
         $this->db->transaction(function() use($topicId, $replyId) {
-            $this->db->createCommand()->update('cs_reply', ['is_deleted' => 1], ['reply_id' => $replyId]);
-            $this->db->createCommand("update cs_topic set reply_count=reply_count-1 where topic_id=:topic_id",
+            $isDel = $this->db->createCommand()->update('cs_reply', ['is_deleted' => 1], ['reply_id' => $replyId])->execute();
+            if ($isDel) {
+                $this->db->createCommand("update cs_topic set reply_count=if(reply_count>0,reply_count-1,0) where topic_id=:topic_id",
                 [':topic_id' => $topicId])->execute();
+            }
         });
     }
     

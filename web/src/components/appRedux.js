@@ -48,3 +48,18 @@ export function* initWXSaga(){
 	}
 }
 
+export const initWXReducer = (state = {
+	inject: false,
+}, action) => {
+	switch (action.type){
+		case INIT_WX_SUCCESS: 
+			return {
+				...state,
+				inject: true,
+			}
+
+		default: 
+			return state;
+	}
+}
+

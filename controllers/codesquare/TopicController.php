@@ -113,10 +113,10 @@ class TopicController extends CSBaseController
     {
         $params = \Yii::$app->request->post();
         $form = new \app\models\cs\forms\ReplyForm();
-        $form->load($params);
+        $form->setAttributes($params);
         if (!$form->validate()) {
-            $error = $form->parseFirstError();
-            return $this->error($error['message'], $error['code']);
+            $error = $form->getFirstErrors();
+            return $this->error(json_encode($error, JSON_UNESCAPED_UNICODE));
         }
 
         $wxMediaStr = $form->image_list;
@@ -147,7 +147,27 @@ class TopicController extends CSBaseController
         
         $replySrv = new TopicService($this->userContext);
         $replySrv->delReply($replyId);
-        $this->response();
+        
+        return $this->response();
+    }
+    
+    
+    /**
+     * 收藏
+     * @return type
+     */
+    public function actionCollect()
+    {
+        $topicId = \Yii::$app->request->post('topic_id');
+        if (!$topicId) {
+            return $this->error('参数无效', ErrorCode::$ApiParamEmpty);
+        }
+        
+        $cancel = \Yii::$app->request->post('is_cancel');
+        $topicSrv = new TopicService($this->userContext);
+        $topicSrv->collect($topicId, $cancel ? true : false);
+        
+        return $this->response();
     }
 
     /**
@@ -157,10 +177,10 @@ class TopicController extends CSBaseController
     {
         $params = \Yii::$app->request->post();
         $form = new \app\models\cs\forms\GoodForm();
-        $form->load($params);
+        $form->setAttributes($params);
         if (!$form->validate()) {
-            $error = $form->parseFirstError();
-            return $this->error($error['message'], $error['code']);
+            $error = $form->getFirstErrors();
+            return $this->error(json_encode($error, JSON_UNESCAPED_UNICODE));
         }
                
         $topicSrv = new TopicService($this->userContext);
