@@ -125,7 +125,15 @@ class TopicController extends CSBaseController
      */
     public function actionDelReply()
     {
-
+        // 校验
+        $replyId = \Yii::$app->request->post('reply_id');
+        if (!$replyId) {
+            return $this->error('无效的参数', ErrorCode::$InvalidApiParam);
+        }
+        
+        $replySrv = new TopicService($this->userContext);
+        $replySrv->delReply($replyId);
+        $this->response();
     }
 
     /**
@@ -142,7 +150,7 @@ class TopicController extends CSBaseController
         }
                
         $replySrv = new TopicService($this->userContext);
-        $replySrv->like($form->topic_id);
+        $replySrv->like($form->topic_id, $form->is_cancel);
         return $this->response();
     }
 
