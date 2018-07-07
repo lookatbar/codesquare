@@ -212,5 +212,16 @@ class TopicService extends CSServiceBase
         return $topicData;
     }
 
-
+    /**
+     * 回复列表
+     * @param type $topicId
+     * @param type $pageIndex
+     * @param type $pageSize
+     * @return type
+     */
+    public function queryReplyList($topicId, $pageIndex, $pageSize)
+    {
+        $replyModel = new \app\models\cs\ReplyModel();
+        return $replyModel->getReplyListByTopicId($topicId, $pageIndex, $pageSize);
+    }
 }

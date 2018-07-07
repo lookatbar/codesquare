@@ -58,6 +58,34 @@ class ReplyModel extends CSBaseModel
                 ->one($this->db);
     }
 
+    /**
+     * 
+     * @param type $topicId
+     * @param type $pageIndex
+     * @param type $pageSize
+     * @return type
+     */
+    public function getReplyListByTopicId($topicId, $pageIndex, $pageSize)
+    {
+        $conditions = ['r.topic_id' => $topicId, 'r.is_deleted' => 0];
+        $list = (new \yii\db\Query())->from('cs_reply as r')
+                ->leftJoin('cs_user as u', 'r.user_id=u.user_id')
+                ->select('r.reply_id,r.content,r.user_id,r.image_list,u.name as user_name,r.create_time')
+                ->where($conditions)
+                ->orderBy('r.create_time')
+                ->offset(($pageIndex-1)*$pageSize)
+                ->limit($pageSize)
+                ->all($this->db);
+                
+        $count =  (new \yii\db\Query())->from('cs_reply as r')
+                ->leftJoin('cs_user as u', 'r.user_id=u.user_id')
+                ->where($conditions)
+                ->count('*', $this->db);
+        
+        
+          return ['list' => $list, 'count' => $count];
+    }
+    
 
     public function getBeRepliedListByUser($userId,$pageIndex=CSConstant::PAGE_INDEX,$pageSize=CSConstant::PAGE_SIZE){
         return (new \yii\db\Query())
@@ -68,4 +96,5 @@ class ReplyModel extends CSBaseModel
             ->all($this->db);
     }
 
+    
 }
