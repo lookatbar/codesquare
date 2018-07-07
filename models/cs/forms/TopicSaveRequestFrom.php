@@ -25,6 +25,7 @@ class TopicSaveRequestFrom extends CSBaseForm
     public $view_count;
     public $good_count;
     public $reply_count;
+    public $offer_award_id;
 
 
 
