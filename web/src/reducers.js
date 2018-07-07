@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 
+import { initWXReducer } from './components/appRedux';
 import { homeReducer } from './components/Home/homeRedux';
 
 
@@ -7,6 +8,7 @@ let reducers;
 
 const initReducers = () => (
 	combineReducers({
+		initWX: initWXReducer,
 		userInfo: homeReducer,
 	})
 )
