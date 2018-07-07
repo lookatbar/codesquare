@@ -31,7 +31,7 @@ class App extends Component {
         transitionLeave={true}
         transitionLeaveTimeout={500}
         component="div"
-        className="App">
+        className="App routeTransitionWrapper">
         { cloneElement(this.props.children, {key: key}) }
       </ReactCSSTransitionGroup>
     );

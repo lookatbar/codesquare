@@ -11,9 +11,16 @@ use app\common\context\UserContext;
  */
 class CSServiceBase
 {
-
+    /**
+     * 用户上下文
+     * @var \app\common\context\UserContext
+     */
     protected $userContext = NULL;
+    
     public function __construct(UserContext $userContext){
         $this->userContext = $userContext;
     }
+
+
+
 }
