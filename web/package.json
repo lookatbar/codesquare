@@ -2,6 +2,7 @@
   "name": "myReactApp",
   "version": "1.0.0",
   "description": "a package provides suitable environment for developing react app.",
+  "homepage": "./",
   "main": "index.js",
   "dependencies": {
     "classnames": "^2.2.5",
