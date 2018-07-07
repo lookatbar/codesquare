@@ -247,7 +247,9 @@ class TopicController extends CSBaseController
 
     }
 
-
+    /**
+     * 我的发布
+     */
     public function actionPublish(){
         $topic = new TopicModel();
         $data = $topic->getTopicListByUserId($this->userContext->userId);
