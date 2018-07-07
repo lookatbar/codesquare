@@ -17,5 +17,4 @@ use yii\db\ActiveRecord;
  */
 class RecordBase extends ActiveRecord
 {
-
 }

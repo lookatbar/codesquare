@@ -67,4 +67,14 @@ class TopicService extends CSServiceBase
     }
 
 
+    public function queryTopList($topicType=NULL,$pageIndex=CSConstant::PAGE_INDEX,$pageSize=CSConstant::PAGE_SIZE){
+
+        $record = new TopicRecord();
+        return   $record->queryTopicList($topicType,$pageIndex,$pageSize);
+
+    }
+
+
+
+
 }
