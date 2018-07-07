@@ -8,6 +8,8 @@
 
 namespace app\models\cs;
 
+use yii\db\Query;
+
 /**
  * Description of GoodModel
  *
@@ -15,5 +17,27 @@ namespace app\models\cs;
  */
 class GoodModel extends CSBaseModel
 {
-    //put your code here
+    /**
+     * 保存点赞
+     * @param int $topicId
+     * @param array $userList
+     */
+    public function save($topicId, $userList)
+    {
+        $existRecord = (new Query())->from('cs_good')->where(['topic_id' => $topicId])->exists();
+        if ($existRecord) {
+            \Yii::$app->db->createCommand()->update('cs_good', [
+                'user_list' => json_encode($userList)],
+                ['topic_id' => $topicId])->execute();
+        } else {
+            \Yii::$app->db->createCommand()->insert('cs_good', [
+                'topic_id' => $topicId,
+                'user_list' => json_encode($userList)
+            ])->execute();
+        }
+        
+        \Yii::$app->db->createCommand()->update('cs_topic', [
+            'good_count' => count($userList)],
+                ['topic_id' => $topicId])->execute();
+    }
 }
