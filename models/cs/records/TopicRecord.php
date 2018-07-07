@@ -19,7 +19,7 @@ class TopicRecord extends  CSBaseRecord
      * @return array
      */
     public function queryTopicList($topicType=NULL,$pageIndex=CSConstant::PAGE_INDEX,$pageSize=CSConstant::PAGE_SIZE){
-        $fields = " cs_topic.topic_id,cs_topic.title,cs_topic.topic_type,substring(cs_topic.content,1,2) as content,cs_topic.user_id,cs_user.name as user_name,cs_topic.images_list,cs_topic.view_count,cs_topic.good_count,cs_topic.reply_count,cs_topic.create_time";
+        $fields = " cs_topic.topic_id,cs_topic.title,cs_topic.topic_type,substring(cs_topic.content,1,100) as content,cs_topic.user_id,cs_user.name as user_name,cs_topic.images_list,cs_topic.view_count,cs_topic.good_count,cs_topic.reply_count,cs_topic.create_time";
         $countSql = 'SELECT COUNT(1) FROM cs_topic WHERE 1=1';
         $limitSql = "SELECT $fields FROM cs_topic LEFT JOIN cs_user ON cs_topic.user_id=cs_user.user_id WHERE 1=1 ".$this->_getLimitSql([$pageIndex,$pageSize]);
         if($topicType !== NULL){
