@@ -49,6 +49,6 @@ class GoodModel extends CSBaseModel
     public function getUserList($topicId)
     {
         $userList = (new Query())->from('cs_good')->where(['topic_id' => $topicId])->createCommand()->queryScalar();
-        return $userList === false ? [] : $userList;
+        return $userList === false ? [] : json_decode($userList, true);
     }
 }

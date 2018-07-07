@@ -45,13 +45,10 @@ class TopicService extends CSServiceBase
                 // 加锁
                $cache->set($lockKey, $userId, 60);
                $users = $goodModel->getUserList($topicId);
-               if (array_key_exists($userId, $users)) {
-                   break;
-               }
-
-               $users[$userId] = ['name' => $userName];
-               $goodModel->saveUserList($topicId, $users);
-               \yii::$app->cache->delete($lockKey);
+               if (!array_key_exists($userId, $users)) {
+                   $users[$userId] = ['name' => $userName];
+                   $goodModel->saveUserList($topicId, $users);
+               }               
                break;
            } finally {
                $cache->exists($lockKey) && $cache->delete($lockKey);
