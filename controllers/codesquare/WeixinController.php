@@ -166,6 +166,8 @@ class WeixinController extends BaseController
 
     public function actionTestToken(){
 
+        Header("token:'1111';Location: http://jkds.cracher.top/weixin.html");
+//        Header("ETag:123123");
 //        $jssdk = new jssdk(134);
 //        $data  = $jssdk->getSignPackage();
 //       var_dump($data);die;
