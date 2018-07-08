@@ -180,6 +180,7 @@ class Square extends Component{
 												{item.reply_count}
 											</span>
 										</div>
+										<div className="square-node-ranking">{item.offer_award_lable}</div>
 									</div>
 								)
 							})
