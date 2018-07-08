@@ -36,7 +36,7 @@ class Ranking extends Component{
 				<div className="ranking-content">
 					{
 						keyword === tabs[0].key && 
-							<Link className="ranking-item">
+							<Link className="ranking-item" to="/subject/create?award=1">
 								<div className="ranking-item-type">云链创新基金</div>
 								<div className="ranking-item-award">最高50000元</div>
 								<div className="ranking-item-challenge">挑战</div>
