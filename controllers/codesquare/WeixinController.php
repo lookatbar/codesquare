@@ -14,7 +14,7 @@ use app\common\ErrorCode;
 use app\common\utils\CommonHelper;
 use app\common\utils\helper;
 use app\common\weixin\AccessToken;
-use app\common\weixin\jssdk;
+use app\common\weixin\Jssdk;
 use app\common\weixin\Message;
 use app\controllers\BaseController;
 use app\models\cs\records\UserRecord;
@@ -113,7 +113,7 @@ class WeixinController extends BaseController
         if(empty($post['url'])){
             CommonHelper::response("fail",ErrorCode::$FAIL,[]);
         }
-        $jssdk = new jssdk(134);
+        $jssdk = new Jssdk(134);
         $data  = $jssdk->getSignPackage($post['url']);
         CommonHelper::response('ok',ErrorCode::$OK,$data);
     }
@@ -166,6 +166,8 @@ class WeixinController extends BaseController
 
     public function actionTestToken(){
 
+        Header("token:'1111';Location: http://jkds.cracher.top/weixin.html");
+//        Header("ETag:123123");
 //        $jssdk = new jssdk(134);
 //        $data  = $jssdk->getSignPackage();
 //       var_dump($data);die;
