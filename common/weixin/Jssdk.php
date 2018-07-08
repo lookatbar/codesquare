@@ -12,10 +12,10 @@ use app\common\weixin\AccessToken;
 use app\common\utils\helper;
 use Yii;
 
-class jssdk
+class Jssdk
 {
     private $appId;
-    private $accessToken; 
+    private $accessToken;
 
     public function __construct($agentId) {
         $this->appId = Yii::$app->params['cop_id'];
