@@ -221,6 +221,7 @@ class TopicService extends CSServiceBase
                 $topicData['offer_award'] = $offerAwardData;
             }
         }
+        $topicData['accept_reply_id'] = strval($topicData['accept_reply_id']);
 
 
 
