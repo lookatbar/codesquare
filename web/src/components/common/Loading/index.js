@@ -6,7 +6,8 @@ import { Toast } from 'react-weui';
 import 'weui';
 import 'react-weui/build/packages/react-weui.css';
 
-const mapStateToProps = ({loading}) => ({
+const mapStateToProps = ({toast, loading}) => ({
+	toast,
 	loading,
 });
 
@@ -25,10 +26,11 @@ class Loading extends Component{
 	}
 
 	render(){
-		const { loading } = this.props;
+		const { loading, toast } = this.props;
 
 		return (
 			<div className="toast">
+				<Toast icon="success-no-circle" show={toast !== false}>{toast || 'Success !'}</Toast>
 				<Toast icon="loading" show={loading !== false}>{loading || 'Loading...'}</Toast>
 			</div>
 		);
