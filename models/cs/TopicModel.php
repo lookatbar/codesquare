@@ -62,7 +62,7 @@ class TopicModel extends CSBaseModel
      * @return mixed
      */
     public function getReplyCount($userId){
-        $sql ="select ifnull(sum(good_count),0)  as count from cs_topic where user_id =:user_id";
+        $sql ="select ifnull(sum(reply_count),0)  as count from cs_topic where user_id =:user_id";
         return $this->db->createCommand($sql,[':user_id'=>$userId])->queryColumn()[0];
     }
 

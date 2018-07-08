@@ -7,6 +7,13 @@ import { fetchCreateTopic } from '../../assets/fetchApi/action';
 import classnames from 'classnames';
 import './index.less';
 
+import { 
+	showLoading, 
+	hideLoading, 
+	showToast, 
+	hideToast, 
+} from '../common/Loading/loadingRedux';
+
 const mapStateToProps = ({userInfo}) => ({
 	userInfo,
 });
@@ -23,10 +30,15 @@ class CreateSubject extends Component{
 	constructor(props){
 		super(props);
 
-		const { userInfo } = props;
+		const { userInfo, location } = props;
+		let offer_award_id = '';
+		if(location.query && location.query.award){
+			offer_award_id = location.query.award;
+		}
 
 		this.state = {
 			token: userInfo.token,
+			offer_award_id,
 		}
 		this.onSubmit = this.onSubmit.bind(this);
 	}
@@ -40,23 +52,30 @@ class CreateSubject extends Component{
 			topic_type,
 
 			router,
+			dispatch,
 		} = this.props;
-		const { token } = this.state;
+		const { token, offer_award_id } = this.state;
 
 		if(!title || !content || !topic_type){
 			return;
 		}
+		dispatch(showLoading());
 
 		fetchCreateTopic({
 			token,
 			title,
 			content,
 			topic_type,
+			offer_award_id,
 		}).then(res => {
-			console.log(res);
+			dispatch(hideLoading());
+			dispatch(showToast('发布成功'));
 			const { topic_id } = res.data;
 
 			router.push(`/subject/review/${topic_id}`);
+			setTimeout(() => {
+				dispatch(hideToast('已采纳'));
+			}, 2000);
 		});
 	}
 

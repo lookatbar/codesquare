@@ -12,7 +12,7 @@ use app\common\ErrorCode;
 use app\common\utils\helper;
 use app\common\utils\HttpHelper;
 use app\common\weixin\AccessToken;
-use app\common\weixin\jssdk;
+use app\common\weixin\Jssdk;
 use app\common\weixin\WxService;
 use app\controllers\BaseController;
 use app\models\cs\DepartmentModel;

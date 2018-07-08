@@ -9,7 +9,15 @@ import {
 	fetchGetReply, 
 	fetchToggleLike, 
 	fetchToggleCollect, 
+	fetchAccept, 
 } from '../../assets/fetchApi/action';
+
+import { 
+	showLoading, 
+	hideLoading, 
+	showToast, 
+	hideToast, 
+} from '../common/Loading/loadingRedux';
 
 
 const mapStateToProps = ({userInfo}) => ({
@@ -31,7 +39,8 @@ class ReviewSubject extends Component{
 
 		this.like = this.like.bind(this);
 		this.collect = this.collect.bind(this);
-		this.reply = this.reply.bind(this);
+		this.onReply = this.onReply.bind(this);
+		this.onAccept = this.onAccept.bind(this);
 	}
 
 	componentWillMount(){
@@ -41,8 +50,8 @@ class ReviewSubject extends Component{
 		fetchReviewTopic({
 			topic_id: params.id,
 			token,
-		})
-			.then(res => {
+		}).then(res => {
+				console.log(res);
 				this.setState({
 					detail: res.data,
 				})
@@ -54,7 +63,6 @@ class ReviewSubject extends Component{
 			page_size: 100,
 			page_index: 1,
 		}).then(res => {
-			console.log(res);
 			this.setState({
 				reply: res.data,
 			});
@@ -99,11 +107,54 @@ class ReviewSubject extends Component{
 			})
 	}
 	// 回复跳转
-	reply(){
+	onReply(){
 		const { params, router } = this.props;
 
 		router.push(`/subject/reply/${params.id}`);
 	}	
+	// 采纳回答
+	onAccept(target){
+		const { token, detail } = this.state;
+		const { params, dispatch } = this.props;
+		dispatch(showLoading());
+
+		fetchAccept({
+			token,
+			topic_id: params.id,
+			reply_id: target.reply_id,
+		}).then(res => {
+			dispatch(hideLoading());
+			dispatch(showToast('已采纳'));
+
+			this.setState({
+				detail: {
+					...detail,
+					accept_reply_id: target.reply_id,
+				}
+			});
+
+			setTimeout(() => {
+				dispatch(hideToast('已采纳'));
+			}, 2000);
+		});
+	}
+	// 渲染采纳按钮
+	getAcceptBtn(reply){
+		const { detail } = this.state;
+		const { is_author, accept_reply_id } = detail;
+		if(is_author !== 1){
+			return null;
+		}
+		if(accept_reply_id > 0 && reply.reply_id === accept_reply_id){
+			return <span className="accepted">已采纳</span>
+		}else if(accept_reply_id === '0'){
+			return (
+				<button type="button" 
+								onClick={() => this.onAccept(reply)}
+								className="reviewSubject-btn-accept">采纳</button>
+			)
+		}
+	}
 
 	render(){
 		const { detail, reply } = this.state;
@@ -159,7 +210,7 @@ class ReviewSubject extends Component{
 									</div>
 									<div className="reviewSubject-reply-author">{item.user_name}</div>
 									<div className="reviewSubject-reply-content">{item.content}</div>
-
+									{ this.getAcceptBtn(item) }
 								</div>
 							)
 						}
@@ -175,7 +226,7 @@ class ReviewSubject extends Component{
 						<i className="iconfont icon-shoucang" />
 						收藏
 					</span>
-					<span onClick={this.reply}>
+					<span onClick={this.onReply}>
 						<i className="iconfont icon-pinglun" />
 						评论
 					</span>

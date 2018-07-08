@@ -14,7 +14,7 @@ use app\common\ErrorCode;
 use app\common\utils\CommonHelper;
 use app\common\utils\helper;
 use app\common\weixin\AccessToken;
-use app\common\weixin\jssdk;
+use app\common\weixin\Jssdk;
 use app\common\weixin\Message;
 use app\controllers\BaseController;
 use app\models\cs\records\UserRecord;
@@ -68,7 +68,7 @@ class WeixinController extends BaseController
             $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfe3aa6c1dd22f053&redirect_uri=http://jkds.cracher.top/codesquare/weixin/get-user-info&response_type=code&scope=snsapi_userinfo&agentid=134&state=state#wechat_redirect";
             header("location:".$url);
         }else{
-            $cache = Yii::$app->cache;
+
             $tk = new AccessToken(134);
             $code = $_GET['code'];
             $access_token =  $tk->getAccessToken();
@@ -88,9 +88,9 @@ class WeixinController extends BaseController
                 header('Location:'.$url);
 
             } elseif($user->status == 0){
-                $data =  $this->userInfo($access_token,$res->UserId,false);
+                $data =  $this->userInfo($access_token,$user->user_id,false);
                 $token = md5($data->user_id.time());
-                $this->setUserCache( $data->token,$data,false);
+                $this->setUserCache( $token,$data,false);
                 $url = "http://jkds.cracher.top/codesquare/site/index?token={$token}";
                 header('Location:'.$url);
 
@@ -113,7 +113,7 @@ class WeixinController extends BaseController
         if(empty($post['url'])){
             CommonHelper::response("fail",ErrorCode::$FAIL,[]);
         }
-        $jssdk = new jssdk(134);
+        $jssdk = new Jssdk(134);
         $data  = $jssdk->getSignPackage($post['url']);
         CommonHelper::response('ok',ErrorCode::$OK,$data);
     }
@@ -166,6 +166,8 @@ class WeixinController extends BaseController
 
     public function actionTestToken(){
 
+        Header("token:'1111';Location: http://jkds.cracher.top/weixin.html");
+//        Header("ETag:123123");
 //        $jssdk = new jssdk(134);
 //        $data  = $jssdk->getSignPackage();
 //       var_dump($data);die;
