@@ -12,7 +12,7 @@ use app\common\weixin\AccessToken;
 use app\common\utils\helper;
 use Yii;
 
-class jssdk
+class Jssdk
 {
     private $appId;
     private $accessToken;
