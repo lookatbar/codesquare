@@ -23,10 +23,15 @@ class CreateSubject extends Component{
 	constructor(props){
 		super(props);
 
-		const { userInfo } = props;
+		const { userInfo, location } = props;
+		let offer_award_id = '';
+		if(location.query && location.query.award){
+			offer_award_id = location.query.award;
+		}
 
 		this.state = {
 			token: userInfo.token,
+			offer_award_id,
 		}
 		this.onSubmit = this.onSubmit.bind(this);
 	}
@@ -41,7 +46,7 @@ class CreateSubject extends Component{
 
 			router,
 		} = this.props;
-		const { token } = this.state;
+		const { token, offer_award_id } = this.state;
 
 		if(!title || !content || !topic_type){
 			return;
@@ -52,6 +57,7 @@ class CreateSubject extends Component{
 			title,
 			content,
 			topic_type,
+			offer_award_id,
 		}).then(res => {
 			console.log(res);
 			const { topic_id } = res.data;
