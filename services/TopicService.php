@@ -170,6 +170,14 @@ class TopicService extends CSServiceBase
         $list = $ret['data'];
         foreach ($list as $key => &$val) {
             $val['topic_type'] = CSConstant::getTopicTypeByTopicTypeName($val['topic_type']);
+            if($val['offer_award_id'] > 0 && $val['reward_money'] > 0){
+                $val['offer_award_lable'] = '赏'.$val['reward_money'].'元';
+            }else if($val['offer_award_id'] > 0 && $val['reward_money'] == 0){
+                $val['offer_award_lable'] = '挑战中';
+            }else{
+                $val['offer_award_lable'] = '';
+            }
+
         }
         $ret['data'] = $list;
         return $ret;
