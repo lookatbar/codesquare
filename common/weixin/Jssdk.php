@@ -15,7 +15,7 @@ use Yii;
 class jssdk
 {
     private $appId;
-    private $accessToken;
+    private $accessToken; 
 
     public function __construct($agentId) {
         $this->appId = Yii::$app->params['cop_id'];
